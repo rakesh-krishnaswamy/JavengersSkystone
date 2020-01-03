@@ -64,15 +64,15 @@ public class TeleLib {
 
     public void processDrive() {
         // Values need to be reversed (up on joystick is -1)
-        double r = Math.hypot(-opMode.gamepad1.left_stick_x, opMode.gamepad1.left_stick_y);  //y ish changed to positive
-        double robotAngle = Math.atan2(opMode.gamepad1.left_stick_y, -opMode.gamepad1.left_stick_x) - Math.PI / 4;
+        double r = Math.hypot(opMode.gamepad1.left_stick_x, -opMode.gamepad1.left_stick_y);  //y ish changed to positive
+        double robotAngle = Math.atan2(-opMode.gamepad1.left_stick_y, opMode.gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = opMode.gamepad1.right_stick_x;
         final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX));
-        robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX));
-        robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX));
-        robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX));
+        robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX));
+        robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX));
+        robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX));
+        robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX));
     }
 
     public void processOutakeMinerals() {
@@ -135,38 +135,39 @@ public class TeleLib {
 //        }
         if (opMode.gamepad2.right_bumper) {
             // Extend
-            robot.setDcMotorPower(MOTOR_ARM_LEFT, -1f);
-            robot.setDcMotorPower(MOTOR_ARM_RIGHT, 1f);
+            robot.setDcMotorPower(MOTOR_ARM_LEFT, .3f);
+            robot.setDcMotorPower(MOTOR_ARM_RIGHT, -.3f);
         } else if (opMode.gamepad2.left_bumper) {
             // Retract
-            robot.setDcMotorPower(MOTOR_ARM_LEFT, 1f);
-            robot.setDcMotorPower(MOTOR_ARM_RIGHT, -1f);
+            robot.setDcMotorPower(MOTOR_ARM_LEFT, -.3f);
+            robot.setDcMotorPower(MOTOR_ARM_RIGHT, .3f);
         } else {
             robot.setDcMotorPower(MOTOR_ARM_LEFT, 0);
+            robot.setDcMotorPower(MOTOR_ARM_RIGHT, 0);
         }
     }
 
     public void processScoringArm() {
-        if (opMode.gamepad1.right_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
+        if (opMode.gamepad2.right_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
             // Extend
-            robot.setDcMotorPower(SERVO_SCORING_ARM,opMode.gamepad1.right_trigger);
-        } else if (opMode.gamepad1.left_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
+            robot.setServoPosition(SERVO_SCORING_ARM,.4f);
+        } else if (opMode.gamepad2.left_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
             // Retract
-            robot.setDcMotorPower(SERVO_SCORING_ARM,-1f);
+            robot.setServoPosition(SERVO_SCORING_ARM,.7f);
         } else {
-            robot.setDcMotorPower(SERVO_SCORING_ARM, 0);
+            robot.setServoPosition(SERVO_SCORING_ARM, .5f);
         }
     }
 
     public void processGrabStone() {
         if (opMode.gamepad2.a) {
-            robot.setServoPosition(SERVO_ARM,SERVO_GRABBER_GRAB);
+            robot.setServoPosition(SERVO_GRABBER,SERVO_GRABBER_GRAB);
         }
     }
 
     public void processScoreStone() {
         if (opMode.gamepad2.b) {
-            robot.setServoPosition(SERVO_ARM,SERVO_GRABBER_REST);
+            robot.setServoPosition(SERVO_GRABBER,SERVO_GRABBER_REST);
         }
     }
 //
