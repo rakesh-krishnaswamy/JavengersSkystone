@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.libraries;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
+import static org.firstinspires.ftc.teamcode.libraries.Constants.LEFT_MOTOR_TRIM_FACTOR;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.MECANUM_WHEEL_ENCODER_MARGIN;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_ARM_LEFT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_ARM_RIGHT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_BACK_LEFT_WHEEL;
@@ -13,7 +16,13 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_BACK_RIGH
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_FRONT_LEFT_WHEEL;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_FRONT_RIGHT_WHEEL;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_LEFT_INTAKE;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_LOWER_POWER_THRESHOLD;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RAMP_FB_POWER_LOWER_LIMIT;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RAMP_FB_POWER_UPPER_LIMIT;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RAMP_SIDEWAYS_POWER_LOWER_LIMIT;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RAMP_SIDEWAYS_POWER_UPPER_LIMIT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INTAKE;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.RIGHT_MOTOR_TRIM_FACTOR;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
@@ -34,6 +43,9 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_A
 
 public class Robot {
 
+    OpMode aOpMode;
+
+
     private LinearOpMode opMode;
 
     // Motors
@@ -52,6 +64,7 @@ public class Robot {
         initDcMotors();
         initServos();
         initSensors();
+
 
     }
 
@@ -89,7 +102,88 @@ public class Robot {
 //        touchSensors[TOUCH_ARM_BOTTOM] = opMode.hardwareMap.get(RevTouchSensor.class, "touchArmBottom");
     }
 
+
     // Motor methods
+
+    public boolean baseMotorsAreBusy() {
+        return (dcMotors[MOTOR_FRONT_LEFT_WHEEL].isBusy() || dcMotors[MOTOR_BACK_RIGHT_WHEEL].isBusy() ||
+                dcMotors[MOTOR_BACK_LEFT_WHEEL].isBusy() || dcMotors[MOTOR_BACK_RIGHT_WHEEL].isBusy());
+    }
+
+    public void setPower(int motorName, float power)
+            throws InterruptedException {
+
+        dcMotors[motorName].setPower(power);
+    }
+
+
+    public void runRobotToPosition(float fl_Power, float fr_Power, float bl_Power, float br_Power, int fl_Position, int fr_Position, int bl_Position, int br_Position,
+                                   boolean isRampedPower) throws InterruptedException {
+        double rampedPower;
+        if (isRampedPower) {
+            //sets the the power of all motors
+            //since we are ramping up, start at the lowest power allowed.
+            setPower(MOTOR_FRONT_LEFT_WHEEL, MOTOR_LOWER_POWER_THRESHOLD);
+            setPower(MOTOR_FRONT_RIGHT_WHEEL, MOTOR_LOWER_POWER_THRESHOLD);
+            setPower(MOTOR_BACK_LEFT_WHEEL, MOTOR_LOWER_POWER_THRESHOLD);
+            setPower(MOTOR_BACK_RIGHT_WHEEL, MOTOR_LOWER_POWER_THRESHOLD);
+
+        } else {
+            setPower(MOTOR_FRONT_LEFT_WHEEL, fl_Power * LEFT_MOTOR_TRIM_FACTOR);
+            setPower(MOTOR_FRONT_RIGHT_WHEEL, fr_Power * RIGHT_MOTOR_TRIM_FACTOR);
+            setPower(MOTOR_BACK_LEFT_WHEEL, bl_Power * LEFT_MOTOR_TRIM_FACTOR);
+            setPower(MOTOR_BACK_RIGHT_WHEEL, br_Power * RIGHT_MOTOR_TRIM_FACTOR);
+        }
+
+
+        while (baseMotorsAreBusy() && (Math.abs(fl_Position - dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition()) >= MECANUM_WHEEL_ENCODER_MARGIN)) {
+            //wait until motors havce completed movement or timed out.
+            //report motor positions for debugging
+
+            //adjust the motor speeds by adjusting Power proportional to distance that needs to be travelled.
+
+
+            //Ramped Move block formula:
+            //RP=PMax(1-4*(0.5-DT/DD)^2)
+            //where RP=Ramped Power, PMax is maximum power available, DT=Distance Travelled, DD=Distance to be travelled
+            //fl_position (target for the front left motor in encoder clicks can be taken as the proxy for all motors.
+
+            //using fl_power as proxy for all wheel power, the sign is not relevant in this runmode.
+
+            float rampedPowerRaw = (float) (fl_Power * (1 - 4 * (Math.pow((0.5f -
+                    Math.abs((dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition() * 1.0f) / fl_Position)), 2.0f))));
+
+            //use another variable to check and adjust power limits, so we can display raw power values.
+            if (isRampedPower) {
+                rampedPower = rampedPowerRaw;
+            } else {
+                rampedPower = fl_Power; //as proxy for all power.
+            }
+
+            if (Math.signum(fl_Position) != Math.signum(fr_Position)) {
+                //we are moving sideways, since the front left and right wheels are rotating in opposite directions
+                //we should check against sideways limits.
+                //check for upper and lower limits.
+                if (rampedPower > MOTOR_RAMP_SIDEWAYS_POWER_UPPER_LIMIT) {
+                    rampedPower = MOTOR_RAMP_SIDEWAYS_POWER_UPPER_LIMIT;
+                }
+                if (rampedPower < MOTOR_RAMP_SIDEWAYS_POWER_LOWER_LIMIT) {
+                    rampedPower = MOTOR_RAMP_SIDEWAYS_POWER_LOWER_LIMIT;
+                }
+            } else {
+                //else we are moving forward
+                //check for upper and lower limits.
+                if (rampedPower > MOTOR_RAMP_FB_POWER_UPPER_LIMIT) {
+                    rampedPower = MOTOR_RAMP_FB_POWER_UPPER_LIMIT;
+                }
+                if (rampedPower < MOTOR_RAMP_FB_POWER_LOWER_LIMIT) {
+                    rampedPower = MOTOR_RAMP_FB_POWER_LOWER_LIMIT;
+                }
+            }
+        }
+    }
+
+
     void setDcMotorPower(int index, float power) {
         dcMotors[index].setPower(power);
     }

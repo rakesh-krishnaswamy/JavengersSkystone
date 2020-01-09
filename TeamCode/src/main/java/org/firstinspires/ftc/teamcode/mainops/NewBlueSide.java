@@ -31,18 +31,7 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.update();
             autoLib.calcMove((float) (coordinates.yPosition / 10), .9f, Constants.Direction.FORWARD); //when decreased- moves to the left
             autoLib.calcMove((float) (-coordinates.xPosition / 10), .9f, Constants.Direction.RIGHT);   //when increased-moves back
-            autoLib.calcMove(5f, .7f, Constants.Direction.BACKWARD);
-            autoLib.calcMove(17f, .8f, Constants.Direction.FORWARD);
-            autoLib.calcTurn(-50, .7f);
-            autoLib.calcMove(110, 1f, Constants.Direction.BACKWARD);
-            autoLib.calcTurn(50, .6f);
-            autoLib.calcMove(14, .7f, Constants.Direction.BACKWARD);
-            autoLib.calcMove(5, .15f, Constants.Direction.BACKWARD);
-            Thread.sleep(300);
-            Thread.sleep(1000);
-            autoLib.calcMove(60, 1f, Constants.Direction.FORWARD);
-            autoLib.restServoFoundation();
-            autoLib.calcMove(72, 1f, Constants.Direction.RIGHT);
+
 
         } else if (coordinates.yPosition > 0 && coordinates.yPosition < 10) {
             telemetry.addData("pos", "Center");

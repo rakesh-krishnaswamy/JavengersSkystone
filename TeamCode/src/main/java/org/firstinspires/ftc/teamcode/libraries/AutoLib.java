@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.libraries;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -31,18 +32,10 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_FRONT_RIG
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_LEFT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.NEVEREST_40_REVOLUTION_ENCODER_COUNT;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_ARM;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_ARM_POS_RECIEVE;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_ARM_POS_SCORE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_GRAB1;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_GRAB2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_REST1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_REST2;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_GRABBER;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_GRABBER_GRAB;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_GRABBER_REST;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.TRACK_DISTANCE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.VUFORIA_KEY;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.WHEEL_DIAMETER;
@@ -73,6 +66,8 @@ public class AutoLib {
     public AutoLib(LinearOpMode opMode) {
         robot = new Robot(opMode);
         this.opMode = opMode;
+        OpMode aOpMode;
+
 
         initVuforia();
     }
@@ -138,6 +133,7 @@ public class AutoLib {
 
         setBaseMotorPowers(power);
 
+
         while (areBaseMotorsBusy()) {
             opMode.idle();
         }
@@ -145,25 +141,16 @@ public class AutoLib {
         setBaseMotorPowers(0);
     }
 
-    public void calcMoveRamp(float centimeters, float power, Constants.Direction direction) {
-        // Calculates target encoder position
-        final int targetPosition = (int) ((((centimeters / (Math.PI * WHEEL_DIAMETER)) *
-                NEVEREST_40_REVOLUTION_ENCODER_COUNT)) * WHEEL_GEAR_RATIO);
-
-        switch (direction) {
-            case BACKWARD:
-                prepMotorsForCalcMove(targetPosition, targetPosition, targetPosition, targetPosition);
-                break;
-            case FORWARD:
-                prepMotorsForCalcMove(-targetPosition, -targetPosition, -targetPosition, -targetPosition);
-                break;
-            case LEFT:
-                prepMotorsForCalcMove(-targetPosition, targetPosition, targetPosition, -targetPosition);
-                break;
-            case RIGHT:
-                prepMotorsForCalcMove(targetPosition, -targetPosition, -targetPosition, targetPosition);
+    public void rampMove(float distance, float power, Constants.Direction Direction, boolean isRampedPower) throws InterruptedException {
+        if (Direction == Constants.Direction.FORWARD) {
+            moveRobotToPositionFB(distance * (2f / 3), power, isRampedPower);
+        } else if (Direction == Constants.Direction.BACKWARD) {
+            moveRobotToPositionFB(-distance * (2f / 3), power, isRampedPower);
+        } else if (Direction == Constants.Direction.LEFT) {
+            moveRobotToPositionSideways(distance * (2f / 3), power, isRampedPower);
+        } else if (Direction == Constants.Direction.RIGHT) {
+            moveRobotToPositionSideways(-distance * (2f / 3), power, isRampedPower);
         }
-
         setBaseMotorPowers(power);
 
         while (areBaseMotorsBusy()) {
@@ -171,10 +158,29 @@ public class AutoLib {
         }
 
         setBaseMotorPowers(0);
-        robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, 0);
-        robot.setDcMotorPower(MOTOR_LEFT_INTAKE, 0);
 
     }
+
+    public void moveRobotToPositionFB(float distance, float power, boolean isRampedPower) throws InterruptedException {
+        //we need to store the encoder target position
+        int targetPosition;
+        //calculate target position from the input distance in cm
+        targetPosition = (int) (((distance) / (Math.PI * WHEEL_DIAMETER)) * NEVEREST_40_REVOLUTION_ENCODER_COUNT);
+        //using the generic method with all powers set to the same value and all positions set to the same position
+        robot.runRobotToPosition(power, power, power, power, targetPosition, targetPosition, targetPosition, targetPosition, isRampedPower);
+    }
+
+    public void moveRobotToPositionSideways(float distance, float power, boolean isRampedPower)
+            throws InterruptedException {
+        //we need to
+        //store the encoder target position
+        int targetPosition;
+        //calculate target position from the input distance in cm
+        targetPosition = (int) ((distance / (Math.PI * WHEEL_DIAMETER)) * NEVEREST_40_REVOLUTION_ENCODER_COUNT);
+        //using the generic method with all powers set to the same value and all positions set to the same position
+        robot.runRobotToPosition(power, power, power, power, -targetPosition, targetPosition, targetPosition, -targetPosition, isRampedPower);
+    }
+
 
     public void calcTurn(int degrees, float power) {
         // Calculates target encoder position
