@@ -27,7 +27,8 @@ public class TestArm extends LinearOpMode {
         initialize();
         telemetry.addData("about to move","initialized");
         telemetry.update();
-        autoLib.rampMove(200,.8f, Constants.Direction.FORWARD,true);
+//        autoLib.rampMove(200,.8f, Constants.Direction.FORWARD,true);
+        autoLib.calcMove(200,.5f, Constants.Direction.BACKWARD);
         telemetry.addData("Just moved","finished moving");
         telemetry.update();
     }
