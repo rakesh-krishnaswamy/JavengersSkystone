@@ -9,8 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import static org.firstinspires.ftc.teamcode.libraries.Constants.LEFT_MOTOR_TRIM_FACTOR;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MECANUM_WHEEL_ENCODER_MARGIN;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_ARM_LEFT;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_ARM_RIGHT;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_BACK_LEFT_WHEEL;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_BACK_RIGHT_WHEEL;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_FRONT_LEFT_WHEEL;
@@ -76,8 +75,7 @@ public class Robot {
         dcMotors[MOTOR_BACK_RIGHT_WHEEL] = opMode.hardwareMap.get(DcMotor.class, "backRightWheel");
         dcMotors[MOTOR_RIGHT_INTAKE] = opMode.hardwareMap.get(DcMotor.class, "rightIntake");
         dcMotors[MOTOR_LEFT_INTAKE] = opMode.hardwareMap.get(DcMotor.class, "leftIntake");
-        dcMotors[MOTOR_ARM_LEFT] = opMode.hardwareMap.get(DcMotor.class, "motorArmLeft");
-        dcMotors[MOTOR_ARM_RIGHT] = opMode.hardwareMap.get(DcMotor.class, "motorArmRight");
+        dcMotors[MOTOR_ARM] = opMode.hardwareMap.get(DcMotor.class, "motorArm");
 
 
         dcMotors[MOTOR_FRONT_RIGHT_WHEEL].setDirection(DcMotorSimple.Direction.REVERSE);
@@ -136,7 +134,7 @@ public class Robot {
         }
 
 
-        while (baseMotorsAreBusy() && (Math.abs(fl_Position - dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition()) >= MECANUM_WHEEL_ENCODER_MARGIN)) {
+        while (baseMotorsAreBusy()) {
             //wait until motors havce completed movement or timed out.
             //report motor positions for debugging
 

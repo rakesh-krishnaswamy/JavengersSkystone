@@ -22,8 +22,7 @@ public class Constants {
     static final int MOTOR_BACK_RIGHT_WHEEL = 3;
     static final int MOTOR_RIGHT_INTAKE = 4;
     static final int MOTOR_LEFT_INTAKE = 5;
-    static final int MOTOR_ARM_LEFT = 6;
-    static final int MOTOR_ARM_RIGHT = 7;
+    static final int MOTOR_ARM = 6;
 
     //********** Servo Indexes **********//
     static final int SERVO_ARM = 0;
@@ -48,7 +47,6 @@ public class Constants {
     final static int MAX_MOTOR_LOOP_TIME = 10000;     //max time to wait in a tight loop
     final static int ENCODED_MOTOR_STALL_TIME_DELTA = 200; //time to wait in stall check code
     final static float MECANUM_WHEEL_ENCODER_MARGIN = 50;
-    public static final int GENERIC_TIMER = 0;
 
 
     //********** Servo Positions **********//
@@ -71,10 +69,10 @@ public class Constants {
     static final int TOUCH_ARM_TOP = 1;
 
     //********** CalcMove Constants **********//
-    static final float WHEEL_DIAMETER = 9f;
+    static final float WHEEL_DIAMETER = 10f;
     static final float WHEEL_GEAR_RATIO = (1f / 1);
     static final float NEVEREST_40_REVOLUTION_ENCODER_COUNT = 1120f;
-    static final float TRACK_DISTANCE = 30f;
+    static final float TRACK_DISTANCE = 36f;
 
     public enum Direction {FORWARD, BACKWARD, LEFT, RIGHT}
 
