@@ -24,6 +24,7 @@ public class NewBlueSide extends LinearOpMode {
         initialize();
 
         // Vuforia
+        autoLib.calcMove(5,.3f, Constants.Direction.BACKWARD);
         Constants.Coordinates coordinates = autoLib.readCoordinates();
 
         if (coordinates.yPosition < 0) {

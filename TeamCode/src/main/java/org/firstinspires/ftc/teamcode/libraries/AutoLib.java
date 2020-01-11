@@ -151,7 +151,6 @@ public class AutoLib {
         } else if (Direction == Constants.Direction.RIGHT) {
             moveRobotToPositionSideways(-distance * (2f / 3), power, isRampedPower);
         }
-        setBaseMotorPowers(power);
 
         while (areBaseMotorsBusy()) {
             opMode.idle();
