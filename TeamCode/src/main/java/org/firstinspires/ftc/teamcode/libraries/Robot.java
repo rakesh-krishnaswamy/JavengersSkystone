@@ -10,8 +10,6 @@ import com.qualcomm.robotcore.util.Range;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.LEFT_MOTOR_TRIM_FACTOR;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.MAX_MOTOR_LOOP_TIME;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.MECANUM_WHEEL_ENCODER_MARGIN;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_BACK_LEFT_WHEEL;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_BACK_RIGHT_WHEEL;
@@ -126,7 +124,7 @@ public class Robot {
 
         double rampedPower;
 
-        prepMotorsForCalcMove(fr_Position,br_Position,fl_Position,bl_Position);
+        prepMotorsForCalcMove(fl_Position, fr_Position, bl_Position, br_Position);
 
         //reset motor encoders
         dcMotors[MOTOR_FRONT_LEFT_WHEEL].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -168,10 +166,7 @@ public class Robot {
 
 //        aOpMode.reset_timer_array(GENERIC_TIMER);
 
-        while (baseMotorsAreBusy() &&
-                (
-                        Math.abs(fl_Position - dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition())
-                        >= MECANUM_WHEEL_ENCODER_MARGIN)) {
+        while (baseMotorsAreBusy()) {
             //wait until motors havce completed movement or timed out.
             //report motor positions for debugging
 
@@ -226,13 +221,20 @@ public class Robot {
             dcMotors[MOTOR_BACK_LEFT_WHEEL].setPower(rampedPower * LEFT_MOTOR_TRIM_FACTOR);
             dcMotors[MOTOR_BACK_RIGHT_WHEEL].setPower(rampedPower * RIGHT_MOTOR_TRIM_FACTOR);
 
+            opMode.telemetry.addLine(Integer.toString(getDcMotorPosition(MOTOR_BACK_RIGHT_WHEEL)));
+            opMode.telemetry.addLine(Integer.toString(getDcMotorPosition(MOTOR_BACK_LEFT_WHEEL)));
+            opMode.telemetry.addLine(Integer.toString(getDcMotorPosition(MOTOR_FRONT_RIGHT_WHEEL)));
+            opMode.telemetry.addLine(Integer.toString(getDcMotorPosition(MOTOR_FRONT_LEFT_WHEEL)));
+            opMode.telemetry.update();
+
 
             opMode.idle();
         }
         dcMotors[MOTOR_FRONT_LEFT_WHEEL].setPower(0);
         dcMotors[MOTOR_FRONT_RIGHT_WHEEL].setPower(0);
         dcMotors[MOTOR_BACK_LEFT_WHEEL].setPower(0);
-        dcMotors[MOTOR_BACK_RIGHT_WHEEL].setPower(0);    }
+        dcMotors[MOTOR_BACK_RIGHT_WHEEL].setPower(0);
+    }
 
     private void prepMotorsForCalcMove(int frontLeftTargetPosition, int frontRightTargetPosition,
                                        int backLeftTargetPosition, int backRightTargetPosition) {
