@@ -25,6 +25,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_BACK_LEFT_WHEEL;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_BACK_RIGHT_WHEEL;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_FRONT_LEFT_WHEEL;
@@ -32,10 +33,13 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_FRONT_RIG
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_LEFT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.NEVEREST_40_REVOLUTION_ENCODER_COUNT;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_ARM_POS_SCORE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_REST1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_REST2;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.TOUCH_ARM_BOTTOM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.TRACK_DISTANCE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.VUFORIA_KEY;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.WHEEL_DIAMETER;
@@ -243,27 +247,27 @@ public class AutoLib {
         }
     }
 
-//    public void moveArmDownScoreServoArmGrab() throws InterruptedException {
-//
-//        robot.setServoPosition(SERVO_ARM, SERVO_ARM_POS_SCORE);
-//
-//        Thread.sleep(300);
-//
-//        robot.setDcMotorPower(MOTOR_ARM, .6f);
-//
-//        while (!robot.isTouchSensorPressed(TOUCH_ARM_BOTTOM)) {
-//            opMode.idle();
-//            opMode.telemetry.addData("Status", robot.isTouchSensorPressed(TOUCH_ARM_BOTTOM));
-//            opMode.telemetry.update();
-//        }
-//        opMode.telemetry.addData("Status", "Pressed");
-//        opMode.telemetry.update();
-//
-//        robot.setDcMotorPower(MOTOR_ARM, 0);
-//
+    public void moveArmDownScoreServoArmGrab() throws InterruptedException {
+
+        robot.setServoPosition(SERVO_ARM, SERVO_ARM_POS_SCORE);
+
+        Thread.sleep(300);
+
+        robot.setDcMotorPower(MOTOR_ARM, .6f);
+
+        while (!robot.isTouchSensorPressed(TOUCH_ARM_BOTTOM)) {
+            opMode.idle();
+            opMode.telemetry.addData("Status", robot.isTouchSensorPressed(TOUCH_ARM_BOTTOM));
+            opMode.telemetry.update();
+        }
+        opMode.telemetry.addData("Status", "Pressed");
+        opMode.telemetry.update();
+
+        robot.setDcMotorPower(MOTOR_ARM, 0);
+
 //        Thread.sleep(1000);
 //        robot.setServoPosition(SERVO_GRABBER, SERVO_GRABBER_GRAB);
-//    }
+    }
 
     public void armGrab() throws InterruptedException {
 
@@ -500,7 +504,7 @@ public class AutoLib {
 
         targetsSkyStone.activate();
         if (startIdentify) {
-            while (startIdentify) {
+            while (startIdentify) {     //TODO: Get's stuck in this while loop
                 targetVisible = false;
                 for (VuforiaTrackable trackable : allTrackables) {
                     if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {

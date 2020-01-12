@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.libraries;
 
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -56,7 +57,7 @@ public class Robot {
 
     // Sensors
 //    private Rev2mDistanceSensor frontDistanceSensor;
-//    private RevTouchSensor[] touchSensors = new RevTouchSensor[2];
+    private RevTouchSensor[] touchSensors = new RevTouchSensor[2];
 
     Robot(LinearOpMode opMode) {
         this.opMode = opMode;
@@ -289,9 +290,9 @@ public class Robot {
     float getServoPosition(int index) {
         return (float) servos[index].getPosition();
     }
-//    boolean isTouchSensorPressed(int index) {
-//        return touchSensors[index].isPressed();
-//    }
+    boolean isTouchSensorPressed(int index) {
+        return touchSensors[index].isPressed();
+    }
 
 //    double getWallDistanceCenti() {
 //        return (frontDistanceSensor.getDistance(DistanceUnit.METER) * 100);
