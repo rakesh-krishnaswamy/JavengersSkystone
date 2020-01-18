@@ -237,14 +237,14 @@ public class RedAutonomous29Points extends LinearOpMode {
 
                     yPosition = translation.get(1);
                     xPosition = translation.get(0);
-                    if (yPosition >= 0) {   //<=
-                        positionSkystone = "Left";
+                    if (yPosition <= 0) {
+                        positionSkystone = "Center";
 //                        autoLib.calcMove(1, .7f, Constants.Direction.LEFT);
                         distanceToDepot = distanceToDepot - 10;
-                        finalMoveLeft(-xPosition, yPosition);
+                        finalMoveCenter(-xPosition, yPosition);
                         // distanceToDepot = distanceToCenterLine + 6;
                     } else {
-                        positionSkystone = "Center";
+                        positionSkystone = "Right";
                         //if (xPosition <= -25) {
                         distanceToDepot = distanceToDepot + 15; //20
                        /* forwardDistanceSkystone = forwardDistanceSkystone + 3;
@@ -256,7 +256,7 @@ public class RedAutonomous29Points extends LinearOpMode {
                         sleep(750);
                         yPosition = translation.get(1);
                         xPosition = translation.get(0);
-                        finalMoveCenter(-xPosition, yPosition);
+                        finalMoveRight(-xPosition, yPosition);
                         break;
 //                        } else {
 //                            telemetry.addData("Final Position Reached", "none");
@@ -267,14 +267,14 @@ public class RedAutonomous29Points extends LinearOpMode {
                     Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                     telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
                 } else {
-                    positionSkystone = "Right";
+                    positionSkystone = "Left";
                     telemetry.addData("Visible Target", "none");
 
                     distanceToDepot = distanceToDepot + 40;
                     /*distanceToCenterLine = distanceToCenterLine + 1;
                     forwardDistanceSkystone = forwardDistanceSkystone - 1;
                     foundation = foundation - 3;*/
-                    finalMoveRight(-xPosition, yPosition);
+                    finalMoveLeft(-xPosition, yPosition);
                     //autoLib.calcMove(20, .7f, Constants.Direction.RIGHT);
                     Thread.sleep(1000);
 
@@ -294,7 +294,7 @@ public class RedAutonomous29Points extends LinearOpMode {
 // go near skystone
         autoLib.moveArmDownScoreServoArmGrab();
 
-        autoLib.calcMove(10, .6f, Constants.Direction.RIGHT); //when decreased- moves to the left
+        autoLib.calcMove(4, .6f, Constants.Direction.LEFT); //when decreased- moves to the left
         autoLib.calcMove(22, .3f, Constants.Direction.BACKWARD);   //when increased-moves back
 //        distanceToDepot = distanceToDepot + (float) yPosition + 5;
         autoLib.calcMove(7.5f, .2f, Constants.Direction.BACKWARD);
@@ -302,21 +302,22 @@ public class RedAutonomous29Points extends LinearOpMode {
         autoLib.armGrab();
         Thread.sleep(500);
         autoLib.calcMove(20, .8f, Constants.Direction.FORWARD);    //16
-        autoLib.calcTurn(-78, .7f); //53
+        autoLib.calcTurn(76, .7f); //53
 
-        autoLib.calcMove(210, 1f, Constants.Direction.BACKWARD);    //distanceToDepot
+        autoLib.calcMove(225, 1f, Constants.Direction.BACKWARD);    //distanceToDepot
         autoLib.moveArmUpSeconds();
-        autoLib.calcTurn(77, .6f);
-        autoLib.calcMove(23, .7f, Constants.Direction.BACKWARD);        //Foundation
+        autoLib.calcTurn(-72, .6f);
+        autoLib.calcMove(20, .7f, Constants.Direction.BACKWARD);        //Foundation-23
         autoLib.scoreServo();
         autoLib.calcMove(5, .15f, Constants.Direction.BACKWARD);
         Thread.sleep(300);
         autoLib.latchServoFoundation();
         Thread.sleep(1000);
-        autoLib.calcMove(100, 1f, Constants.Direction.FORWARD);
+        autoLib.calcMove(95, 1f, Constants.Direction.FORWARD);
         autoLib.restServoFoundation();
-        autoLib.moveArmDownHalfSecond();
-        autoLib.calcMove(120, 1f, Constants.Direction.RIGHT);
+        autoLib.calcMove(130, 1f, Constants.Direction.LEFT);
+        autoLib.scoreServoArm();
+
         startIdentify = false;
 
     }
@@ -328,29 +329,28 @@ public class RedAutonomous29Points extends LinearOpMode {
 // go near skystone
         autoLib.moveArmDownScoreServoArmGrab();
 
-        autoLib.calcMove(13, .9f, Constants.Direction.LEFT); //when decreased- moves to the left
-        autoLib.calcMove(22, .5f, Constants.Direction.BACKWARD);   //when increased-moves back
+        autoLib.calcMove(24, .5f, Constants.Direction.LEFT); //when decreased- moves to the left
+        autoLib.calcMove(20, .5f, Constants.Direction.BACKWARD);   //when increased-moves back
 //        distanceToDepot = distanceToDepot + (float) yPosition + 5;
-//        autoLib.calcMove(10f, .7f, Constants.Direction.BACKWARD);
         autoLib.calcMove(7.5f, .2f, Constants.Direction.BACKWARD);
-        Thread.sleep(300);
+        Thread.sleep(500);
         autoLib.armGrab();
         Thread.sleep(500);
-        autoLib.calcMove(20, 1f, Constants.Direction.FORWARD);    //16
-        autoLib.calcTurn(-76, .7f); //53
-
-        autoLib.calcMove(196.5f, 1f, Constants.Direction.BACKWARD);
+        autoLib.calcMove(20, .8f, Constants.Direction.FORWARD);    //16
+        autoLib.calcTurn((int) 76.2, .7f); //53
+        autoLib.calcMove(245, 1f, Constants.Direction.BACKWARD);
         autoLib.moveArmUpSeconds();
-        autoLib.calcTurn(78, .6f);
-        autoLib.calcMove(18, .7f, Constants.Direction.BACKWARD);
+        autoLib.calcTurn(-75, .6f);
+        autoLib.calcMove(20, .45f, Constants.Direction.BACKWARD);
         autoLib.scoreServo();
-        autoLib.calcMove(8, .25f, Constants.Direction.BACKWARD);
+        autoLib.calcMove(5, .15f, Constants.Direction.BACKWARD);
         Thread.sleep(300);
         autoLib.latchServoFoundation();
         Thread.sleep(1000);
-        autoLib.calcMove(94, 1f, Constants.Direction.FORWARD);
+        autoLib.calcMove(95, 1f, Constants.Direction.FORWARD);
         autoLib.restServoFoundation();
-        autoLib.calcMove(130, 1f, Constants.Direction.RIGHT);
+        autoLib.scoreServoArm();
+        autoLib.calcMove(135, 1f, Constants.Direction.LEFT);
         startIdentify = false;
 
     }
@@ -362,27 +362,30 @@ public class RedAutonomous29Points extends LinearOpMode {
 // go near skystone
         autoLib.moveArmDownScoreServoArmGrab();
 
-        autoLib.calcMove(30, .5f, Constants.Direction.RIGHT); //when decreased- moves to the left
-        autoLib.calcMove(20, .5f, Constants.Direction.BACKWARD);   //when increased-moves back
+        autoLib.calcMove(20, .9f, Constants.Direction.RIGHT); //when decreased- moves to the left
+        autoLib.calcMove(22, .5f, Constants.Direction.BACKWARD);   //when increased-moves back
 //        distanceToDepot = distanceToDepot + (float) yPosition + 5;
+//        autoLib.calcMove(10f, .7f, Constants.Direction.BACKWARD);
         autoLib.calcMove(7.5f, .2f, Constants.Direction.BACKWARD);
-        Thread.sleep(500);
+        Thread.sleep(300);
         autoLib.armGrab();
         Thread.sleep(500);
-        autoLib.calcMove(20, .8f, Constants.Direction.FORWARD);    //16
-        autoLib.calcTurn((int)-76.2, .7f); //53
-        autoLib.calcMove(230, 1f, Constants.Direction.BACKWARD);
+        autoLib.calcMove(20, 1f, Constants.Direction.FORWARD);    //16
+        autoLib.calcTurn(75, .7f); //53
+
+        autoLib.calcMove(208, 1f, Constants.Direction.BACKWARD);
         autoLib.moveArmUpSeconds();
-        autoLib.calcTurn(75, .6f);
-        autoLib.calcMove(22.5f, .45f, Constants.Direction.BACKWARD);
+        autoLib.calcTurn(-75, .6f);
+        autoLib.calcMove(18, .7f, Constants.Direction.BACKWARD);
         autoLib.scoreServo();
-        autoLib.calcMove(6, .15f, Constants.Direction.BACKWARD);
+        autoLib.calcMove(8, .25f, Constants.Direction.BACKWARD);
         Thread.sleep(300);
         autoLib.latchServoFoundation();
         Thread.sleep(1000);
-        autoLib.calcMove(103, 1f, Constants.Direction.FORWARD);
+        autoLib.calcMove(89f, 1f, Constants.Direction.FORWARD);
         autoLib.restServoFoundation();
-        autoLib.calcMove(122, 1f, Constants.Direction.RIGHT);
+        autoLib.calcMove(135, 1f, Constants.Direction.LEFT);
+        autoLib.scoreServoArm();
         startIdentify = false;
 
     }
