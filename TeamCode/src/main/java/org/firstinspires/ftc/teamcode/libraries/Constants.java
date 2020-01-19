@@ -111,7 +111,7 @@ public class Constants {
     static final int SERVO_FOUNDATION2 = 3;
 
     //********** Servo Positions **********//
-    static final float SERVO_ARM_POS_RECIEVE = .97f;
+    static final float SERVO_ARM_POS_RECIEVE = .98f;
     static final float SERVO_ARM_POS_SCORE = .27f;
     static final float SERVO_GRABBER_GRAB = .1f;
     static final float SERVO_GRABBER_REST = .44f;
