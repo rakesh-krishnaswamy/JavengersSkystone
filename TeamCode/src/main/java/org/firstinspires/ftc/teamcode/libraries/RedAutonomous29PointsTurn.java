@@ -309,13 +309,13 @@ public class RedAutonomous29PointsTurn extends LinearOpMode {
         autoLib.calcTurn(-73, .6f);
         autoLib.calcMove(20, .7f, Constants.Direction.BACKWARD);        //Foundation-23
         autoLib.scoreServo();
-        autoLib.calcMove(9, .15f, Constants.Direction.BACKWARD);
+        autoLib.calcMove(11, .15f, Constants.Direction.BACKWARD);
         Thread.sleep(300);
         autoLib.latchServoFoundation();
         Thread.sleep(1000);
         autoLib.calcMove(100, 1f, Constants.Direction.FORWARD);
         autoLib.recieveServoArm();
-        autoLib.calcTurn(160,1);
+        autoLib.calcTurn(170,1);
         autoLib.restServoFoundation();
         autoLib.calcMove(100, 1f, Constants.Direction.FORWARD);
 
@@ -345,13 +345,13 @@ public class RedAutonomous29PointsTurn extends LinearOpMode {
         autoLib.calcTurn(-74, .6f);
         autoLib.calcMove(20, .45f, Constants.Direction.BACKWARD);
         autoLib.scoreServo();
-        autoLib.calcMove(5, .15f, Constants.Direction.BACKWARD);
+        autoLib.calcMove(6, .15f, Constants.Direction.BACKWARD);
         Thread.sleep(300);
         autoLib.latchServoFoundation();
         Thread.sleep(1000);
         autoLib.recieveServoArm();
         autoLib.calcMove(100, 1f, Constants.Direction.FORWARD);
-        autoLib.calcTurn(160,1);
+        autoLib.calcTurn(195,1);
         autoLib.restServoFoundation();
         autoLib.calcMove(100, 1f, Constants.Direction.FORWARD);
         startIdentify = false;
@@ -366,7 +366,7 @@ public class RedAutonomous29PointsTurn extends LinearOpMode {
         autoLib.moveArmDownScoreServoArmGrab();
 
         autoLib.calcMove(20, .9f, Constants.Direction.RIGHT); //when decreased- moves to the left
-        autoLib.calcMove(22, .5f, Constants.Direction.BACKWARD);   //when increased-moves back
+        autoLib.calcMove(24, .5f, Constants.Direction.BACKWARD);   //when increased-moves back
 //        distanceToDepot = distanceToDepot + (float) yPosition + 5;
 //        autoLib.calcMove(10f, .7f, Constants.Direction.BACKWARD);
         autoLib.calcMove(7.5f, .2f, Constants.Direction.BACKWARD);
@@ -379,18 +379,17 @@ public class RedAutonomous29PointsTurn extends LinearOpMode {
         autoLib.calcMove(200, 1f, Constants.Direction.BACKWARD);
         autoLib.moveArmUpSeconds();
         autoLib.calcTurn(-75, .6f);
-        autoLib.calcMove(18, .7f, Constants.Direction.BACKWARD);
+        autoLib.calcMove(20, .7f, Constants.Direction.BACKWARD);
         autoLib.scoreServo();
-        autoLib.calcMove(11, .25f, Constants.Direction.BACKWARD);
+        autoLib.calcMove(14, .25f, Constants.Direction.BACKWARD);
         Thread.sleep(300);
         autoLib.latchServoFoundation();
         Thread.sleep(1000);
         autoLib.calcMove(90, 1f, Constants.Direction.FORWARD);
         autoLib.recieveServoArm();
-        autoLib.calcTurn(160,1f);
+        autoLib.calcTurn(170,1f);
         autoLib.restServoFoundation();
         autoLib.calcMove(100, 1f, Constants.Direction.FORWARD);
-        autoLib.scoreServoArm();
         startIdentify = false;
 
     }
