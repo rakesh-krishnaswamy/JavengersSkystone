@@ -35,6 +35,12 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INT
 import static org.firstinspires.ftc.teamcode.libraries.Constants.NEVEREST_40_REVOLUTION_ENCODER_COUNT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_ARM_POS_SCORE;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_DOWN_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER_GRAB;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER_SCORE;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_UP_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_REST1;
@@ -286,15 +292,15 @@ public class AutoLib {
 //        }
 //    }
 
-//    public void distanceSensorMove() {
-//        while (robot.getWallDistanceCenti() >= 45) {
-//            robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, .4f);
-//            robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, .4f);
-//            robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, .4f);
-//            robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, .4f);
-//        }
-//        opMode.idle();
-//    }
+    public void distanceSensorMove() {
+        while (robot.getWallDistanceCenti() >= 15) {
+            robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, .2f);
+            robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, .2f);
+            robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, .2f);
+            robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, .2f);
+        }
+        opMode.idle();
+    }
 
 //    public void moveArmDown() {
 //        robot.setDcMotorPower(MOTOR_ARM, 0.7f);
@@ -363,6 +369,22 @@ public class AutoLib {
     public void restServoFoundation() {
         robot.setServoPosition(SERVO_FOUNDATION1, SERVO_FOUNDATION_REST1);
         robot.setServoPosition(SERVO_FOUNDATION2, SERVO_FOUNDATION_REST2);
+    }
+
+    public void autonArmDown() {
+        robot.setServoPosition(SERVO_AUTONOMOUS_ARM,SERVO_AUTONOMOUS_DOWN_ARM);
+    }
+
+    public void autonArmUp() {
+        robot.setServoPosition(SERVO_AUTONOMOUS_ARM,SERVO_AUTONOMOUS_UP_ARM);
+    }
+
+    public void autonGrab() {
+        robot.setServoPosition(SERVO_AUTONOMOUS_GRABBER,SERVO_AUTONOMOUS_GRABBER_GRAB);
+    }
+
+    public void autonScore() {
+        robot.setServoPosition(SERVO_AUTONOMOUS_GRABBER, SERVO_AUTONOMOUS_GRABBER_SCORE);
     }
 
     //********** Vuforia Methods **********//

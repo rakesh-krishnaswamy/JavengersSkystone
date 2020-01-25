@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.libraries;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -7,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
@@ -56,7 +59,7 @@ public class Robot {
     private Servo[] servos = new Servo[7];
 
     // Sensors
-//    private Rev2mDistanceSensor frontDistanceSensor;
+    private Rev2mDistanceSensor frontDistanceSensor;
     private RevTouchSensor[] touchSensors = new RevTouchSensor[2];
 
     Robot(LinearOpMode opMode) {
@@ -92,7 +95,6 @@ public class Robot {
         servos[SERVO_AUTONOMOUS_GRABBER] = opMode.hardwareMap.get(Servo.class, "servoAutonomousGrabber");
         servos[SERVO_GRABBER] = opMode.hardwareMap.get(Servo.class, "servoGrabber");
         servos[SERVO_SCORING_ARM] = opMode.hardwareMap.get(Servo.class, "servoScoringArm");
-        servos[SERVO_INTAKE] = opMode.hardwareMap.get(Servo.class, "servoIntake");
 
     }
 
@@ -294,7 +296,7 @@ public class Robot {
         return touchSensors[index].isPressed();
     }
 
-//    double getWallDistanceCenti() {
-//        return (frontDistanceSensor.getDistance(DistanceUnit.METER) * 100);
-//    }
+    double getWallDistanceCenti() {
+        return (frontDistanceSensor.getDistance(DistanceUnit.METER) * 100);
+    }
 }

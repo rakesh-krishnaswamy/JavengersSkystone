@@ -24,17 +24,20 @@ public class NewBlueSide extends LinearOpMode {
         initialize();
 
         // Vuforia
-        autoLib.calcMove(30,.6f, Constants.Direction.BACKWARD);
+//        autoLib.calcMove(30,.4f, Constants.Direction.RIGHT);
         Constants.Coordinates coordinates = autoLib.readCoordinates();
 
-        autoLib.moveArmDownScoreServoArmGrab();
+        autoLib.autonArmDown();
 
         if (coordinates.yPosition < 0) {
             telemetry.addData("pos", "Left");
             telemetry.update();
-            autoLib.calcMove((float) (coordinates.yPosition / 10), .9f, Constants.Direction.FORWARD); //when decreased- moves to the left
-            autoLib.calcMove((float) (-coordinates.xPosition / 10), .9f, Constants.Direction.RIGHT);   //when increased-moves back
-            autoLib.calcMove(33,.6f, Constants.Direction.FORWARD);
+//            autoLib.calcMove((float) (coordinates.yPosition / 10 - 5), .4f, Constants.Direction.FORWARD); //when decreased- moves to the left
+//            autoLib.calcMove((float) (-coordinates.xPosition / 10 - 3), .4f, Constants.Direction.RIGHT);   //when increased-moves back
+//            Thread.sleep(400);
+//            autoLib.autonGrab();
+//            Thread.sleep(400);
+//            autoLib.calcMove(20,.6f, Constants.Direction.LEFT);
 
 
         } else if (coordinates.yPosition > 0 && coordinates.yPosition < 10) {

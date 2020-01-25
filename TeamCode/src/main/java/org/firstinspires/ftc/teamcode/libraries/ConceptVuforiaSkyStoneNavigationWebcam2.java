@@ -23,7 +23,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.VUFORIA_KEY;
 
-@Autonomous(name = "USE FOR BLUE SIDE", group = "Concept")
+@Autonomous(name = "Blue Side", group = "Concept")
 
 public class ConceptVuforiaSkyStoneNavigationWebcam2 extends LinearOpMode {
 
@@ -208,7 +208,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam2 extends LinearOpMode {
 
         targetsSkyStone.activate();
         if (startIdentify) {
-            autoLib.calcMove(20, 1f, Constants.Direction.BACKWARD);    //46
+            autoLib.calcMove(40, 1f, Constants.Direction.RIGHT);    //46
             Thread.sleep(1000);
             while (!isStopRequested() && startIdentify) {
 
@@ -293,30 +293,30 @@ public class ConceptVuforiaSkyStoneNavigationWebcam2 extends LinearOpMode {
 // go near skystone
 //        autoLib.moveArmDownScoreServoArmGrab();
 
-        autoLib.calcMove((float) (yPosition / 10) + distanceToCenterLine, .9f, Constants.Direction.RIGHT); //when decreased- moves to the left
-        autoLib.calcMove((float) (-xPosition / 10) + forwardDistanceSkystone, .5f, Constants.Direction.FORWARD);   //when increased-moves back
+        autoLib.calcMove((float) (yPosition / 10) + distanceToCenterLine, .9f, Constants.Direction.FORWARD); //when decreased- moves to the left
+        autoLib.calcMove((float) (-xPosition / 10) + forwardDistanceSkystone, .5f, Constants.Direction.RIGHT);   //when increased-moves back
 //        distanceToDepot = distanceToDepot + (float) yPosition + 5;
-        autoLib.calcMove(5f, .7f, Constants.Direction.BACKWARD);
-        Thread.sleep(500);
-        autoLib.armGrab();
-        Thread.sleep(500);
-        autoLib.calcMove(17f, .8f, Constants.Direction.FORWARD);    //16
-        autoLib.calcTurn((int) turningDegree, .7f); //53
-//        if (distanceToDepot > 120) {//195
-//            distanceToDepot = 130;//205
-//        }
-        autoLib.calcMove(distanceToDepot, 1f, Constants.Direction.BACKWARD);
-//        autoLib.moveArmUpSeconds();
-        autoLib.calcTurn(50, .6f);
-        autoLib.calcMove(foundation, .7f, Constants.Direction.BACKWARD);
-//        autoLib.scoreServo();
-        autoLib.calcMove(5, .15f, Constants.Direction.BACKWARD);
-        Thread.sleep(300);
-//        autoLib.latchServoFoundation();
-        Thread.sleep(1000);
-        autoLib.calcMove(60, 1f, Constants.Direction.FORWARD);
-        autoLib.restServoFoundation();
-        autoLib.calcMove(72, 1f, Constants.Direction.RIGHT);
+//        autoLib.calcMove(5f, .7f, Constants.Direction.BACKWARD);
+//        Thread.sleep(500);
+//        autoLib.armGrab();
+//        Thread.sleep(500);
+//        autoLib.calcMove(17f, .8f, Constants.Direction.FORWARD);    //16
+//        autoLib.calcTurn((int) turningDegree, .7f); //53
+////        if (distanceToDepot > 120) {//195
+////            distanceToDepot = 130;//205
+////        }
+//        autoLib.calcMove(distanceToDepot, 1f, Constants.Direction.BACKWARD);
+////        autoLib.moveArmUpSeconds();
+//        autoLib.calcTurn(50, .6f);
+//        autoLib.calcMove(foundation, .7f, Constants.Direction.BACKWARD);
+////        autoLib.scoreServo();
+//        autoLib.calcMove(5, .15f, Constants.Direction.BACKWARD);
+//        Thread.sleep(300);
+////        autoLib.latchServoFoundation();
+//        Thread.sleep(1000);
+//        autoLib.calcMove(60, 1f, Constants.Direction.FORWARD);
+//        autoLib.restServoFoundation();
+//        autoLib.calcMove(72, 1f, Constants.Direction.RIGHT);
         startIdentify = false;
 
     }
