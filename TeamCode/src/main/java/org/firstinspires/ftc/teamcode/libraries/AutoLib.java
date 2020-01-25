@@ -43,6 +43,8 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOU
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_UP_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_GRAB1;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_GRAB2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_REST1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_REST2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.TOUCH_ARM_BOTTOM;
@@ -344,7 +346,7 @@ public class AutoLib {
 
     //********** Servo Methods **********//
 
-//    public void recieveServoArm() {
+    //    public void recieveServoArm() {
 //        robot.setServoPosition(SERVO_ARM, SERVO_ARM_POS_RECIEVE);
 //    }
 //
@@ -360,10 +362,10 @@ public class AutoLib {
 //        robot.setServoPosition(SERVO_GRABBER, SERVO_GRABBER_REST);
 //    }
 //
-//    public void latchServoFoundation() {
-//        robot.setServoPosition(SERVO_FOUNDATION1, -SERVO_FOUNDATION_GRAB1);
-//        robot.setServoPosition(SERVO_FOUNDATION2, SERVO_FOUNDATION_GRAB2);
-//    }
+    public void latchServoFoundation() {
+        robot.setServoPosition(SERVO_FOUNDATION1, -SERVO_FOUNDATION_GRAB1);
+        robot.setServoPosition(SERVO_FOUNDATION2, SERVO_FOUNDATION_GRAB2);
+    }
 
 
     public void restServoFoundation() {
@@ -372,15 +374,15 @@ public class AutoLib {
     }
 
     public void autonArmDown() {
-        robot.setServoPosition(SERVO_AUTONOMOUS_ARM,SERVO_AUTONOMOUS_DOWN_ARM);
+        robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_DOWN_ARM);
     }
 
     public void autonArmUp() {
-        robot.setServoPosition(SERVO_AUTONOMOUS_ARM,SERVO_AUTONOMOUS_UP_ARM);
+        robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
     }
 
     public void autonGrab() {
-        robot.setServoPosition(SERVO_AUTONOMOUS_GRABBER,SERVO_AUTONOMOUS_GRABBER_GRAB);
+        robot.setServoPosition(SERVO_AUTONOMOUS_GRABBER, SERVO_AUTONOMOUS_GRABBER_GRAB);
     }
 
     public void autonScore() {
@@ -526,7 +528,7 @@ public class AutoLib {
 
         targetsSkyStone.activate();
         if (startIdentify) {
-            while (startIdentify) {     //TODO: Get's stuck in this while loop
+            while (startIdentify) {
                 targetVisible = false;
                 for (VuforiaTrackable trackable : allTrackables) {
                     if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
@@ -546,6 +548,7 @@ public class AutoLib {
 
                     yPosition = translation.get(1);
                     xPosition = translation.get(0);
+                    break;
                 }
             }
         }

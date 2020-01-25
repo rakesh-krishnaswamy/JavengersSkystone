@@ -31,7 +31,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam2 extends LinearOpMode {
     private static final boolean PHONE_IS_PORTRAIT = false;
 
 
-//    private static final String VUFORIA_KEY = "ARSzhHP/////AAABmQ3dyIKKfkcipjZh0HtnoDEkjuCn18CTNUWRN7PTFoedxZLS+QZmpkyXpQnQXFpQ5ol//l0ZwTejVrGRQ4i/kQBrrFJ8E0C7ckr4lzf5bLCvi1/E9x8anPwt2D0UToZ3MB5jPx4T6s/EOs575BtxjL7uv5jrCbQDsXebm2PROU4zC/Dj7+AYFkKCqD3YYLbGPGV4YoSgp9Ihoe+ZF/eae0FLG8K/o4eyfZj0B3aXkRvYi3dC5LY+c76aU72bKTrQ2PDYSxDG8xCaY1JyEyfDA6XqjHjYMvh0BBbb8bAQvPgG6/G50+5L+c/a8u6sbYJLbvVtXdMtrG1EA4CglbnsDs7GyyJmH5AusSwIDb9DQnTA";
+    private static final String VUFORIA_KEY = "ARSzhHP/////AAABmQ3dyIKKfkcipjZh0HtnoDEkjuCn18CTNUWRN7PTFoedxZLS+QZmpkyXpQnQXFpQ5ol//l0ZwTejVrGRQ4i/kQBrrFJ8E0C7ckr4lzf5bLCvi1/E9x8anPwt2D0UToZ3MB5jPx4T6s/EOs575BtxjL7uv5jrCbQDsXebm2PROU4zC/Dj7+AYFkKCqD3YYLbGPGV4YoSgp9Ihoe+ZF/eae0FLG8K/o4eyfZj0B3aXkRvYi3dC5LY+c76aU72bKTrQ2PDYSxDG8xCaY1JyEyfDA6XqjHjYMvh0BBbb8bAQvPgG6/G50+5L+c/a8u6sbYJLbvVtXdMtrG1EA4CglbnsDs7GyyJmH5AusSwIDb9DQnTA";
 
 
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
@@ -208,7 +208,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam2 extends LinearOpMode {
 
         targetsSkyStone.activate();
         if (startIdentify) {
-            autoLib.calcMove(50, .8f, Constants.Direction.BACKWARD);    //46
+            autoLib.calcMove(50, .8f, Constants.Direction.RIGHT);    //46
             Thread.sleep(1000);
             while (!isStopRequested() && startIdentify) {
 
@@ -292,32 +292,27 @@ public class ConceptVuforiaSkyStoneNavigationWebcam2 extends LinearOpMode {
         telemetry.addData("X Position ", xPosition);
         telemetry.addData("Y Position ", yPosition);
 // go near skystone
-        autoLib.moveArmDownScoreServoArmGrab();
 
-        autoLib.calcMove(8, .6f, Constants.Direction.RIGHT); //when decreased- moves to the left
-        autoLib.calcMove(22, .3f, Constants.Direction.BACKWARD);   //when increased-moves back
+        autoLib.autonArmDown();
+
+        autoLib.calcMove(8, .6f, Constants.Direction.FORWARD); //when decreased- moves to the left
+        autoLib.calcMove(22, .3f, Constants.Direction.RIGHT);   //when increased-moves back
 //        distanceToDepot = distanceToDepot + (float) yPosition + 5;
-        autoLib.calcMove(7.5f, .2f, Constants.Direction.BACKWARD);
+        autoLib.calcMove(7.5f, .2f, Constants.Direction.RIGHT);
         Thread.sleep(500);
-        autoLib.armGrab();
+        autoLib.autonGrab();
         Thread.sleep(500);
-        autoLib.calcMove(20, .8f, Constants.Direction.FORWARD);    //16
-        autoLib.calcTurn(-76, .7f); //53
-
-        autoLib.calcMove(220, 1f, Constants.Direction.BACKWARD);    //distanceToDepot
-        autoLib.moveArmUpSeconds();
-        autoLib.calcTurn(77, .6f);
-        autoLib.calcMove(18, .7f, Constants.Direction.BACKWARD);        //Foundation
-        autoLib.scoreServo();
-        autoLib.calcMove(10, .15f, Constants.Direction.BACKWARD);
+        autoLib.calcMove(20, .8f, Constants.Direction.LEFT);    //16
+        autoLib.calcMove(220, 1f, Constants.Direction.FORWARD);    //distanceToDepot
+        autoLib.calcMove(18, .7f, Constants.Direction.RIGHT);        //Foundation
+        autoLib.autonScore();
+        autoLib.calcTurn(-90,.5f);
         Thread.sleep(300);
         autoLib.latchServoFoundation();
-        Thread.sleep(1000);
-        autoLib.recieveServoArm();
+        autoLib.calcMove(10, .15f, Constants.Direction.BACKWARD);
         autoLib.calcMove(108, 1f, Constants.Direction.FORWARD);
         autoLib.restServoFoundation();
-        autoLib.calcMove(132, 1f, Constants.Direction.RIGHT);
-        autoLib.scoreServoArm();
+        autoLib.calcMove(132, 1f, Constants.Direction.LEFT);
 
         startIdentify = false;
 
@@ -342,19 +337,15 @@ public class ConceptVuforiaSkyStoneNavigationWebcam2 extends LinearOpMode {
         autoLib.calcTurn(-74, .7f); //53
 
         autoLib.calcMove(199, 1f, Constants.Direction.BACKWARD);
-        autoLib.moveArmUpSeconds();
         autoLib.calcTurn(78, .6f);
         autoLib.calcMove(19, .7f, Constants.Direction.BACKWARD);
-        autoLib.scoreServo();
         autoLib.calcMove(12, .25f, Constants.Direction.BACKWARD);
         Thread.sleep(300);
         autoLib.latchServoFoundation();
         Thread.sleep(1000);
-        autoLib.recieveServoArm();
         autoLib.calcMove(107, 1f, Constants.Direction.FORWARD);
         autoLib.restServoFoundation();
         autoLib.calcMove(126, 1f, Constants.Direction.RIGHT);
-        autoLib.scoreServoArm();
         startIdentify = false;
 
     }

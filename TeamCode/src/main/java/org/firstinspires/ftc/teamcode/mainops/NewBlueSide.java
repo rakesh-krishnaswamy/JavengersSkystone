@@ -24,33 +24,39 @@ public class NewBlueSide extends LinearOpMode {
         initialize();
 
         // Vuforia
-//        autoLib.calcMove(30,.4f, Constants.Direction.RIGHT);
-        Constants.Coordinates coordinates = autoLib.readCoordinates();
-
         autoLib.autonArmDown();
-
+        autoLib.calcMove(40,.1f, Constants.Direction.RIGHT);
+        Constants.Coordinates coordinates = autoLib.readCoordinates();
+        telemetry.addData("x", coordinates.xPosition);
+        telemetry.addData("y", coordinates.yPosition);
+        telemetry.update();
         if (coordinates.yPosition < 0) {
             telemetry.addData("pos", "Left");
             telemetry.update();
-//            autoLib.calcMove((float) (coordinates.yPosition / 10 - 5), .4f, Constants.Direction.FORWARD); //when decreased- moves to the left
-//            autoLib.calcMove((float) (-coordinates.xPosition / 10 - 3), .4f, Constants.Direction.RIGHT);   //when increased-moves back
-//            Thread.sleep(400);
-//            autoLib.autonGrab();
-//            Thread.sleep(400);
-//            autoLib.calcMove(20,.6f, Constants.Direction.LEFT);
+            autoLib.calcMove((float) (coordinates.yPosition / 10 - 10), .1f, Constants.Direction.FORWARD); //when decreased- moves to the left
+//            autoLib.calcMove((float) (-coordinates.xPosition / 10 +  5), .1f, Constants.Direction.RIGHT);   //when increased-moves back
+            autoLib.calcMove(30,.1f, Constants.Direction.RIGHT);
+            Thread.sleep(400);
+            autoLib.autonGrab();
+            Thread.sleep(600);
+            autoLib.autonArmUp();
+            autoLib.calcMove(210,.1f, Constants.Direction.FORWARD);
+            Thread.sleep(400);
+            autoLib.autonScore();
+//            autoLib.calcMove(20,.1f, Constants.Direction.LEFT);
 
 
         } else if (coordinates.yPosition > 0 && coordinates.yPosition < 10) {
             telemetry.addData("pos", "Center");
             telemetry.update();
-            autoLib.calcMove((float) (coordinates.yPosition / 10), .9f, Constants.Direction.FORWARD);
-            autoLib.calcMove((float) (-coordinates.xPosition / 10), .9f, Constants.Direction.RIGHT);
+//            autoLib.calcMove((float) (coordinates.yPosition / 10), .9f, Constants.Direction.FORWARD);
+//            autoLib.calcMove((float) (-coordinates.xPosition / 10), .9f, Constants.Direction.RIGHT);
 
         } else {
             telemetry.addData("pos", "Right");
             telemetry.update();
-            autoLib.calcMove((float) (coordinates.yPosition / 10), .9f, Constants.Direction.FORWARD);
-            autoLib.calcMove((float) (-coordinates.xPosition / 10), .9f, Constants.Direction.RIGHT);
+//            autoLib.calcMove((float) (coordinates.yPosition / 10), .9f, Constants.Direction.FORWARD);
+//            autoLib.calcMove((float) (-coordinates.xPosition / 10), .9f, Constants.Direction.RIGHT);
         }
         telemetry.update();
     }

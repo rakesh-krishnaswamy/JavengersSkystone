@@ -58,9 +58,9 @@ public class Constants {
     static final float SERVO_FOUNDATION_REST1 = .46f;
     static final float SERVO_FOUNDATION_GRAB2 = .91f;
     static final float SERVO_FOUNDATION_REST2 = .65f;
-    static final float SERVO_AUTONOMOUS_GRABBER_GRAB = .66f;
+    static final float SERVO_AUTONOMOUS_GRABBER_GRAB = .7f;
     static final float SERVO_AUTONOMOUS_GRABBER_SCORE = .28f;
-    static final float SERVO_AUTONOMOUS_UP_ARM = .42f;
+    static final float SERVO_AUTONOMOUS_UP_ARM = .3f;
     static final float SERVO_AUTONOMOUS_DOWN_ARM = 1f;
     static final float SERVO_TELEOP_ARM_POSITION = .15f;
 
@@ -71,7 +71,7 @@ public class Constants {
     //********** CalcMove Constants **********//
     static final float WHEEL_DIAMETER = 9.5f;
     static final float WHEEL_GEAR_RATIO = (1f / 1);
-    static final float NEVEREST_40_REVOLUTION_ENCODER_COUNT = 694.75f;    //677.8f
+    static final float NEVEREST_40_REVOLUTION_ENCODER_COUNT = 383.6f;    //694.75
     static final float TRACK_DISTANCE = 36f;
 
     public enum Direction {FORWARD, BACKWARD, LEFT, RIGHT}
