@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.supportops;
 
+import android.drm.DrmStore;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.internal.android.dx.ssa.DomFront;
 import org.firstinspires.ftc.teamcode.libraries.AutoLib;
 import org.firstinspires.ftc.teamcode.libraries.Constants;
+
+import java.sql.RowId;
 
 /*
  * Title: CalcTurn Test
@@ -27,9 +31,10 @@ public class TestArm extends LinearOpMode {
         initialize();
         telemetry.addData("about to move","initialized");
         telemetry.update();
-//        autoLib.rampMove(100,.8f, Constants.Direction.BACKWARD,true);
-        autoLib.calcMove(20,.1f, Constants.Direction.FORWARD);
+        autoLib.calcMove(60,.3f, Constants.Direction.RIGHT);
         telemetry.addData("Just moved","finished moving");
+        telemetry.addData("Just moved",autoLib.getDistanceCM());
+
         telemetry.update();
     }
 

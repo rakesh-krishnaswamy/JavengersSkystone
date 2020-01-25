@@ -129,12 +129,26 @@ public class AutoLib {
         final int targetPosition = (int) ((((centimeters / (Math.PI * WHEEL_DIAMETER)) *
                 NEVEREST_40_REVOLUTION_ENCODER_COUNT)) * WHEEL_GEAR_RATIO);
 
+//        switch (direction) {
+//            case BACKWARD:
+//                prepMotorsForCalcMove(targetPosition, targetPosition, targetPosition, targetPosition);
+//                break;
+//            case FORWARD:
+//                prepMotorsForCalcMove(-targetPosition, -targetPosition, -targetPosition, -targetPosition);
+//                break;
+//            case LEFT:
+//                prepMotorsForCalcMove(-targetPosition, targetPosition, targetPosition, -targetPosition);
+//                break;
+//            case RIGHT:
+//                prepMotorsForCalcMove(targetPosition, -targetPosition, -targetPosition, targetPosition);
+//        }
+
         switch (direction) {
             case BACKWARD:
-                prepMotorsForCalcMove(targetPosition, targetPosition, targetPosition, targetPosition);
+                prepMotorsForCalcMove(-targetPosition, -targetPosition, -targetPosition, -targetPosition);
                 break;
             case FORWARD:
-                prepMotorsForCalcMove(-targetPosition, -targetPosition, -targetPosition, -targetPosition);
+                prepMotorsForCalcMove(targetPosition, targetPosition, targetPosition, targetPosition);
                 break;
             case LEFT:
                 prepMotorsForCalcMove(-targetPosition, targetPosition, targetPosition, -targetPosition);
@@ -295,7 +309,7 @@ public class AutoLib {
 //    }
 
     public void distanceSensorMove() {
-        while (robot.getWallDistanceCenti() >= 15) {
+        while (robot.getDistanceCM() >= 15) {
             robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, .2f);
             robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, .2f);
             robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, .2f);
@@ -554,4 +568,9 @@ public class AutoLib {
         }
         return new Constants.Coordinates(xPosition, yPosition);
     }
+
+    public double getDistanceCM() {
+        return robot.getDistanceCM();
+    }
+
 }

@@ -32,7 +32,6 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOU
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_GRABBER;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_ARM;
 
 /*
@@ -99,7 +98,7 @@ public class Robot {
     }
 
     private void initSensors() {
-//        frontDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "frontDistanceSensor");
+        frontDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "frontDistanceSensor");
 //        touchSensors[TOUCH_ARM_TOP] = opMode.hardwareMap.get(RevTouchSensor.class, "touchArmTop");
 //        touchSensors[TOUCH_ARM_BOTTOM] = opMode.hardwareMap.get(RevTouchSensor.class, "touchArmBottom");
     }
@@ -292,11 +291,12 @@ public class Robot {
     float getServoPosition(int index) {
         return (float) servos[index].getPosition();
     }
+
     boolean isTouchSensorPressed(int index) {
         return touchSensors[index].isPressed();
     }
 
-    double getWallDistanceCenti() {
+    double getDistanceCM() {
         return (frontDistanceSensor.getDistance(DistanceUnit.METER) * 100);
     }
 }
