@@ -29,13 +29,37 @@ public class TestArm extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         initialize();
+        float fastPower = 0.5f;
+        float mediumPower = 0.3f;
+        float slowPower = 0.1f;
+        double distance = 0;
+
         telemetry.addData("about to move","initialized");
         telemetry.update();
-        autoLib.calcMove(60,.3f, Constants.Direction.RIGHT);
-        telemetry.addData("Just moved","finished moving");
-        telemetry.addData("Just moved",autoLib.getDistanceCM());
-
+        distance = autoLib.getDistanceCM();
+        telemetry.addData("Distance 1", distance);
         telemetry.update();
+        autoLib.calcMove(50,.3f, Constants.Direction.RIGHT);
+
+        float armDistance = 10;
+        distance = autoLib.getDistanceCM();
+        telemetry.addData("Distance 2a", distance);
+        telemetry.update();
+        if (distance > armDistance) {
+            autoLib.calcMove((float) distance - armDistance, slowPower, Constants.Direction.RIGHT);
+        } else if (distance < armDistance) {
+            autoLib.calcMove((float) (armDistance - distance), slowPower, Constants.Direction.LEFT);
+        }
+        telemetry.addData("Distance 2b", autoLib.getDistanceCM());
+        telemetry.update();
+
+        Thread.sleep(1000);
+        autoLib.latchServoFoundation();
+        Thread.sleep(1000);
+        autoLib.calcTurn(45, 0.3f);
+        Thread.sleep(1000);
+        //autoLib.restServoFoundation();
+
     }
 
 

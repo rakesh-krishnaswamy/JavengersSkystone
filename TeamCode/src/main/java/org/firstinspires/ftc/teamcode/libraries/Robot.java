@@ -297,6 +297,7 @@ public class Robot {
     }
 
     double getDistanceCM() {
-        return (frontDistanceSensor.getDistance(DistanceUnit.METER) * 100);
+//        return (frontDistanceSensor.getDistance(DistanceUnit.METER) * 100);
+        return (frontDistanceSensor.getDistance(DistanceUnit.CM));
     }
 }
