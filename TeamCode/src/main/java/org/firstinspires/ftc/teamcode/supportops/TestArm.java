@@ -41,22 +41,22 @@ public class TestArm extends LinearOpMode {
         telemetry.update();
         autoLib.calcMove(50,.3f, Constants.Direction.RIGHT);
 
-        float armDistance = 10;
-        distance = autoLib.getDistanceCM();
-        telemetry.addData("Distance 2a", distance);
-        telemetry.update();
-        if (distance > armDistance) {
-            autoLib.calcMove((float) distance - armDistance, slowPower, Constants.Direction.RIGHT);
-        } else if (distance < armDistance) {
-            autoLib.calcMove((float) (armDistance - distance), slowPower, Constants.Direction.LEFT);
-        }
-        telemetry.addData("Distance 2b", autoLib.getDistanceCM());
-        telemetry.update();
+//        float armDistance = 10;
+//        distance = autoLib.getDistanceCM();
+//        telemetry.addData("Distance 2a", distance);
+//        telemetry.update();
+//        if (distance > armDistance) {
+//            autoLib.calcMove((float) distance - armDistance, slowPower, Constants.Direction.RIGHT);
+//        } else if (distance < armDistance) {
+//            autoLib.calcMove((float) (armDistance - distance), slowPower, Constants.Direction.LEFT);
+//        }
+//        telemetry.addData("Distance 2b", autoLib.getDistanceCM());
+//        telemetry.update();
 
         Thread.sleep(1000);
         autoLib.latchServoFoundation();
         Thread.sleep(1000);
-        autoLib.calcTurn(45, 0.3f);
+        autoLib.calcTurn(30, 0.3f);
         Thread.sleep(1000);
         //autoLib.restServoFoundation();
 

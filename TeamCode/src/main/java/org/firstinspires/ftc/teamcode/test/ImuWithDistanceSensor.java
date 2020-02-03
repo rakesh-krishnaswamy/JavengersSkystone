@@ -54,7 +54,7 @@ public class ImuWithDistanceSensor extends LinearOpMode
     {
         initialize();
 
-        power = 0.4;
+        power = 0.5;
         frontLeftWheel = hardwareMap.dcMotor.get("frontLeftWheel");
         frontRightWheel = hardwareMap.dcMotor.get("frontRightWheel");
         backLeftWheel = hardwareMap.dcMotor.get("backLeftWheel");
@@ -64,18 +64,12 @@ public class ImuWithDistanceSensor extends LinearOpMode
         DistanceSensor sensorRange = hardwareMap.get(DistanceSensor.class, "frontDistanceSensor");
         distanceSensor = (Rev2mDistanceSensor)sensorRange;
 
-//        frontLeftWheel.setDirection(DcMotor.Direction.REVERSE);
-//        frontRightWheel.setDirection(DcMotor.Direction.REVERSE);
-//        backLeftWheel.setDirection(DcMotor.Direction.REVERSE);
-//        backRightWheel.setDirection(DcMotor.Direction.REVERSE);
-
         frontLeftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
         parameters.mode                = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -99,13 +93,20 @@ public class ImuWithDistanceSensor extends LinearOpMode
 
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
+
+        telemetry.addData("After Init - 1 imu heading", lastAngles.firstAngle);
+        telemetry.addData("After Init - 2 global heading", globalAngle);
+        telemetry.addData("After Init - 3 correction", correction);
         telemetry.update();
 
+        resetAngle();
 
-        // wait for start button.
+        telemetry.addData("After reset - 1 imu heading", lastAngles.firstAngle);
+        telemetry.addData("After reset - 2 global heading", globalAngle);
+        telemetry.addData("After reset - 3 correction", correction);
+        telemetry.update();
 
         waitForStart();
-
         telemetry.addData("Mode", "running");
         telemetry.update();
 
@@ -117,7 +118,6 @@ public class ImuWithDistanceSensor extends LinearOpMode
 
         while (opModeIsActive())
         {
-
             // Use gyro to drive in a straight line.
             correction = checkDirection();
 
@@ -129,18 +129,17 @@ public class ImuWithDistanceSensor extends LinearOpMode
             telemetry.addData("range", String.format("%.01f cm", sensorRange.getDistance(DistanceUnit.CM)));
             telemetry.update();
 
-//            frontLeftWheel.setPower(power - correction);
-//            backRightWheel.setPower(power + correction);
-//            frontRightWheel.setPower(power + correction);
-//            backLeftWheel.setPower(power - correction);
+            frontLeftWheel.setPower(power - correction);
+            backRightWheel.setPower(power + correction);
+            frontRightWheel.setPower(power + correction);
+            backLeftWheel.setPower(power - correction);
 
 
             // We record the sensor values because we will test them in more than
             // one place with time passing between those places. See the lesson on
             // Timing Considerations to know why.
 
-            if(distanceSensor.getDistance(DistanceUnit.CM) > 10.0) {
-                autoLib.calcMove(10, 0.1f, Constants.Direction.BACKWARD);
+            if(distanceSensor.getDistance(DistanceUnit.CM) > 15.0) {
                 frontLeftWheel.setPower(power);
                 frontRightWheel.setPower(power);
                 backLeftWheel.setPower(power);
@@ -151,6 +150,7 @@ public class ImuWithDistanceSensor extends LinearOpMode
                 frontRightWheel.setPower(0);
                 backLeftWheel.setPower(0);
                 backRightWheel.setPower(0);
+                break;
 
                 // turn 90 degrees right.
                 //if (aButton) rotate(-90, power);

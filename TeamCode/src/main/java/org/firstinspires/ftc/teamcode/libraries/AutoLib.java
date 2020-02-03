@@ -377,7 +377,7 @@ public class AutoLib {
 //    }
 //
     public void latchServoFoundation() {
-        robot.setServoPosition(SERVO_FOUNDATION1, -SERVO_FOUNDATION_GRAB1);
+        robot.setServoPosition(SERVO_FOUNDATION1, SERVO_FOUNDATION_GRAB1);
         robot.setServoPosition(SERVO_FOUNDATION2, SERVO_FOUNDATION_GRAB2);
     }
 
