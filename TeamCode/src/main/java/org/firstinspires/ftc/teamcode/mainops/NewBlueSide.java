@@ -43,7 +43,7 @@ public class NewBlueSide extends LinearOpMode {
         if (coordinates.yPosition < 0) {
             telemetry.addData("pos", "Left");
             telemetry.update();
-            autoLib.calcMove((float) (coordinates.yPosition / 10 + 17), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
+            autoLib.calcMove((float) (coordinates.yPosition / 10 + 38), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
             autoLib.calcMove((float) (-coordinates.xPosition / 10 - 12), mediumPower, Constants.Direction.RIGHT);   //when increased-moves back
             Thread.sleep(400);
             autoLib.autonGrab();
@@ -51,7 +51,7 @@ public class NewBlueSide extends LinearOpMode {
             autoLib.autonArmUp();
             Thread.sleep(400);
             autoLib.calcTurn(3, slowPower);
-            autoLib.calcMove(5, mediumPower, Constants.Direction.LEFT);    // move back little
+            autoLib.calcMove(10, mediumPower, Constants.Direction.LEFT);    // move back little
 //            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
             autoLib.calcMove(180, fastPower, Constants.Direction.FORWARD);  // move forward towards foundation
 
@@ -128,7 +128,7 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.addData("Distance at foundation before latching 1-c", distance);
             telemetry.update();
 //            if (distance > foundationDistance) {
-                autoLib.calcMove((float) distance + foundationDistance, slowPower, Constants.Direction.BACKWARD);
+            autoLib.calcMove((float) distance + foundationDistance, slowPower, Constants.Direction.BACKWARD);
 //            }
             telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
             telemetry.update();
@@ -137,7 +137,7 @@ public class NewBlueSide extends LinearOpMode {
             autoLib.latchServoFoundation();
             Thread.sleep(300);
 //            autoLib.calcTurn(25, fastPower);
-            autoLib.calcTurn(30,1f);
+            autoLib.calcTurn(30, 1f);
             autoLib.calcMove(70, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
             autoLib.calcTurn(130, .6f);
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
@@ -152,7 +152,7 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.addData("y", coordinates.yPosition);
             telemetry.addData("Distance at base initial", distance);
             telemetry.update();
-            autoLib.calcMove((float) (coordinates.yPosition / 10 + 3), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
+//            autoLib.calcMove((float) (coordinates.yPosition / 10 - 3), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
             autoLib.calcMove((float) (-coordinates.xPosition / 10 - 12), slowPower, Constants.Direction.RIGHT);   //when increased-moves back
             Thread.sleep(400);
             autoLib.autonGrab();
@@ -160,9 +160,9 @@ public class NewBlueSide extends LinearOpMode {
             autoLib.autonArmUp();
             Thread.sleep(400);
             autoLib.calcTurn(3, slowPower);
-            autoLib.calcMove(5, mediumPower, Constants.Direction.LEFT);    // move back little
+            autoLib.calcMove(10, mediumPower, Constants.Direction.LEFT);    // move back little
 //            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
-            autoLib.calcMove(205, fastPower, Constants.Direction.FORWARD);  // move forward towards foundation
+            autoLib.calcMove(200, fastPower, Constants.Direction.FORWARD);  // move forward towards foundation
 
             distance = autoLib.getDistanceCM();
             if (distance > defaultMaxDistance) {
@@ -201,20 +201,78 @@ public class NewBlueSide extends LinearOpMode {
             autoLib.latchServoFoundation();
             Thread.sleep(300);
 //            autoLib.calcTurn(25, fastPower);
-            autoLib.calcTurn(30,1f);
+            autoLib.calcTurn(30, 1f);
             autoLib.calcMove(70, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
             autoLib.calcTurn(130, .6f);
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
             Thread.sleep(300);
-            autoLib.calcMove(40, fastPower, Constants.Direction.FORWARD);
+            autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
 
         } else {
             telemetry.addData("pos", "Right");
+            telemetry.addData("x", coordinates.xPosition);
+            telemetry.addData("y", coordinates.yPosition);
+            telemetry.addData("Distance at base initial", distance);
             telemetry.update();
-//            autoLib.calcMove((float) (coordinates.yPosition / 10), .9f, Constants.Direction.FORWARD);
-//            autoLib.calcMove((float) (-coordinates.xPosition / 10), .9f, Constants.Direction.RIGHT);
+            autoLib.calcMove((float) (coordinates.yPosition / 10 - 38), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
+            autoLib.calcMove((float) (-coordinates.xPosition / 10 - 12), slowPower, Constants.Direction.RIGHT);   //when increased-moves back
+            Thread.sleep(400);
+            autoLib.autonGrab();
+            Thread.sleep(500);
+            autoLib.autonArmUp();
+            Thread.sleep(400);
+            autoLib.calcTurn(3, slowPower);
+            autoLib.calcMove(10, mediumPower, Constants.Direction.LEFT);    // move back little
+//            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
+            autoLib.calcMove(240, fastPower, Constants.Direction.FORWARD);  // move forward towards foundation
+
+            distance = autoLib.getDistanceCM();
+            if (distance > defaultMaxDistance) {
+                distance = defaultMaxDistance;
+            }
+            telemetry.addData("Distance at foundation before placing stone 1-a", distance);
+            telemetry.update();
+            if (distance > 9) {
+                autoLib.calcMove((float) (distance - 9), slowPower, Constants.Direction.RIGHT);
+            }
+            telemetry.addData("Distance at foundation before placing stone 1-b", autoLib.getDistanceCM());
+            telemetry.update();
+
+            Thread.sleep(400);
+            autoLib.autonArmDown();
+            Thread.sleep(400);
+            autoLib.autonScore();
+//            autoLib.calcTurn(6, slowPower);
+            autoLib.autonArmUp();
+            autoLib.calcTurn(74, slowPower);    // turn, so that foundation grabbers can be used
+
+
+            distance = autoLib.getFoundationDistance();
+            if (distance > defaultMaxDistance) {
+                distance = defaultMaxDistance;
+            }
+            telemetry.addData("Distance at foundation before latching 1-c", distance);
+            telemetry.update();
+//            if (distance > foundationDistance) {
+            autoLib.calcMove((float) distance + foundationDistance, slowPower, Constants.Direction.BACKWARD);
+//            }
+            telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
+            telemetry.update();
+
+            Thread.sleep(300);
+            autoLib.latchServoFoundation();
+            Thread.sleep(300);
+//            autoLib.calcTurn(25, fastPower);
+            autoLib.calcTurn(30, 1f);
+            autoLib.calcMove(70, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
+            autoLib.calcTurn(130, .6f);
+//            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
+            Thread.sleep(300);
+            autoLib.restServoFoundation();
+            Thread.sleep(300);
+            autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
         }
         telemetry.update();
     }
