@@ -28,7 +28,8 @@ public class NewBlueSide extends LinearOpMode {
         float slowPower = 0.2f;
         double distance = 0;
         float armDistance = 12f;
-        float defaultMaxDistance = 50f;
+        float foundationDistance = 2f;
+        float defaultMaxDistance = 15f;
 
         // Vuforia
         autoLib.autonArmDown();
@@ -49,19 +50,19 @@ public class NewBlueSide extends LinearOpMode {
             Thread.sleep(500);
             autoLib.autonArmUp();
             Thread.sleep(400);
-//            autoLib.calcTurn(5, slowPower);
-            autoLib.calcMove(10, mediumPower, Constants.Direction.LEFT);    // move back little
-            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
+            autoLib.calcTurn(3, slowPower);
+            autoLib.calcMove(5, mediumPower, Constants.Direction.LEFT);    // move back little
+//            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
             autoLib.calcMove(180, fastPower, Constants.Direction.FORWARD);  // move forward towards foundation
 
             distance = autoLib.getDistanceCM();
-            if(distance > defaultMaxDistance) {
+            if (distance > defaultMaxDistance) {
                 distance = defaultMaxDistance;
             }
             telemetry.addData("Distance at foundation before placing stone 1-a", distance);
             telemetry.update();
-            if (distance > 2) {
-                autoLib.calcMove((float) (distance-2), slowPower, Constants.Direction.RIGHT);
+            if (distance > 9) {
+                autoLib.calcMove((float) (distance - 9), slowPower, Constants.Direction.RIGHT);
             }
             telemetry.addData("Distance at foundation before placing stone 1-b", autoLib.getDistanceCM());
             telemetry.update();
@@ -117,19 +118,33 @@ public class NewBlueSide extends LinearOpMode {
             autoLib.autonScore();
             autoLib.autonArmUp();
              */
-            autoLib.calcTurn(75, slowPower);    // turn, so that foundation grabbers can be used
-            autoLib.calcMove(10, fastPower, Constants.Direction.BACKWARD);
+            autoLib.calcTurn(74, slowPower);    // turn, so that foundation grabbers can be used
+
+
+            distance = autoLib.getFoundationDistance();
+            if (distance > defaultMaxDistance) {
+                distance = defaultMaxDistance;
+            }
+            telemetry.addData("Distance at foundation before latching 1-c", distance);
+            telemetry.update();
+//            if (distance > foundationDistance) {
+                autoLib.calcMove((float) distance + foundationDistance, slowPower, Constants.Direction.BACKWARD);
+//            }
+            telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
+            telemetry.update();
+
             Thread.sleep(300);
             autoLib.latchServoFoundation();
-            Thread.sleep(500);
-            autoLib.calcTurn(25,fastPower);
-            autoLib.calcMove(90, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
-            autoLib.calcTurn(140, fastPower);
-            autoLib.calcMove(15,1f, Constants.Direction.BACKWARD);
+            Thread.sleep(300);
+//            autoLib.calcTurn(25, fastPower);
+            autoLib.calcTurn(30,1f);
+            autoLib.calcMove(70, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
+            autoLib.calcTurn(130, .6f);
+//            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
             Thread.sleep(300);
-            autoLib.calcMove(50, fastPower, Constants.Direction.FORWARD);
+            autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
 
         } else if (coordinates.yPosition > 0) {
             telemetry.addData("pos", "Center");
@@ -147,7 +162,7 @@ public class NewBlueSide extends LinearOpMode {
             autoLib.calcMove(194, fastPower, Constants.Direction.FORWARD);  // move forward towards foundation
 
             distance = autoLib.getDistanceCM();
-            if(distance > defaultMaxDistance) {
+            if (distance > defaultMaxDistance) {
                 distance = defaultMaxDistance;
             }
             telemetry.addData("Distance at foundation before placing stone 1-a", distance);
@@ -167,7 +182,7 @@ public class NewBlueSide extends LinearOpMode {
 //            autoLib.calcTurn(6, slowPower);
             autoLib.autonArmUp();
 
-            autoLib.calcTurn(75, slowPower);    // turn, so that foundation grabbers can be used
+            autoLib.calcTurn(70, slowPower);    // turn, so that foundation grabbers can be used
             autoLib.calcMove(10, fastPower, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.latchServoFoundation();

@@ -573,4 +573,8 @@ public class AutoLib {
         return robot.getDistanceCM();
     }
 
+    public double getFoundationDistance() {
+        return robot.getFoundationDistance();
+    }
+
 }

@@ -59,6 +59,8 @@ public class Robot {
 
     // Sensors
     private Rev2mDistanceSensor frontDistanceSensor;
+    private Rev2mDistanceSensor foundationDistanceSensor;
+
     private RevTouchSensor[] touchSensors = new RevTouchSensor[2];
 
     Robot(LinearOpMode opMode) {
@@ -99,6 +101,7 @@ public class Robot {
 
     private void initSensors() {
         frontDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "frontDistanceSensor");
+        foundationDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "foundationDistanceSensor");
 //        touchSensors[TOUCH_ARM_TOP] = opMode.hardwareMap.get(RevTouchSensor.class, "touchArmTop");
 //        touchSensors[TOUCH_ARM_BOTTOM] = opMode.hardwareMap.get(RevTouchSensor.class, "touchArmBottom");
     }
@@ -297,7 +300,10 @@ public class Robot {
     }
 
     double getDistanceCM() {
-//        return (frontDistanceSensor.getDistance(DistanceUnit.METER) * 100);
         return (frontDistanceSensor.getDistance(DistanceUnit.CM));
+    }
+
+    double getFoundationDistance() {
+        return (foundationDistanceSensor.getDistance(DistanceUnit.CM));
     }
 }
