@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -26,13 +27,18 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RAMP_FB_P
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RAMP_SIDEWAYS_POWER_LOWER_LIMIT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RAMP_SIDEWAYS_POWER_UPPER_LIMIT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INTAKE;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_TAPE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.RIGHT_MOTOR_TRIM_FACTOR;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_GRABBER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.FOUNDATION_TOUCH_SENSOR;
 
 /*
  * Title: Robot
@@ -55,13 +61,14 @@ public class Robot {
     private DcMotor[] dcMotors = new DcMotor[8];
 
     //Servos
-    private Servo[] servos = new Servo[7];
+    private Servo[] servos = new Servo[9];
 
     // Sensors
     private Rev2mDistanceSensor frontDistanceSensor;
     private Rev2mDistanceSensor foundationDistanceSensor;
+    private TouchSensor foundationTouchSensor;
 
-    private RevTouchSensor[] touchSensors = new RevTouchSensor[2];
+    private RevTouchSensor[] touchSensors = new RevTouchSensor[1];
 
     Robot(LinearOpMode opMode) {
         this.opMode = opMode;
@@ -82,6 +89,7 @@ public class Robot {
         dcMotors[MOTOR_RIGHT_INTAKE] = opMode.hardwareMap.get(DcMotor.class, "rightIntake");
         dcMotors[MOTOR_LEFT_INTAKE] = opMode.hardwareMap.get(DcMotor.class, "leftIntake");
         dcMotors[MOTOR_ARM] = opMode.hardwareMap.get(DcMotor.class, "motorArm");
+        dcMotors[MOTOR_TAPE] = opMode.hardwareMap.get(DcMotor.class, "motorTape");
 
 
         dcMotors[MOTOR_FRONT_RIGHT_WHEEL].setDirection(DcMotorSimple.Direction.REVERSE);
@@ -96,14 +104,18 @@ public class Robot {
         servos[SERVO_AUTONOMOUS_GRABBER] = opMode.hardwareMap.get(Servo.class, "servoAutonomousGrabber");
         servos[SERVO_GRABBER] = opMode.hardwareMap.get(Servo.class, "servoGrabber");
         servos[SERVO_SCORING_ARM] = opMode.hardwareMap.get(Servo.class, "servoScoringArm");
+        servos[SERVO_ARM] = opMode.hardwareMap.get(Servo.class, "servoArm");
+        servos[SERVO_INTAKE] = opMode.hardwareMap.get(Servo.class, "servoIntake");
+        servos[SERVO_STOPPER] = opMode.hardwareMap.get(Servo.class, "servoStopper");
+
+
 
     }
 
     private void initSensors() {
         frontDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "frontDistanceSensor");
         foundationDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "foundationDistanceSensor");
-//        touchSensors[TOUCH_ARM_TOP] = opMode.hardwareMap.get(RevTouchSensor.class, "touchArmTop");
-//        touchSensors[TOUCH_ARM_BOTTOM] = opMode.hardwareMap.get(RevTouchSensor.class, "touchArmBottom");
+        touchSensors[FOUNDATION_TOUCH_SENSOR] = opMode.hardwareMap.get(RevTouchSensor.class, "foundationTouchSensor");
     }
 
 
@@ -297,6 +309,10 @@ public class Robot {
 
     boolean isTouchSensorPressed(int index) {
         return touchSensors[index].isPressed();
+    }
+
+    boolean isFoundationTouchSensorPressed() {
+        return touchSensors[FOUNDATION_TOUCH_SENSOR].isPressed();
     }
 
     double getDistanceCM() {

@@ -323,7 +323,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam2 extends LinearOpMode {
         telemetry.addData("X Position ", xPosition);
         telemetry.addData("Y Position ", yPosition);
 // go near skystone
-        autoLib.moveArmDownScoreServoArmGrab();
+        //autoLib.moveArmDownScoreServoArmGrab();
 
         autoLib.calcMove(13, .9f, Constants.Direction.LEFT); //15
         autoLib.calcMove(22, .5f, Constants.Direction.BACKWARD);   //when increased-moves back
@@ -355,7 +355,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam2 extends LinearOpMode {
         telemetry.addData("X Position ", xPosition);
         telemetry.addData("Y Position ", yPosition);
 // go near skystone
-        autoLib.moveArmDownScoreServoArmGrab();
+        //autoLib.moveArmDownScoreServoArmGrab();
 
         autoLib.calcMove(30, .5f, Constants.Direction.RIGHT); //when decreased- moves to the left
         autoLib.calcMove(20, .5f, Constants.Direction.BACKWARD);   //when increased-moves back

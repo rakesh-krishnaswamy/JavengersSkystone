@@ -21,16 +21,18 @@ public class MainTeleOp extends LinearOpMode {
     @SuppressWarnings("RedundantThrows")
     @Override
     public void runOpMode() throws InterruptedException {
+
+
         initialize();
 
         while (opModeIsActive()) {
             // Gamepad 1
             teleLib.processDrive();
-            teleLib.processIntakeMinerals();
+            teleLib.processIntakeStone();
             teleLib.processStopIntake();
-            teleLib.processOutakeMinerals();
+            teleLib.processOutakeStone();
             teleLib.processFoundation();
-
+            teleLib.processTapeMeasure();
 
             // Gamepad 2
             teleLib.processMoveArm();
@@ -46,6 +48,10 @@ public class MainTeleOp extends LinearOpMode {
         telemetry.update();
 
         teleLib = new TeleLib(this);
+
+        teleLib.autonomousArmUp();
+        sleep(1000);
+        teleLib.restServoStopper();
 
         telemetry.addData("Status", "Ready");
         telemetry.update();

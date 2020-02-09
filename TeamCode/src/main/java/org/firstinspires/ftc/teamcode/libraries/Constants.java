@@ -23,6 +23,7 @@ public class Constants {
     static final int MOTOR_RIGHT_INTAKE = 4;
     static final int MOTOR_LEFT_INTAKE = 5;
     static final int MOTOR_ARM = 6;
+    static final int MOTOR_TAPE = 7;
 
     //********** Servo Indexes **********//
     static final int SERVO_ARM = 0;
@@ -32,7 +33,9 @@ public class Constants {
     static final int SERVO_SCORING_ARM = 4;
     static final int SERVO_AUTONOMOUS_GRABBER = 5;
     static final int SERVO_AUTONOMOUS_ARM = 6;
-    static final int SERVO_INTAKE = 6;
+    static final int SERVO_INTAKE = 7;
+    static final int SERVO_STOPPER = 8;
+
 
     //********** Ramp *********************//
     final static float MOTOR_RAMP_FB_POWER_LOWER_LIMIT = 0.3f;
@@ -52,8 +55,8 @@ public class Constants {
     //********** Servo Positions **********//
     static final float SERVO_ARM_POS_RECIEVE = .97f;
     static final float SERVO_ARM_POS_SCORE = .27f;
-    static final float SERVO_GRABBER_GRAB = 0f;
-    static final float SERVO_GRABBER_REST = .44f;
+    static final float SERVO_GRABBER_GRAB = 0.60f;
+    static final float SERVO_GRABBER_REST = .36f;
     static final float SERVO_FOUNDATION_GRAB1 = .37f;
     static final float SERVO_FOUNDATION_REST1 = .66f;
     static final float SERVO_FOUNDATION_GRAB2 = .8f;
@@ -63,10 +66,11 @@ public class Constants {
     static final float SERVO_AUTONOMOUS_UP_ARM = .4f;
     static final float SERVO_AUTONOMOUS_DOWN_ARM = 1f;
     static final float SERVO_TELEOP_ARM_POSITION = .15f;
+    static final float SERVO_STOPPER_STOP = 0.57f;
+    static final float SERVO_STOPPER_REST = 0f;
 
     //********** Touch Sensor Indexes **********//
-    static final int TOUCH_ARM_BOTTOM = 0;
-    static final int TOUCH_ARM_TOP = 1;
+    public static final int FOUNDATION_TOUCH_SENSOR = 0;
 
     //********** CalcMove Constants **********//
     static final float WHEEL_DIAMETER = 9.5f;

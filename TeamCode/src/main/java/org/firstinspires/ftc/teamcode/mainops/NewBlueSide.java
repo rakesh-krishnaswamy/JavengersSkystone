@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.libraries.AutoLib;
 import org.firstinspires.ftc.teamcode.libraries.Constants;
 
+
 /*
  * Title: AutoBlueCraterBase
  * Date Created: 11/23/2018
@@ -26,9 +27,10 @@ public class NewBlueSide extends LinearOpMode {
         float fastPower = 0.5f;
         float mediumPower = 0.4f;
         float slowPower = 0.2f;
+        float verySlowPower = 0.2f;
         double distance = 0;
         float armDistance = 12f;
-        float foundationDistance = 5f;
+        float foundationDistance = 3f;
         float defaultMaxDistance = 15f;
 
         // Vuforia
@@ -43,7 +45,7 @@ public class NewBlueSide extends LinearOpMode {
         if (coordinates.yPosition < 0) {
             telemetry.addData("pos", "Left");
             telemetry.update();
-            autoLib.calcMove((float) (coordinates.yPosition / 10 + 38), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
+            autoLib.calcMove((float) (coordinates.yPosition / 10 + 35), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
             autoLib.calcMove((float) (-coordinates.xPosition / 10 - 12), mediumPower, Constants.Direction.RIGHT);   //when increased-moves back
             Thread.sleep(400);
             autoLib.autonGrab();
@@ -53,7 +55,7 @@ public class NewBlueSide extends LinearOpMode {
             autoLib.calcTurn(3, slowPower);
             autoLib.calcMove(10, mediumPower, Constants.Direction.LEFT);    // move back little
 //            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
-            autoLib.calcMove(180, fastPower, Constants.Direction.FORWARD);  // move forward towards foundation
+            autoLib.calcMove(175, fastPower, Constants.Direction.FORWARD);  // move forward towards foundation
 
             distance = autoLib.getDistanceCM();
             if (distance > defaultMaxDistance) {
@@ -127,11 +129,22 @@ public class NewBlueSide extends LinearOpMode {
             }
             telemetry.addData("Distance at foundation before latching 1-c", distance);
             telemetry.update();
-//            if (distance > foundationDistance) {
-            autoLib.calcMove((float) distance + foundationDistance, slowPower, Constants.Direction.BACKWARD);
-//            }
+            autoLib.calcMove((float) (distance + foundationDistance), verySlowPower, Constants.Direction.BACKWARD);
             telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
             telemetry.update();
+
+//            //autoLib.moveUntilSensorTouched(Constants.FOUNDATION_TOUCH_SENSOR, slowPower);
+//            boolean isFoundationTouchSensorPressed = autoLib.isFoundationTouchSensorPressed();
+//            telemetry.addData("isFoundationTouchSensorPressed 1", isFoundationTouchSensorPressed);
+//            telemetry.update();
+//            if(!isFoundationTouchSensorPressed) {
+//                telemetry.addData("inside move backward", isFoundationTouchSensorPressed);
+//                telemetry.update();
+//                autoLib.moveBackward(slowPower);
+//            }
+//            telemetry.addData("isFoundationTouchSensorPressed 2", isFoundationTouchSensorPressed);
+//            telemetry.update();
+
 
             Thread.sleep(300);
             autoLib.latchServoFoundation();
@@ -192,7 +205,7 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.addData("Distance at foundation before latching 1-c", distance);
             telemetry.update();
 //            if (distance > foundationDistance) {
-            autoLib.calcMove((float) distance + foundationDistance, slowPower, Constants.Direction.BACKWARD);
+            autoLib.calcMove((float) distance + foundationDistance, verySlowPower, Constants.Direction.BACKWARD);
 //            }
             telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
             telemetry.update();
@@ -216,7 +229,7 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.addData("y", coordinates.yPosition);
             telemetry.addData("Distance at base initial", distance);
             telemetry.update();
-            autoLib.calcMove((float) (coordinates.yPosition / 10 - 38), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
+            autoLib.calcMove((float) (coordinates.yPosition / 10 - 25), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
             autoLib.calcMove((float) (-coordinates.xPosition / 10 - 12), slowPower, Constants.Direction.RIGHT);   //when increased-moves back
             Thread.sleep(400);
             autoLib.autonGrab();
@@ -256,7 +269,7 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.addData("Distance at foundation before latching 1-c", distance);
             telemetry.update();
 //            if (distance > foundationDistance) {
-            autoLib.calcMove((float) distance + foundationDistance, slowPower, Constants.Direction.BACKWARD);
+            autoLib.calcMove((float) (distance + foundationDistance), verySlowPower, Constants.Direction.BACKWARD);
 //            }
             telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
             telemetry.update();

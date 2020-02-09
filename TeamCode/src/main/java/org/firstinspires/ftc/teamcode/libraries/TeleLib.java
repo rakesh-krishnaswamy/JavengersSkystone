@@ -12,6 +12,9 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_FRONT_LEF
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_FRONT_RIGHT_WHEEL;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_LEFT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INTAKE;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_TAPE;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_UP_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_GRAB1;
@@ -23,6 +26,9 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_GRABBER_G
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_GRABBER_REST;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_REST;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_STOP;
 
 /*
  * Title: TeleLib
@@ -71,11 +77,11 @@ public class TeleLib {
         robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX));
     }
 
-    public void processOutakeMinerals() {
+    public void processOutakeStone() {
         if (opMode.gamepad1.left_bumper) {
-            robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, 0.5f);
-            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, -0.5f);
-            robot.setDcMotorPower(SERVO_INTAKE, -1);
+            robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, 0.3f);
+            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, -0.3f);
+            robot.setServoPosition(SERVO_INTAKE, 1);
         }
     }
 
@@ -95,7 +101,7 @@ public class TeleLib {
         if (opMode.gamepad1.y) {    //|| !isBlockInIntake()
             robot.setDcMotorPower(MOTOR_LEFT_INTAKE, 0);
             robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, 0);
-            robot.setDcMotorPower(SERVO_INTAKE, 0);
+            robot.setServoPosition(SERVO_INTAKE, 0.5f);
         }
     }
 
@@ -109,46 +115,48 @@ public class TeleLib {
 //        return distance <= 2;
 //    }
 
-    public void processIntakeMinerals() {
+    public void processIntakeStone() {
         if (opMode.gamepad1.right_bumper) {
             robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, -.3f);
             robot.setDcMotorPower(MOTOR_LEFT_INTAKE, .3f);
-            robot.setDcMotorPower(SERVO_INTAKE, 1);
+            robot.setServoPosition(SERVO_INTAKE, 0);
         }
     }
 
+    public void processTapeMeasure() {
+        if (opMode.gamepad1.right_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
+        // Extend
+        robot.setDcMotorPower(MOTOR_TAPE, -.75f);
+        } else if (opMode.gamepad1.left_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
+        // Retract
+        robot.setDcMotorPower(MOTOR_TAPE,.75f);
+         }
+        else if (opMode.gamepad1.x) {
+            robot.setDcMotorPower(MOTOR_TAPE, 0);
+        }
+
+    }
     //gamepad 2
 
     public void processMoveArm() {
-//        if (opMode.gamepad2.right_bumper && !robot.isTouchSensorPressed(TOUCH_ARM_BOTTOM)) {
-//            // Extend
-//            robot.setDcMotorPower(MOTOR_ARM, 1f);
-//        } else if (opMode.gamepad2.left_bumper && !robot.isTouchSensorPressed(TOUCH_ARM_TOP)) {
-//            // Retract
-//            robot.setDcMotorPower(MOTOR_ARM, -1f);
-//        } else {
-//            robot.setDcMotorPower(MOTOR_ARM, 0);
-//        }
-        if (opMode.gamepad2.right_bumper) {
+       if (opMode.gamepad2.right_bumper) {
             // Extend
-            robot.setDcMotorPower(MOTOR_ARM, -.3f);
+            robot.setDcMotorPower(MOTOR_ARM, 1f);
         } else if (opMode.gamepad2.left_bumper) {
             // Retract
-            robot.setDcMotorPower(MOTOR_ARM, .3f);
+            robot.setDcMotorPower(MOTOR_ARM, -1f);
         } else {
             robot.setDcMotorPower(MOTOR_ARM, 0);
         }
     }
 
     public void processScoringArm() {
-        if (opMode.gamepad2.right_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
+        if (opMode.gamepad2.y) {
             // Extend
-            robot.setServoPosition(SERVO_SCORING_ARM, .4f);
-        } else if (opMode.gamepad2.left_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
+            robot.setServoPosition(SERVO_SCORING_ARM, .93f);
+        } else if (opMode.gamepad2.x) {
             // Retract
-            robot.setServoPosition(SERVO_SCORING_ARM, .7f);
-        } else {
-            robot.setServoPosition(SERVO_SCORING_ARM, .5f);
+            robot.setServoPosition(SERVO_SCORING_ARM, .2f);
         }
     }
 
@@ -162,6 +170,14 @@ public class TeleLib {
         if (opMode.gamepad2.b) {
             robot.setServoPosition(SERVO_GRABBER, SERVO_GRABBER_REST);
         }
+    }
+
+    public void restServoStopper() {
+        robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_STOP);
+    }
+
+    public void autonomousArmUp() {
+        robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
     }
 //
 //    public void processScoreStone() {
