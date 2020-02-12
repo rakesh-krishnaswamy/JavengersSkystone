@@ -25,7 +25,7 @@ public class NewBlueSide extends LinearOpMode {
         initialize();
 
         float fastPower = 0.5f;
-        float mediumPower = 0.4f;
+        float mediumPower = 0.6f;
         float slowPower = 0.2f;
         float verySlowPower = 0.2f;
         double distance = 0;
@@ -45,8 +45,8 @@ public class NewBlueSide extends LinearOpMode {
         if (coordinates.yPosition < 0) {
             telemetry.addData("pos", "Left");
             telemetry.update();
-            autoLib.calcMove((float) (coordinates.yPosition / 10 + 35), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
-            autoLib.calcMove((float) (-coordinates.xPosition / 10 - 12), mediumPower, Constants.Direction.RIGHT);   //when increased-moves back
+            autoLib.calcMove((float) (coordinates.yPosition / 10 + 35), slowPower, Constants.Direction.FORWARD); //when decreased- moves to the left
+            autoLib.calcMove((float) (-coordinates.xPosition / 10), slowPower, Constants.Direction.RIGHT);   //when decreased-moves back
             Thread.sleep(400);
             autoLib.autonGrab();
             Thread.sleep(500);
@@ -172,7 +172,7 @@ public class NewBlueSide extends LinearOpMode {
             Thread.sleep(500);
             autoLib.autonArmUp();
             Thread.sleep(400);
-            autoLib.calcTurn(3, slowPower);
+//            autoLib.calcTurn(3, slowPower);
             autoLib.calcMove(10, mediumPower, Constants.Direction.LEFT);    // move back little
 //            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
             autoLib.calcMove(200, fastPower, Constants.Direction.FORWARD);  // move forward towards foundation
@@ -205,7 +205,7 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.addData("Distance at foundation before latching 1-c", distance);
             telemetry.update();
 //            if (distance > foundationDistance) {
-            autoLib.calcMove((float) distance + foundationDistance, verySlowPower, Constants.Direction.BACKWARD);
+            autoLib.calcMove((float) distance + foundationDistance, .05f, Constants.Direction.BACKWARD);
 //            }
             telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
             telemetry.update();
