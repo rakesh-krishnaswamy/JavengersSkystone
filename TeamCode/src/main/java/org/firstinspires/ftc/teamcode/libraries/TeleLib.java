@@ -76,6 +76,23 @@ public class TeleLib {
         robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX));
         robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX));
         robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX));
+
+        float powerFactor = 1;
+
+        if (opMode.gamepad1.dpad_up) {
+            powerFactor = 3;
+            robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX) / powerFactor);
+            robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX) / powerFactor);
+            robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX) / powerFactor);
+            robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX) / powerFactor);
+        }
+
+        if (opMode.gamepad1.dpad_down) {
+            robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX));
+            robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX));
+            robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX));
+            robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX));
+        }
     }
 
     public void processOutakeStone() {
@@ -137,15 +154,6 @@ public class TeleLib {
 
     }
 
-    public void processPower() throws InterruptedException {
-        if (opMode.gamepad1.dpad_up) {
-            robot.setPower(MOTOR_FRONT_LEFT_WHEEL, .5f);
-            robot.setPower(MOTOR_FRONT_RIGHT_WHEEL, .5f);
-            robot.setPower(MOTOR_BACK_LEFT_WHEEL, .5f);
-            robot.setPower(MOTOR_BACK_RIGHT_WHEEL, .5f);
-
-        }
-    }
 
 
     //gamepad 2
@@ -162,11 +170,15 @@ public class TeleLib {
         }
     }
 
-    public void processScoringArm() {
+    public void processExtendArm() {
         if (opMode.gamepad2.y) {
             // Extend
             robot.setServoPosition(SERVO_SCORING_ARM, SERVO_SCORING_EXTEND);
-        } else if (opMode.gamepad2.x) {
+        }
+    }
+
+    public void processRetractArm() {
+        if (opMode.gamepad2.x) {
             // Retract
             robot.setServoPosition(SERVO_SCORING_ARM, SERVO_SCORING_RETRACT);
         }
