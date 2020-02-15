@@ -137,7 +137,15 @@ public class TeleLib {
 
     }
 
+    public void processPower() throws InterruptedException {
+        if (opMode.gamepad1.dpad_up) {
+            robot.setPower(MOTOR_FRONT_LEFT_WHEEL, .5f);
+            robot.setPower(MOTOR_FRONT_RIGHT_WHEEL, .5f);
+            robot.setPower(MOTOR_BACK_LEFT_WHEEL, .5f);
+            robot.setPower(MOTOR_BACK_RIGHT_WHEEL, .5f);
 
+        }
+    }
 
 
     //gamepad 2
@@ -154,18 +162,11 @@ public class TeleLib {
         }
     }
 
-    public void processExtendArm() {
+    public void processScoringArm() {
         if (opMode.gamepad2.y) {
             // Extend
             robot.setServoPosition(SERVO_SCORING_ARM, SERVO_SCORING_EXTEND);
         } else if (opMode.gamepad2.x) {
-            // Retract
-            robot.setServoPosition(SERVO_SCORING_ARM, SERVO_SCORING_RETRACT);
-        }
-    }
-
-    public void processRetractArm() {
-       if (opMode.gamepad2.x) {
             // Retract
             robot.setServoPosition(SERVO_SCORING_ARM, SERVO_SCORING_RETRACT);
         }
