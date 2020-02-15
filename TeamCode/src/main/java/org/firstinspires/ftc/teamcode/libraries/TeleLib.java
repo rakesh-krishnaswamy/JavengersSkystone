@@ -78,8 +78,9 @@ public class TeleLib {
         robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX));
 
         float powerFactor = 1;
+        boolean isDPadPressed = true;
 
-        if (opMode.gamepad1.dpad_up) {
+        if (opMode.gamepad1.dpad_up && isDPadPressed )  {
             powerFactor = 3;
             robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX) / powerFactor);
             robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX) / powerFactor);
@@ -87,7 +88,7 @@ public class TeleLib {
             robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX) / powerFactor);
         }
 
-        if (opMode.gamepad1.dpad_down) {
+        if (opMode.gamepad1.dpad_down && isDPadPressed) {
             robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX));
             robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX));
             robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX));
@@ -148,7 +149,7 @@ public class TeleLib {
         } else if (opMode.gamepad1.left_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
             // Retract
             robot.setDcMotorPower(MOTOR_TAPE, .75f);
-        } else if (opMode.gamepad1.x) {
+        } else {
             robot.setDcMotorPower(MOTOR_TAPE, 0);
         }
 
