@@ -97,10 +97,10 @@ public class TeleLib {
 
     public void processOutakeStone() {
         if (opMode.gamepad1.left_bumper) {
-            robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, 0.3f);
-            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, -3);
+            robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, 2.5f);
+            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, -2.5f);
             robot.setServoPosition(SERVO_INTAKE, 1);
-        }
+    }
     }
 
     public void processFoundation() {
@@ -135,8 +135,8 @@ public class TeleLib {
 
     public void processIntakeStone() {
         if (opMode.gamepad1.right_bumper) {
-            robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, -.5f);
-            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, .5f);
+            robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, -.25f);
+            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, .25f);
             robot.setServoPosition(SERVO_INTAKE, 0);
         }
     }
