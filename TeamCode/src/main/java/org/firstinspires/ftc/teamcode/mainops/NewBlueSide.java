@@ -25,9 +25,9 @@ public class NewBlueSide extends LinearOpMode {
         initialize();
 
         float fastPower = 0.5f;
-        float mediumPower = 0.6f;
+        float mediumPower = 0.4f;
         float slowPower = 0.2f;
-        float verySlowPower = 0.2f;
+        float verySlowPower = 0.1f;
         double distance = 0;
         float armDistance = 12f;
         float foundationDistance = 3f;
@@ -46,7 +46,7 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.addData("pos", "Left");
             telemetry.update();
             autoLib.calcMove((float) (coordinates.yPosition / 10 + 35), slowPower, Constants.Direction.FORWARD); //when decreased- moves to the left
-            autoLib.calcMove((float) (-coordinates.xPosition / 10), slowPower, Constants.Direction.RIGHT);   //when decreased-moves back
+            autoLib.calcMove((float) (-coordinates.xPosition / 10 - 12), slowPower, Constants.Direction.RIGHT);   //when decreased-moves back
             Thread.sleep(400);
             autoLib.autonGrab();
             Thread.sleep(500);
@@ -195,7 +195,7 @@ public class NewBlueSide extends LinearOpMode {
             autoLib.autonScore();
 //            autoLib.calcTurn(6, slowPower);
             autoLib.autonArmUp();
-            autoLib.calcTurn(74, slowPower);    // turn, so that foundation grabbers can be used
+            autoLib.calcTurn(72, slowPower);    // turn, so that foundation grabbers can be used
 
 
             distance = autoLib.getFoundationDistance();
@@ -214,9 +214,9 @@ public class NewBlueSide extends LinearOpMode {
             autoLib.latchServoFoundation();
             Thread.sleep(300);
 //            autoLib.calcTurn(25, fastPower);
-            autoLib.calcTurn(30, 1f);
+//            autoLib.calcTurn(30, 1f);
             autoLib.calcMove(70, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
-            autoLib.calcTurn(130, .6f);
+            autoLib.calcTurn(160, .6f);
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
