@@ -27,6 +27,8 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_GRABBER_R
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_EXTEND;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_RETRACT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_REST;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_STOP;
 
@@ -80,7 +82,7 @@ public class TeleLib {
     public void processOutakeStone() {
         if (opMode.gamepad1.left_bumper) {
             robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, 0.3f);
-            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, -0.3f);
+            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, -3);
             robot.setServoPosition(SERVO_INTAKE, 1);
         }
     }
@@ -95,7 +97,7 @@ public class TeleLib {
             robot.setServoPosition(SERVO_FOUNDATION2, SERVO_FOUNDATION_REST2);
 
         }
-    }
+}
 
     public void processStopIntake() {
         if (opMode.gamepad1.y) {    //|| !isBlockInIntake()
@@ -117,8 +119,8 @@ public class TeleLib {
 
     public void processIntakeStone() {
         if (opMode.gamepad1.right_bumper) {
-            robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, -.3f);
-            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, .3f);
+            robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, -.5f);
+            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, .5f);
             robot.setServoPosition(SERVO_INTAKE, 0);
         }
     }
@@ -153,10 +155,10 @@ public class TeleLib {
     public void processScoringArm() {
         if (opMode.gamepad2.y) {
             // Extend
-            robot.setServoPosition(SERVO_SCORING_ARM, .93f);
+            robot.setServoPosition(SERVO_SCORING_ARM,SERVO_SCORING_EXTEND);
         } else if (opMode.gamepad2.x) {
             // Retract
-            robot.setServoPosition(SERVO_SCORING_ARM, .2f);
+            robot.setServoPosition(SERVO_SCORING_ARM, SERVO_SCORING_RETRACT);
         }
     }
 
