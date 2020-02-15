@@ -33,6 +33,7 @@ public class MainTeleOp extends LinearOpMode {
             teleLib.processOutakeStone();
             teleLib.processFoundation();
             teleLib.processTapeMeasure();
+            teleLib.processPower();
 
             // Gamepad 2
             teleLib.processMoveArm();
