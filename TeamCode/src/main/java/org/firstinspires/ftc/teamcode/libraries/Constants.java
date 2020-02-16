@@ -26,7 +26,7 @@ public class Constants {
     static final int MOTOR_TAPE = 7;
 
     //********** Servo Indexes **********//
-    static final int SERVO_CAPSTONE  = 0;
+    static final int SERVO_CAPSTONE = 0;
     static final int SERVO_GRABBER = 1;
     static final int SERVO_FOUNDATION1 = 2;
     static final int SERVO_FOUNDATION2 = 3;
@@ -91,7 +91,7 @@ public class Constants {
 
     static final Object Coordinates = new Object();
 
-    static final float VUFORIA_READING_TIME = 2f;
+    static final float VUFORIA_READING_TIME = 1f;
 
     public static class Coordinates {
         public double xPosition;
