@@ -26,7 +26,7 @@ public class Constants {
     static final int MOTOR_TAPE = 7;
 
     //********** Servo Indexes **********//
-    static final int SERVO_ARM = 0;
+    static final int SERVO_CAPSTONE  = 0;
     static final int SERVO_GRABBER = 1;
     static final int SERVO_FOUNDATION1 = 2;
     static final int SERVO_FOUNDATION2 = 3;
@@ -56,6 +56,8 @@ public class Constants {
     static final float SERVO_ARM_POS_RECIEVE = .97f;
     static final float SERVO_ARM_POS_SCORE = .27f;
     static final float SERVO_GRABBER_GRAB = 0.60f;
+    static final float SERVO_CAPSTONE_DROP = .36f;  // Change position
+    static final float SERVO_CAPSTONE_HOLD = 0.60f; // Change position
     static final float SERVO_GRABBER_REST = .36f;
     static final float SERVO_FOUNDATION_GRAB1 = .37f;
     static final float SERVO_FOUNDATION_REST1 = .66f;
@@ -65,8 +67,8 @@ public class Constants {
     static final float SERVO_AUTONOMOUS_GRABBER_SCORE = .28f;
     static final float SERVO_AUTONOMOUS_UP_ARM = .4f;
     static final float SERVO_AUTONOMOUS_DOWN_ARM = 1f;
-    static final float SERVO_SCORING_EXTEND = .99f;
-    static final float SERVO_SCORING_RETRACT = .02f;
+    static final float SERVO_SCORING_EXTEND = .99f; // Change position
+    static final float SERVO_SCORING_RETRACT = .02f;// Change position
     static final float SERVO_TELEOP_ARM_POSITION = .15f;
     static final float SERVO_STOPPER_STOP = 0.57f;
     static final float SERVO_STOPPER_REST = 0f;

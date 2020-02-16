@@ -29,9 +29,10 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RAMP_SIDE
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_TAPE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.RIGHT_MOTOR_TRIM_FACTOR;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_GRABBER;
@@ -104,7 +105,7 @@ public class Robot {
         servos[SERVO_AUTONOMOUS_GRABBER] = opMode.hardwareMap.get(Servo.class, "servoAutonomousGrabber");
         servos[SERVO_GRABBER] = opMode.hardwareMap.get(Servo.class, "servoGrabber");
         servos[SERVO_SCORING_ARM] = opMode.hardwareMap.get(Servo.class, "servoScoringArm");
-        servos[SERVO_ARM] = opMode.hardwareMap.get(Servo.class, "servoArm");
+        servos[SERVO_CAPSTONE] = opMode.hardwareMap.get(Servo.class, "servoCapstone");
         servos[SERVO_INTAKE] = opMode.hardwareMap.get(Servo.class, "servoIntake");
         servos[SERVO_STOPPER] = opMode.hardwareMap.get(Servo.class, "servoStopper");
 

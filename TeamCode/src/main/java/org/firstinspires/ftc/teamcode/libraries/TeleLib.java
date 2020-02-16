@@ -13,8 +13,10 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_FRONT_RIG
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_LEFT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_TAPE;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_UP_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE_DROP;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_GRAB1;
@@ -168,6 +170,14 @@ public class TeleLib {
             robot.setDcMotorPower(MOTOR_ARM, -1f);
         } else {
             robot.setDcMotorPower(MOTOR_ARM, 0);
+        }
+    }
+
+    public void processDropCapstone() {
+        boolean isDPadPressed = true;
+
+        if (opMode.gamepad1.dpad_up && isDPadPressed )  {
+            robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_DROP);
         }
     }
 

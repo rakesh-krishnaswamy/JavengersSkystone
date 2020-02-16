@@ -41,6 +41,7 @@ public class MainTeleOp extends LinearOpMode {
             teleLib.processScoreStone();
             teleLib.processExtendArm();
             teleLib.processRetractArm();
+            teleLib.processDropCapstone();
             idle();
         }
     }
