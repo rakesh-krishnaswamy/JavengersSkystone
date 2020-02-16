@@ -33,7 +33,7 @@ public class NewRedSide extends LinearOpMode {
         float latchingDistance = 1f;
         float foundationDistance = 2f;
         float defaultMaxDistance = 15f;
-        int turnFoundationAngle = -140;
+        int turnFoundationAngle = -130;
         int turnToLatchAngle = 72;
 
         // Vuforia
@@ -175,17 +175,17 @@ public class NewRedSide extends LinearOpMode {
             telemetry.addData("y", coordinates.yPosition);
             telemetry.addData("Distance at base initial", distance);
             telemetry.update();
-            autoLib.calcMove((float) (coordinates.yPosition / 10 - 12), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
+            autoLib.calcMove((float) (coordinates.yPosition / 10 + 35), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
             autoLib.calcMove((float) 20, slowPower, Constants.Direction.RIGHT);   //x and y comes as (0,0); we need to move the distance forward
             Thread.sleep(400);
             autoLib.autonGrab();
             Thread.sleep(500);
             autoLib.autonArmUp();
             Thread.sleep(400);
-            autoLib.calcTurn(3, slowPower);
+//            autoLib.calcTurn(3, slowPower);
             autoLib.calcMove(10, mediumPower, Constants.Direction.LEFT);    // move back little
 //            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
-            autoLib.calcMove(210, mediumPower, Constants.Direction.FORWARD);  // move forward towards foundation
+            autoLib.calcMove(225, mediumPower, Constants.Direction.BACKWARD);  // move forward towards foundation
 
             distance = autoLib.getDistanceCM();
             if (distance > defaultMaxDistance) {
@@ -220,7 +220,8 @@ public class NewRedSide extends LinearOpMode {
             telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
             telemetry.update();
 
-            Thread.sleep(300);
+            //Latch while moving 2 cm
+            autoLib.calcMove(2, verySlowPower, Constants.Direction.BACKWARD);
             autoLib.latchServoFoundation();
             Thread.sleep(300);
             autoLib.calcMove(85, fastPower, Constants.Direction.FORWARD);  // move closer to foundation-70
