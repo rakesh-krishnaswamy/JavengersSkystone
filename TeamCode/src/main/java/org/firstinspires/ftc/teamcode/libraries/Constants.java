@@ -89,6 +89,8 @@ public class Constants {
 
     static final Object Coordinates = new Object();
 
+    static final float VUFORIA_READING_TIME = 2f;
+
     public static class Coordinates {
         public double xPosition;
         public double yPosition;
