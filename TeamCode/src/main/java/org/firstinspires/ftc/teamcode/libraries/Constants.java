@@ -67,8 +67,8 @@ public class Constants {
     static final float SERVO_AUTONOMOUS_GRABBER_SCORE = .28f;
     static final float SERVO_AUTONOMOUS_UP_ARM = .4f;
     static final float SERVO_AUTONOMOUS_DOWN_ARM = 1f;
-    static final float SERVO_SCORING_EXTEND = .99f; // Change position
-    static final float SERVO_SCORING_RETRACT = .02f;// Change position
+    static final float SERVO_SCORING_EXTEND = 0f;
+    static final float SERVO_SCORING_RETRACT = 0.71f;
     static final float SERVO_TELEOP_ARM_POSITION = .15f;
     static final float SERVO_STOPPER_STOP = 0.57f;
     static final float SERVO_STOPPER_REST = 0f;
@@ -91,7 +91,7 @@ public class Constants {
 
     static final Object Coordinates = new Object();
 
-    static final float VUFORIA_READING_TIME = 1f;
+    static final float VUFORIA_READING_TIME = 2f;
 
     public static class Coordinates {
         public double xPosition;

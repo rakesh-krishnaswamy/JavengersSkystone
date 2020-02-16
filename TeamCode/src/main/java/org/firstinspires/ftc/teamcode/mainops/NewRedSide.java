@@ -26,20 +26,21 @@ public class NewRedSide extends LinearOpMode {
 
         float fastPower = 0.7f;
         float mediumPower = 0.6f;
+        float slowMediumPower = 0.4f;
         float slowPower = 0.2f;
         float verySlowPower = 0.05f;
         double distance = 0;
         float armDistance = 12f;
         float latchingDistance = 1f;
         float foundationDistance = 2f;
-        float defaultMaxDistance = 15f;
-        int turnFoundationAngle = -130;
+        float defaultMaxDistance = 25f;
+        int turnFoundationAngle = -120;
         int turnToLatchAngle = 72;
         int ensureLatchDistance = 4;
 
         // Vuforia
         autoLib.autonArmDown();
-        autoLib.calcMove(55, mediumPower, Constants.Direction.RIGHT);
+        autoLib.calcMove(55, slowMediumPower, Constants.Direction.RIGHT);
         Constants.Coordinates coordinates = autoLib.readCoordinates();
         distance = autoLib.getDistanceCM();
         telemetry.addData("x", coordinates.xPosition);
