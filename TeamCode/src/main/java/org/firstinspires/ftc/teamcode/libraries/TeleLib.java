@@ -13,10 +13,11 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_FRONT_RIG
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_LEFT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_TAPE;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_UP_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE_DROP;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE_HOLD;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_GRAB1;
@@ -82,7 +83,7 @@ public class TeleLib {
         float powerFactor = 1;
         boolean isDPadPressed = true;
 
-        if (opMode.gamepad1.dpad_up && isDPadPressed )  {
+        if (opMode.gamepad1.dpad_up && isDPadPressed) {
             powerFactor = 3;
             robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX) / powerFactor);
             robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX) / powerFactor);
@@ -100,10 +101,10 @@ public class TeleLib {
 
     public void processOutakeStone() {
         if (opMode.gamepad1.left_bumper) {
-            robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, 2.5f);
-            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, -2.5f);
+            robot.setDcMotorPower(MOTOR_RIGHT_INTAKE, .25f);
+            robot.setDcMotorPower(MOTOR_LEFT_INTAKE, -.25f);
             robot.setServoPosition(SERVO_INTAKE, 1);
-    }
+        }
     }
 
     public void processFoundation() {
@@ -158,7 +159,6 @@ public class TeleLib {
     }
 
 
-
     //gamepad 2
 
     public void processMoveArm() {
@@ -176,8 +176,11 @@ public class TeleLib {
     public void processDropCapstone() {
         boolean isDPadPressed = true;
 
-        if (opMode.gamepad1.dpad_up && isDPadPressed )  {
+        if (opMode.gamepad2.dpad_down && isDPadPressed) {
             robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_DROP);
+        }
+        if (opMode.gamepad2.dpad_up && isDPadPressed) {
+            robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_HOLD);
         }
     }
 

@@ -33,7 +33,7 @@ public class NewRedSide extends LinearOpMode {
         float armDistance = 12f;
         float latchingDistance = 1f;
         float foundationDistance = 2f;
-        float defaultMaxDistance = 25f;
+        float defaultMaxDistance = 15f;
         int turnFoundationAngle = -120;
         int turnToLatchAngle = 72;
         int ensureLatchDistance = 4;
@@ -105,7 +105,7 @@ public class NewRedSide extends LinearOpMode {
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
-            Thread.sleep(300);
+            Thread.sleep(400);
             autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
 
 
@@ -168,7 +168,7 @@ public class NewRedSide extends LinearOpMode {
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
-            Thread.sleep(300);
+            Thread.sleep(400);
             autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
 
         } else {
@@ -231,7 +231,7 @@ public class NewRedSide extends LinearOpMode {
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
-            Thread.sleep(300);
+            Thread.sleep(400);
             autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
         }
         telemetry.update();
