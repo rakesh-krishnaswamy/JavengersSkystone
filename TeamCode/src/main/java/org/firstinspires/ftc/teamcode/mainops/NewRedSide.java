@@ -102,6 +102,7 @@ public class NewRedSide extends LinearOpMode {
 //            autoLib.calcTurn(30, 1f);
             autoLib.calcMove(85, fastPower, Constants.Direction.FORWARD);  // move closer to foundation-70
             autoLib.calcTurn(turnFoundationAngle, 1f);
+            autoLib.autonGrab();
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
@@ -165,6 +166,7 @@ public class NewRedSide extends LinearOpMode {
 //            autoLib.calcTurn(30, 1f);
             autoLib.calcMove(85, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
             autoLib.calcTurn(turnFoundationAngle, 1f);
+            autoLib.autonGrab();
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
@@ -228,6 +230,7 @@ public class NewRedSide extends LinearOpMode {
             Thread.sleep(300);
             autoLib.calcMove(85, fastPower, Constants.Direction.FORWARD);  // move closer to foundation-70
             autoLib.calcTurn(turnFoundationAngle, 1f);
+            autoLib.autonGrab();
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
