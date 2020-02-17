@@ -187,7 +187,7 @@ public class NewRedSide extends LinearOpMode {
             autoLib.autonArmUp();
             Thread.sleep(400);
 //            autoLib.calcTurn(3, slowPower);
-            autoLib.calcMove(10, mediumPower, Constants.Direction.LEFT);    // move back little
+            autoLib.calcMove(20, mediumPower, Constants.Direction.LEFT);    // move back little - 10
 //            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
             autoLib.calcMove(225, mediumPower, Constants.Direction.BACKWARD);  // move forward towards foundation
 

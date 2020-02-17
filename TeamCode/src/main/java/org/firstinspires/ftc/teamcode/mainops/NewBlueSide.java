@@ -85,7 +85,7 @@ public class NewBlueSide extends LinearOpMode {
             }
             telemetry.addData("Distance at foundation before latching 1-c", distance);
             telemetry.update();
-            autoLib.calcMove((float) (distance + foundationDistance), verySlowPower, Constants.Direction.BACKWARD);
+            autoLib.calcMove((float) (distance), verySlowPower, Constants.Direction.BACKWARD);
             telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
             telemetry.update();
             //Latch while moving 2 cm
@@ -96,6 +96,7 @@ public class NewBlueSide extends LinearOpMode {
 //            autoLib.calcTurn(30, 1f);
             autoLib.calcMove(85, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
             autoLib.calcTurn(190, 1f);
+            autoLib.autonGrab();
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
@@ -148,7 +149,7 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.addData("Distance at foundation before latching 1-c", distance);
             telemetry.update();
 //            if (distance > latchingDistance) {
-            autoLib.calcMove((float) distance + latchingDistance, verySlowPower, Constants.Direction.BACKWARD);
+            autoLib.calcMove((float) distance, verySlowPower, Constants.Direction.BACKWARD);
 //            }
             telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
             telemetry.update();
@@ -161,6 +162,7 @@ public class NewBlueSide extends LinearOpMode {
 //            autoLib.calcTurn(30, 1f);
             autoLib.calcMove(85, fastPower, Constants.Direction.FORWARD);  // move closer to foundation-70
             autoLib.calcTurn(190, 1f);
+            autoLib.autonGrab();
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
@@ -213,7 +215,7 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.addData("Distance at foundation before latching 1-c", distance);
             telemetry.update();
 //            if (distance > latchingDistance) {
-            autoLib.calcMove((float) (distance + latchingDistance), verySlowPower, Constants.Direction.BACKWARD);
+            autoLib.calcMove((float) (distance), verySlowPower, Constants.Direction.BACKWARD);
 //            }
             telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
             telemetry.update();
@@ -224,6 +226,7 @@ public class NewBlueSide extends LinearOpMode {
             Thread.sleep(300);
             autoLib.calcMove(85, fastPower, Constants.Direction.FORWARD);  // move closer to foundation-70
             autoLib.calcTurn(190, 1f);
+            autoLib.autonGrab();
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(300);
             autoLib.restServoFoundation();
