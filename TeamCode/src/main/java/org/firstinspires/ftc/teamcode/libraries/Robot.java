@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.FOUNDATION_TOUCH_SENSOR;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.LEFT_MOTOR_TRIM_FACTOR;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_BACK_LEFT_WHEEL;
@@ -29,7 +30,6 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RAMP_SIDE
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_TAPE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.RIGHT_MOTOR_TRIM_FACTOR;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE;
@@ -39,7 +39,6 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_GRABBER;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.FOUNDATION_TOUCH_SENSOR;
 
 /*
  * Title: Robot
@@ -110,7 +109,6 @@ public class Robot {
         servos[SERVO_STOPPER] = opMode.hardwareMap.get(Servo.class, "servoStopper");
 
 
-
     }
 
     private void initSensors() {
@@ -174,6 +172,9 @@ public class Robot {
             setPower(MOTOR_BACK_LEFT_WHEEL, MOTOR_LOWER_POWER_THRESHOLD);
             setPower(MOTOR_BACK_RIGHT_WHEEL, MOTOR_LOWER_POWER_THRESHOLD);
 
+            opMode.telemetry.addLine("starting at low power");
+            opMode.telemetry.update();
+
         } else {
             setPower(MOTOR_FRONT_LEFT_WHEEL, fl_Power * LEFT_MOTOR_TRIM_FACTOR);
             setPower(MOTOR_FRONT_RIGHT_WHEEL, fr_Power * RIGHT_MOTOR_TRIM_FACTOR);
@@ -198,8 +199,8 @@ public class Robot {
 
             //using fl_power as proxy for all wheel power, the sign is not relevant in this runmode.
 
-            float rampedPowerRaw = (float) (fl_Power * (1 - 4 * (Math.pow((0.5f -
-                    Math.abs((dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition() * 1.0f) / fl_Position)), 2.0f))));
+            float rampedPowerRaw = (float) (fl_Power * (1 - (4 * (Math.pow((0.5f -
+                    Math.abs((dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition() * 1.0f) / fl_Position)), 2.0f)))));
 
             //use another variable to check and adjust power limits, so we can display raw power values.
             if (isRampedPower) {
@@ -234,10 +235,15 @@ public class Robot {
 
             //in this runmode, the power does not control direction but the sign of the target position does.
 
+            opMode.telemetry.addLine("before ramped power");
+            opMode.telemetry.update();
+
             dcMotors[MOTOR_FRONT_LEFT_WHEEL].setPower(rampedPower * LEFT_MOTOR_TRIM_FACTOR);
             dcMotors[MOTOR_FRONT_RIGHT_WHEEL].setPower(rampedPower * RIGHT_MOTOR_TRIM_FACTOR);
             dcMotors[MOTOR_BACK_LEFT_WHEEL].setPower(rampedPower * LEFT_MOTOR_TRIM_FACTOR);
             dcMotors[MOTOR_BACK_RIGHT_WHEEL].setPower(rampedPower * RIGHT_MOTOR_TRIM_FACTOR);
+            opMode.telemetry.addLine("ramped power");
+            opMode.telemetry.update();
 
             opMode.telemetry.addLine(Integer.toString(getDcMotorPosition(MOTOR_BACK_RIGHT_WHEEL)));
             opMode.telemetry.addLine(Integer.toString(getDcMotorPosition(MOTOR_BACK_LEFT_WHEEL)));
@@ -248,6 +254,8 @@ public class Robot {
 
             opMode.idle();
         }
+        opMode.telemetry.addLine("done moving");
+        opMode.telemetry.update();
         dcMotors[MOTOR_FRONT_LEFT_WHEEL].setPower(0);
         dcMotors[MOTOR_FRONT_RIGHT_WHEEL].setPower(0);
         dcMotors[MOTOR_BACK_LEFT_WHEEL].setPower(0);

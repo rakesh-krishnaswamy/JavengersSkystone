@@ -38,14 +38,14 @@ public class Constants {
 
 
     //********** Ramp *********************//
-    final static float MOTOR_RAMP_FB_POWER_LOWER_LIMIT = 0.3f;
-    final static float MOTOR_RAMP_FB_POWER_UPPER_LIMIT = 0.78f;
-    final static float MOTOR_RAMP_SIDEWAYS_POWER_LOWER_LIMIT = 0.6f;
-    final static float MOTOR_RAMP_SIDEWAYS_POWER_UPPER_LIMIT = 0.78f;
+    final static float MOTOR_RAMP_FB_POWER_LOWER_LIMIT = 0.1f;  //.3
+    final static float MOTOR_RAMP_FB_POWER_UPPER_LIMIT = 1f; //.78
+    final static float MOTOR_RAMP_SIDEWAYS_POWER_LOWER_LIMIT = 0.1f;    //.6
+    final static float MOTOR_RAMP_SIDEWAYS_POWER_UPPER_LIMIT = 1f;   //.78
     final static float MAX_ROBOT_TURN_MOTOR_VELOCITY = 0.78f;
     final static float MIN_ROBOT_TURN_MOTOR_VELOCITY = 0.15f;
-    final static float LEFT_MOTOR_TRIM_FACTOR = 1.0f;
-    final static float RIGHT_MOTOR_TRIM_FACTOR = 1.0f;
+    final static float LEFT_MOTOR_TRIM_FACTOR = .8f;
+    final static float RIGHT_MOTOR_TRIM_FACTOR = .8f;
     final static float MOTOR_LOWER_POWER_THRESHOLD = 0.15f;
     final static int MAX_MOTOR_LOOP_TIME = 10000;     //max time to wait in a tight loop
     final static int ENCODED_MOTOR_STALL_TIME_DELTA = 200; //time to wait in stall check code
@@ -79,7 +79,7 @@ public class Constants {
     //********** CalcMove Constants **********//
     static final float WHEEL_DIAMETER = 9.5f;
     static final float WHEEL_GEAR_RATIO = (1f / 1);
-    static final float NEVEREST_40_REVOLUTION_ENCODER_COUNT = 383.6f;    //694.75
+    static final float NEVEREST_40_REVOLUTION_ENCODER_COUNT = 512.6f;    //694.75 - 383.6
     static final float TRACK_DISTANCE = 36f;
 
     public enum Direction {FORWARD, BACKWARD, LEFT, RIGHT}
