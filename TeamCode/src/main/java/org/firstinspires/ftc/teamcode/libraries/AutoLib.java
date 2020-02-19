@@ -166,13 +166,13 @@ public class AutoLib {
 
     public void rampMove(float distance, float power, Constants.Direction Direction, boolean isRampedPower) throws InterruptedException {
         if (Direction == Constants.Direction.FORWARD) {
-            moveRobotToPositionFB(distance * (2f / 3), power, isRampedPower);
+            moveRobotToPositionFB(distance * (1f / 1), power, isRampedPower);
         } else if (Direction == Constants.Direction.BACKWARD) {
-            moveRobotToPositionFB(-distance * (2f / 3), power, isRampedPower);
+            moveRobotToPositionFB(-distance * (1f / 1), power, isRampedPower);
         } else if (Direction == Constants.Direction.LEFT) {
-            moveRobotToPositionSideways(distance * (2f / 3), power, isRampedPower);
+            moveRobotToPositionSideways(distance * (1f / 1), power, isRampedPower);
         } else if (Direction == Constants.Direction.RIGHT) {
-            moveRobotToPositionSideways(-distance * (2f / 3), power, isRampedPower);
+            moveRobotToPositionSideways(-distance * (1f / 1), power, isRampedPower);
         }
 
         while (areBaseMotorsBusy()) {

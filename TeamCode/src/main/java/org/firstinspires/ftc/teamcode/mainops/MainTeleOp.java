@@ -52,7 +52,7 @@ public class MainTeleOp extends LinearOpMode {
 
         teleLib = new TeleLib(this);
 
-        teleLib.autonomousArmUp();
+//        teleLib.autonomousArmUp();
         sleep(1000);
         teleLib.restServoStopper();
 

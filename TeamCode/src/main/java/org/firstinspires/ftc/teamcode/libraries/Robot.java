@@ -186,6 +186,8 @@ public class Robot {
 //        aOpMode.reset_timer_array(GENERIC_TIMER);
 
         while (baseMotorsAreBusy()) {
+            opMode.telemetry.addLine("Begin Loop");
+            opMode.telemetry.update();
             //wait until motors havce completed movement or timed out.
             //report motor positions for debugging
 
@@ -198,6 +200,8 @@ public class Robot {
             //fl_position (target for the front left motor in encoder clicks can be taken as the proxy for all motors.
 
             //using fl_power as proxy for all wheel power, the sign is not relevant in this runmode.
+            opMode.telemetry.addLine("Before Formula");
+            opMode.telemetry.update();
 
             float rampedPowerRaw = (float) (fl_Power * (1 - (4 * (Math.pow((0.5f -
                     Math.abs((dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition() * 1.0f) / fl_Position)), 2.0f)))));
@@ -205,6 +209,8 @@ public class Robot {
             //use another variable to check and adjust power limits, so we can display raw power values.
             if (isRampedPower) {
                 rampedPower = rampedPowerRaw;
+                opMode.telemetry.addLine("ramped power after formula");
+                opMode.telemetry.update();
             } else {
                 rampedPower = fl_Power; //as proxy for all power.
             }
@@ -224,9 +230,13 @@ public class Robot {
                 //check for upper and lower limits.
                 if (rampedPower > MOTOR_RAMP_FB_POWER_UPPER_LIMIT) {
                     rampedPower = MOTOR_RAMP_FB_POWER_UPPER_LIMIT;
+                    opMode.telemetry.addLine("the upper limit");
+                    opMode.telemetry.update();
                 }
                 if (rampedPower < MOTOR_RAMP_FB_POWER_LOWER_LIMIT) {
                     rampedPower = MOTOR_RAMP_FB_POWER_LOWER_LIMIT;
+                    opMode.telemetry.addLine("the lower limit");
+                    opMode.telemetry.update();
                 }
             }
 
@@ -239,10 +249,13 @@ public class Robot {
             opMode.telemetry.update();
 
             dcMotors[MOTOR_FRONT_LEFT_WHEEL].setPower(rampedPower * LEFT_MOTOR_TRIM_FACTOR);
+            opMode.telemetry.addLine("Front Left Wheel");
             dcMotors[MOTOR_FRONT_RIGHT_WHEEL].setPower(rampedPower * RIGHT_MOTOR_TRIM_FACTOR);
+            opMode.telemetry.addLine("Front Right Wheel");
             dcMotors[MOTOR_BACK_LEFT_WHEEL].setPower(rampedPower * LEFT_MOTOR_TRIM_FACTOR);
+            opMode.telemetry.addLine("Back Left Wheel");
             dcMotors[MOTOR_BACK_RIGHT_WHEEL].setPower(rampedPower * RIGHT_MOTOR_TRIM_FACTOR);
-            opMode.telemetry.addLine("ramped power");
+            opMode.telemetry.addLine("Back Right Wheel");
             opMode.telemetry.update();
 
             opMode.telemetry.addLine(Integer.toString(getDcMotorPosition(MOTOR_BACK_RIGHT_WHEEL)));
@@ -261,6 +274,7 @@ public class Robot {
         dcMotors[MOTOR_BACK_LEFT_WHEEL].setPower(0);
         dcMotors[MOTOR_BACK_RIGHT_WHEEL].setPower(0);
     }
+
 
     private void prepMotorsForCalcMove(int frontLeftTargetPosition, int frontRightTargetPosition,
                                        int backLeftTargetPosition, int backRightTargetPosition) {
