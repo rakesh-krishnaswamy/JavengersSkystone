@@ -34,7 +34,7 @@ public class TestArm extends LinearOpMode {
 //        distance = autoLib.getDistanceCM();
 //        telemetry.addData("Distance 1", distance);
 //        telemetry.update();
-        autoLib.rampMove(100, 1f, Constants.Direction.FORWARD, true);
+        autoLib.calcMove(100, .3f, Constants.Direction.RIGHT);
 
 //        float armDistance = 10;
 //        distance = autoLib.getDistanceCM();

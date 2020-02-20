@@ -25,6 +25,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.BRAKE_POINT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_BACK_LEFT_WHEEL;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_BACK_RIGHT_WHEEL;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_FRONT_LEFT_WHEEL;
@@ -123,6 +124,12 @@ public class AutoLib {
 
     public void calcMove(float centimeters, float power, Constants.Direction direction) {
         // Calculates target encoder position
+        if (direction == Constants.Direction.RIGHT || direction == Constants.Direction.LEFT) {
+            centimeters = centimeters + 10;
+        } else if (direction == Constants.Direction.FORWARD || direction == Constants.Direction.BACKWARD) {
+            centimeters = centimeters - BRAKE_POINT;
+        }
+
         final int targetPosition = (int) ((((centimeters / (Math.PI * WHEEL_DIAMETER)) *
                 NEVEREST_40_REVOLUTION_ENCODER_COUNT)) * WHEEL_GEAR_RATIO);
 
