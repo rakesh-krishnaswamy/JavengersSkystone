@@ -24,6 +24,7 @@ public class NewBlueSide extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         initialize();
 
+        float fullPower = 1f;
         float fastPower = 0.7f;
         float mediumPower = 0.6f;
         float slowPower = 0.2f;
@@ -31,12 +32,12 @@ public class NewBlueSide extends LinearOpMode {
         double distance = 0;
         float armDistance = 12f;
         float latchingDistance = 3f;
-        float foundationDistance = 2f;
+        float foundationDistance = 5f;  //2
         float defaultMaxDistance = 15f;
 
         // Vuforia
         autoLib.autonArmDown();
-        autoLib.calcMove(55, mediumPower, Constants.Direction.RIGHT);
+        autoLib.calcMove(45, mediumPower, Constants.Direction.RIGHT);
         Constants.Coordinates coordinates = autoLib.readCoordinates();
         distance = autoLib.getDistanceCM();
         telemetry.addData("x", coordinates.xPosition);
@@ -109,17 +110,21 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.addData("y", coordinates.yPosition);
             telemetry.addData("Distance at base initial", distance);
             telemetry.update();
+
+
+            //-------------------------1st--------------------------------
 //            autoLib.calcMove((float) (coordinates.yPosition / 10 - 3), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
-            autoLib.calcMove((float) (-coordinates.xPosition / 10 - 12), slowPower, Constants.Direction.RIGHT);   //when increased-moves back
+            autoLib.calcMove((float) (-coordinates.xPosition / 10 - 23), slowPower, Constants.Direction.RIGHT);   //when increased-moves back
             Thread.sleep(400);
             autoLib.autonGrab();
             Thread.sleep(500);
             autoLib.autonArmUp();
-            Thread.sleep(400);
-//            autoLib.calcTurn(3, slowPower);
-            autoLib.calcMove(10, mediumPower, Constants.Direction.LEFT);    // move back little
+//            Thread.sleep(400);
+            autoLib.calcTurn(3, fullPower);
+            autoLib.calcMove(5, fullPower, Constants.Direction.LEFT);    // move back little
 //            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
-            autoLib.calcMove(205, mediumPower, Constants.Direction.FORWARD);  // move forward towards foundation
+            // autoLib.rampMove(205, fullPower, Constants.Direction.FORWARD, true);  // move forward towards foundation
+            autoLib.calcMove(205, fullPower, Constants.Direction.FORWARD);  // move forward towards foundation
 
             distance = autoLib.getDistanceCM();
             if (distance > defaultMaxDistance) {
@@ -128,7 +133,7 @@ public class NewBlueSide extends LinearOpMode {
             telemetry.addData("Distance at foundation before placing stone 1-a", distance);
             telemetry.update();
             if (distance > foundationDistance) {
-                autoLib.calcMove((float) (distance - foundationDistance), slowPower, Constants.Direction.RIGHT);     //distance - 9
+                autoLib.calcMove((float) (distance - foundationDistance), fullPower, Constants.Direction.RIGHT);     //distance - 9
             }
             telemetry.addData("Distance at foundation before placing stone 1-b", autoLib.getDistanceCM());
             telemetry.update();
@@ -137,37 +142,86 @@ public class NewBlueSide extends LinearOpMode {
             autoLib.autonArmDown();
             Thread.sleep(400);
             autoLib.autonScore();
+            Thread.sleep(200);
 //            autoLib.calcTurn(6, slowPower);
             autoLib.autonArmUp();
-            autoLib.calcTurn(72, slowPower);    // turn, so that foundation grabbers can be used
+            autoLib.autonGrab();
+
+            //--------------------------------------2nd ------------------------------------------------
+
+            autoLib.calcMove(10, fullPower, Constants.Direction.LEFT);
+            autoLib.calcMove(265, fullPower, Constants.Direction.BACKWARD);  // move forward towards foundation
+            autoLib.calcMove(5, 1f, Constants.Direction.RIGHT);
+            autoLib.autonScore();
+            autoLib.autonArmDown();
+            Thread.sleep(300);
+            autoLib.autonGrab();
+            Thread.sleep(300);
+            autoLib.autonArmUp();
+            autoLib.calcMove(200, 1f, Constants.Direction.FORWARD);
+            Thread.sleep(400);
+            autoLib.autonArmDown();
+            Thread.sleep(400);
+            autoLib.autonScore();
+            Thread.sleep(200);
+//            autoLib.calcTurn(6, slowPower);
+            autoLib.autonArmUp();
+            autoLib.autonGrab();
+
+            //-----------------------------------3rd---------------------------------------------------
+
+            autoLib.calcMove(10, fullPower, Constants.Direction.LEFT);
+            autoLib.calcMove(200, fullPower, Constants.Direction.BACKWARD);  // move forward towards foundation
+            autoLib.calcMove(5, 1f, Constants.Direction.RIGHT);
+            autoLib.autonScore();
+            autoLib.autonArmDown();
+            Thread.sleep(300);
+            autoLib.autonGrab();
+            Thread.sleep(300);
+            autoLib.autonArmUp();
 
 
-            distance = autoLib.getFoundationDistance();
+            distance = autoLib.getDistanceCM();
             if (distance > defaultMaxDistance) {
                 distance = defaultMaxDistance;
             }
-            telemetry.addData("Distance at foundation before latching 1-c", distance);
+            telemetry.addData("Distance at foundation before placing stone 1-a", distance);
             telemetry.update();
-//            if (distance > latchingDistance) {
-            autoLib.calcMove((float) distance, verySlowPower, Constants.Direction.BACKWARD);
-//            }
-            telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
+            if (distance > foundationDistance) {
+                autoLib.calcMove((float) (distance - foundationDistance), fullPower, Constants.Direction.RIGHT);     //distance - 9
+            }
+            telemetry.addData("Distance at foundation before placing stone 1-b", autoLib.getDistanceCM());
             telemetry.update();
 
-            //Latch while moving 2 cm
-            autoLib.calcMove(2, verySlowPower, Constants.Direction.BACKWARD);
-            autoLib.latchServoFoundation();
-            Thread.sleep(300);
-//            autoLib.calcTurn(25, fastPower);
-//            autoLib.calcTurn(30, 1f);
-            autoLib.calcMove(85, fastPower, Constants.Direction.FORWARD);  // move closer to foundation-70
-            autoLib.calcTurn(190, 1f);
-            autoLib.autonGrab();
-//            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
-            Thread.sleep(300);
-            autoLib.restServoFoundation();
-            Thread.sleep(300);
-            autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
+//            autoLib.calcTurn(72, fullPower);    // turn, so that foundation grabbers can be used
+//
+//
+//            distance = autoLib.getFoundationDistance();
+//            if (distance > defaultMaxDistance) {
+//                distance = defaultMaxDistance;
+//            }
+//            telemetry.addData("Distance at foundation before latching 1-c", distance);
+//            telemetry.update();
+////            if (distance > latchingDistance) {
+//            autoLib.calcMove((float) distance, verySlowPower, Constants.Direction.BACKWARD);
+////            }
+//            telemetry.addData("Distance at foundation before latching 1-d", autoLib.getFoundationDistance());
+//            telemetry.update();
+//
+//            //Latch while moving 2 cm
+//            autoLib.calcMove(2, verySlowPower, Constants.Direction.BACKWARD);
+//            autoLib.latchServoFoundation();
+//            Thread.sleep(300);
+////            autoLib.calcTurn(25, fastPower);
+////            autoLib.calcTurn(30, 1f);
+//            autoLib.calcMove(85, fullPower, Constants.Direction.FORWARD);  // move closer to foundation-70
+//            autoLib.calcTurn(190, 1f);
+//            autoLib.autonGrab();
+////            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
+//            Thread.sleep(300);
+//            autoLib.restServoFoundation();
+//            Thread.sleep(300);
+//            autoLib.calcMove(80, fullPower, Constants.Direction.FORWARD);
 
         } else {
             telemetry.addData("pos", "Right");

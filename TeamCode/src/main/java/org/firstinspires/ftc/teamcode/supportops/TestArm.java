@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.libraries.Constants;
  * Date Modified: 2/22/2019
  * Author: Poorvi
  * Type: Support
+ *
  * Description: This will test if the robot can actually turn
  */
 
@@ -34,7 +35,7 @@ public class TestArm extends LinearOpMode {
 //        distance = autoLib.getDistanceCM();
 //        telemetry.addData("Distance 1", distance);
 //        telemetry.update();
-        autoLib.calcMove(100, .3f, Constants.Direction.RIGHT);
+        autoLib.diagonalMove(150, 1f, Constants.Direction.FORWARD);
 
 //        float armDistance = 10;
 //        distance = autoLib.getDistanceCM();

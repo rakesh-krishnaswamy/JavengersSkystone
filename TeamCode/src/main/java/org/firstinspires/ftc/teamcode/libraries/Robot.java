@@ -4,12 +4,14 @@ import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorREVColorDistance;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
@@ -67,6 +69,7 @@ public class Robot {
     private Rev2mDistanceSensor frontDistanceSensor;
     private Rev2mDistanceSensor foundationDistanceSensor;
     private TouchSensor foundationTouchSensor;
+//    private SensorREVColorDistance foundationColorDistanceSensor;
 
     private RevTouchSensor[] touchSensors = new RevTouchSensor[1];
 
@@ -115,6 +118,7 @@ public class Robot {
         frontDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "frontDistanceSensor");
         foundationDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "foundationDistanceSensor");
         touchSensors[FOUNDATION_TOUCH_SENSOR] = opMode.hardwareMap.get(RevTouchSensor.class, "foundationTouchSensor");
+//        foundationColorDistanceSensor = opMode.hardwareMap.get(SensorREVColorDistance.class, "foundationColorDistanceSensor");
     }
 
 
@@ -341,6 +345,10 @@ public class Robot {
     double getDistanceCM() {
         return (frontDistanceSensor.getDistance(DistanceUnit.CM));
     }
+
+//    double getColorDistanceCM() {
+//        return (foundationColorDistanceSensor.);
+//    }
 
     double getFoundationDistance() {
         return (foundationDistanceSensor.getDistance(DistanceUnit.CM));

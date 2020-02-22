@@ -171,6 +171,8 @@ public class AutoLib {
         setBaseMotorPowers(0);
     }
 
+
+
     public void rampMove(float distance, float power, Constants.Direction Direction, boolean isRampedPower) throws InterruptedException {
         if (Direction == Constants.Direction.FORWARD) {
             moveRobotToPositionFB(distance * (1f / 1), power, isRampedPower);
@@ -229,11 +231,42 @@ public class AutoLib {
         setBaseMotorPowers(0);
     }
 
+    public void diagonalMove(float centimeters, float power, Constants.Direction direction) {
+        // Calculates target encoder position
+
+        final int targetPosition = (int) ((((centimeters / (Math.PI * WHEEL_DIAMETER)) *
+                NEVEREST_40_REVOLUTION_ENCODER_COUNT)) * WHEEL_GEAR_RATIO);
+
+        switch (direction) {
+            case BACKWARD:
+                prepMotorsForDiagonalMove(-targetPosition, -targetPosition);
+                break;
+            case FORWARD:
+                prepMotorsForDiagonalMove(targetPosition, targetPosition);
+                break;
+        }
+
+        setBaseMotorPowersDiagonal(power);
+
+
+        while (areBaseMotorsBusyDiagonal()) {
+            opMode.idle();
+        }
+
+        setBaseMotorPowersDiagonal(0);
+    }
+
+
     private void setBaseMotorPowers(float power) {
         robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, power);
         robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, power);
         robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, power);
         robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, power);
+    }
+
+    private void setBaseMotorPowersDiagonal(float power) {
+        robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, power);
+        robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, power);
     }
 
     private void prepMotorsForCalcMove(int frontLeftTargetPosition, int frontRightTargetPosition,
@@ -255,9 +288,25 @@ public class AutoLib {
         robot.setDcMotorMode(MOTOR_BACK_RIGHT_WHEEL, RUN_TO_POSITION);
     }
 
+    private void prepMotorsForDiagonalMove(int frontRightTargetPosition, int backLeftTargetPosition) {
+
+        robot.setDcMotorTargetPosition(MOTOR_FRONT_RIGHT_WHEEL, frontRightTargetPosition);
+        robot.setDcMotorTargetPosition(MOTOR_BACK_LEFT_WHEEL, backLeftTargetPosition);
+
+        robot.setDcMotorMode(MOTOR_FRONT_RIGHT_WHEEL, STOP_AND_RESET_ENCODER);
+        robot.setDcMotorMode(MOTOR_BACK_LEFT_WHEEL, STOP_AND_RESET_ENCODER);
+
+        robot.setDcMotorMode(MOTOR_FRONT_RIGHT_WHEEL, RUN_TO_POSITION);
+        robot.setDcMotorMode(MOTOR_BACK_LEFT_WHEEL, RUN_TO_POSITION);
+    }
+
     private boolean areBaseMotorsBusy() {
         return robot.isMotorBusy(MOTOR_FRONT_LEFT_WHEEL) || robot.isMotorBusy(MOTOR_FRONT_RIGHT_WHEEL) ||
                 robot.isMotorBusy(MOTOR_BACK_LEFT_WHEEL) || robot.isMotorBusy(MOTOR_BACK_RIGHT_WHEEL);
+    }
+
+    private boolean areBaseMotorsBusyDiagonal() {
+        return robot.isMotorBusy(MOTOR_FRONT_RIGHT_WHEEL) || robot.isMotorBusy(MOTOR_BACK_LEFT_WHEEL);
     }
 
 
@@ -290,15 +339,15 @@ public class AutoLib {
 //        }
 //    }
 
-    public void distanceSensorMove() {
-        while (robot.getDistanceCM() >= 15) {
-            robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, .2f);
-            robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, .2f);
-            robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, .2f);
-            robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, .2f);
-        }
-        opMode.idle();
-    }
+//    public void distanceSensorMove() {
+//        while (robot.getDistanceCM() >= 15) {
+//            robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, .2f);
+//            robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, .2f);
+//            robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, .2f);
+//            robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, .2f);
+//        }
+//        opMode.idle();
+//    }
 
     public boolean isFoundationTouchSensorPressed() {
         return robot.isFoundationTouchSensorPressed();
@@ -396,14 +445,33 @@ public class AutoLib {
 
     public void autonArmDown() {
         robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_DOWN_ARM);
+        while (true) {
+            if (robot.getServoPosition(SERVO_AUTONOMOUS_ARM) == SERVO_AUTONOMOUS_DOWN_ARM) {
+                break;
+            }
+
+        }
     }
 
     public void autonArmUp() {
         robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
+//        while (true){
+//            if(robot.getServoPosition(SERVO_AUTONOMOUS_ARM) ==SERVO_AUTONOMOUS_UP_ARM) {
+//                break;
+//            }
+//
+//        }
+
     }
 
     public void autonGrab() {
         robot.setServoPosition(SERVO_AUTONOMOUS_GRABBER, SERVO_AUTONOMOUS_GRABBER_GRAB);
+//        while (true){
+//            if(robot.getServoPosition(SERVO_AUTONOMOUS_GRABBER) ==SERVO_AUTONOMOUS_GRABBER_GRAB) {
+//                break;
+//            }
+//
+//        }
     }
 
     public void autonScore() {

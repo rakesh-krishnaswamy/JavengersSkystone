@@ -14,6 +14,7 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_LEFT_INTA
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_TAPE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_DOWN_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_UP_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE_DROP;
@@ -80,22 +81,36 @@ public class TeleLib {
         robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX));
         robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX));
 
-        float powerFactor = 1;
+//        float powerFactor = 1;
+//        boolean isDPadPressed = true;
+//
+//        if (opMode.gamepad1.dpad_up && isDPadPressed) {
+//            powerFactor = 3;
+//            robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX) / powerFactor);
+//            robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX) / powerFactor);
+//            robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX) / powerFactor);
+//            robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX) / powerFactor);
+//        }
+//
+//        if (opMode.gamepad1.dpad_down && isDPadPressed) {
+//            robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX));
+//            robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX));
+//            robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX));
+//            robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX));
+//        }
+    }
+
+    public void processAutonomousArm() {
         boolean isDPadPressed = true;
 
-        if (opMode.gamepad1.dpad_up && isDPadPressed) {
-            powerFactor = 3;
-            robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX) / powerFactor);
-            robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX) / powerFactor);
-            robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX) / powerFactor);
-            robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX) / powerFactor);
-        }
-
         if (opMode.gamepad1.dpad_down && isDPadPressed) {
-            robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX));
-            robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX));
-            robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX));
-            robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX));
+            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_DOWN_ARM);
+        } else if (opMode.gamepad1.dpad_up && isDPadPressed) {
+            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
+        } else if (opMode.gamepad1.dpad_left && isDPadPressed) {
+            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_GRABBER_REST);
+        } else if (opMode.gamepad1.dpad_right && isDPadPressed) {
+            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_GRABBER_GRAB);
         }
     }
 
