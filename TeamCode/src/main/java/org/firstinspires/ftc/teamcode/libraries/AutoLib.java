@@ -172,7 +172,6 @@ public class AutoLib {
     }
 
 
-
     public void rampMove(float distance, float power, Constants.Direction Direction, boolean isRampedPower) throws InterruptedException {
         if (Direction == Constants.Direction.FORWARD) {
             moveRobotToPositionFB(distance * (1f / 1), power, isRampedPower);
@@ -231,25 +230,24 @@ public class AutoLib {
         setBaseMotorPowers(0);
     }
 
-    public void diagonalMove(float centimeters, float power, Constants.Direction direction) {
+    public void diagonalMove(float centimeters, float power, Constants.Direction direction, boolean frontLefCross) {
         // Calculates target encoder position
-
         final int targetPosition = (int) ((((centimeters / (Math.PI * WHEEL_DIAMETER)) *
                 NEVEREST_40_REVOLUTION_ENCODER_COUNT)) * WHEEL_GEAR_RATIO);
 
         switch (direction) {
             case BACKWARD:
-                prepMotorsForDiagonalMove(-targetPosition, -targetPosition);
+                prepMotorsForDiagonalMove(-targetPosition, -targetPosition, frontLefCross);
                 break;
             case FORWARD:
-                prepMotorsForDiagonalMove(targetPosition, targetPosition);
+                prepMotorsForDiagonalMove(targetPosition, targetPosition, frontLefCross);
                 break;
         }
 
         setBaseMotorPowersDiagonal(power);
 
 
-        while (areBaseMotorsBusyDiagonal()) {
+        while (areBaseMotorsBusyDiagonal(frontLefCross)) {
             opMode.idle();
         }
 
@@ -288,16 +286,27 @@ public class AutoLib {
         robot.setDcMotorMode(MOTOR_BACK_RIGHT_WHEEL, RUN_TO_POSITION);
     }
 
-    private void prepMotorsForDiagonalMove(int frontRightTargetPosition, int backLeftTargetPosition) {
+    private void prepMotorsForDiagonalMove(int frontRightTargetPosition, int backLeftTargetPosition, boolean frontLeftCross) {
 
-        robot.setDcMotorTargetPosition(MOTOR_FRONT_RIGHT_WHEEL, frontRightTargetPosition);
-        robot.setDcMotorTargetPosition(MOTOR_BACK_LEFT_WHEEL, backLeftTargetPosition);
+        if (frontLeftCross) {
+            robot.setDcMotorTargetPosition(MOTOR_FRONT_RIGHT_WHEEL, frontRightTargetPosition);
+            robot.setDcMotorTargetPosition(MOTOR_BACK_LEFT_WHEEL, backLeftTargetPosition);
 
-        robot.setDcMotorMode(MOTOR_FRONT_RIGHT_WHEEL, STOP_AND_RESET_ENCODER);
-        robot.setDcMotorMode(MOTOR_BACK_LEFT_WHEEL, STOP_AND_RESET_ENCODER);
+            robot.setDcMotorMode(MOTOR_FRONT_RIGHT_WHEEL, STOP_AND_RESET_ENCODER);
+            robot.setDcMotorMode(MOTOR_BACK_LEFT_WHEEL, STOP_AND_RESET_ENCODER);
 
-        robot.setDcMotorMode(MOTOR_FRONT_RIGHT_WHEEL, RUN_TO_POSITION);
-        robot.setDcMotorMode(MOTOR_BACK_LEFT_WHEEL, RUN_TO_POSITION);
+            robot.setDcMotorMode(MOTOR_FRONT_RIGHT_WHEEL, RUN_TO_POSITION);
+            robot.setDcMotorMode(MOTOR_BACK_LEFT_WHEEL, RUN_TO_POSITION);
+        } else {
+            robot.setDcMotorTargetPosition(MOTOR_FRONT_LEFT_WHEEL, frontRightTargetPosition);
+            robot.setDcMotorTargetPosition(MOTOR_BACK_RIGHT_WHEEL, backLeftTargetPosition);
+
+            robot.setDcMotorMode(MOTOR_FRONT_LEFT_WHEEL, STOP_AND_RESET_ENCODER);
+            robot.setDcMotorMode(MOTOR_BACK_RIGHT_WHEEL, STOP_AND_RESET_ENCODER);
+
+            robot.setDcMotorMode(MOTOR_FRONT_LEFT_WHEEL, RUN_TO_POSITION);
+            robot.setDcMotorMode(MOTOR_BACK_RIGHT_WHEEL, RUN_TO_POSITION);
+        }
     }
 
     private boolean areBaseMotorsBusy() {
@@ -305,8 +314,13 @@ public class AutoLib {
                 robot.isMotorBusy(MOTOR_BACK_LEFT_WHEEL) || robot.isMotorBusy(MOTOR_BACK_RIGHT_WHEEL);
     }
 
-    private boolean areBaseMotorsBusyDiagonal() {
-        return robot.isMotorBusy(MOTOR_FRONT_RIGHT_WHEEL) || robot.isMotorBusy(MOTOR_BACK_LEFT_WHEEL);
+    private boolean areBaseMotorsBusyDiagonal(boolean frontLeftCross) {
+        if (frontLeftCross) {
+            return robot.isMotorBusy(MOTOR_FRONT_RIGHT_WHEEL) || robot.isMotorBusy(MOTOR_BACK_LEFT_WHEEL);
+        } else {
+            return robot.isMotorBusy(MOTOR_FRONT_LEFT_WHEEL) || robot.isMotorBusy(MOTOR_BACK_RIGHT_WHEEL);
+
+        }
     }
 
 

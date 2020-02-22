@@ -33,6 +33,7 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_A
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_EXTEND;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_RETRACT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_REST;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_STOP;
 
 /*
@@ -100,17 +101,14 @@ public class TeleLib {
 //        }
     }
 
-    public void processAutonomousArm() {
+    public void processDropCapstone() {
         boolean isDPadPressed = true;
 
         if (opMode.gamepad1.dpad_down && isDPadPressed) {
-            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_DOWN_ARM);
-        } else if (opMode.gamepad1.dpad_up && isDPadPressed) {
-            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
-        } else if (opMode.gamepad1.dpad_left && isDPadPressed) {
-            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_GRABBER_REST);
-        } else if (opMode.gamepad1.dpad_right && isDPadPressed) {
-            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_GRABBER_GRAB);
+            robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_DROP);
+        }
+        if (opMode.gamepad1.dpad_up && isDPadPressed) {
+            robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_HOLD);
         }
     }
 
@@ -188,14 +186,18 @@ public class TeleLib {
         }
     }
 
-    public void processDropCapstone() {
-        boolean isDPadPressed = true;
+    public void processAutonomousArm() {
 
-        if (opMode.gamepad2.dpad_down && isDPadPressed) {
-            robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_DROP);
-        }
-        if (opMode.gamepad2.dpad_up && isDPadPressed) {
-            robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_HOLD);
+        if (opMode.gamepad2.dpad_down) {
+            robot.setServoPosition(SERVO_STOPPER,SERVO_STOPPER_REST);
+            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_DOWN_ARM);
+        } else if (opMode.gamepad2.dpad_up) {
+            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
+            robot.setServoPosition(SERVO_STOPPER,SERVO_STOPPER_STOP);
+        } else if (opMode.gamepad2.dpad_left) {
+            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_GRABBER_REST);
+        } else if (opMode.gamepad2.dpad_right) {
+            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_GRABBER_GRAB);
         }
     }
 
