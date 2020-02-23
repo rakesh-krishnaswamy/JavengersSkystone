@@ -14,6 +14,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.mainops.DetectionPipeline;
+import org.opencv.core.Point;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,19 +72,31 @@ public class AutoLib {
     private List<VuforiaTrackable> allTrackables;
     private VuforiaLocalizer.Parameters parameters;
     private VuforiaTrackables targetsSkyStone;
+    private DetectionPipeline pipeline;
 
 
     // Declaring TensorFlow detection
     private TFObjectDetector tfod;
 
     //
+    public AutoLib(LinearOpMode opMode, Point[] points) {
+        robot = new Robot(opMode);
+        this.opMode = opMode;
+        OpMode aOpMode;
+        pipeline = new DetectionPipeline(points);
+
+        //initVuforia();
+        initOpenCv();
+    }
+
     public AutoLib(LinearOpMode opMode) {
         robot = new Robot(opMode);
         this.opMode = opMode;
         OpMode aOpMode;
+        pipeline = new DetectionPipeline(new Point[]{});
 
-
-        initVuforia();
+        //initVuforia();
+        initOpenCv();
     }
 
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -113,6 +130,7 @@ public class AutoLib {
 
 
     WebcamName webcamName = null;
+    OpenCvCamera cvCamera;
 
     private boolean targetVisible = false;
     private float phoneXRotate = 0;
@@ -125,7 +143,7 @@ public class AutoLib {
     public void calcMove(float centimeters, float power, Constants.Direction direction) {
         // Calculates target encoder position
         if (direction == Constants.Direction.RIGHT || direction == Constants.Direction.LEFT) {
-            centimeters = centimeters + 10;
+            centimeters = (float) (centimeters *  Math.sqrt(2));
         } else if (direction == Constants.Direction.FORWARD || direction == Constants.Direction.BACKWARD) {
             centimeters = centimeters - BRAKE_POINT;
         }
@@ -265,6 +283,9 @@ public class AutoLib {
     private void setBaseMotorPowersDiagonal(float power) {
         robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, power);
         robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, power);
+        robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL,0);
+        robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL,0);
+
     }
 
     private void prepMotorsForCalcMove(int frontLeftTargetPosition, int frontRightTargetPosition,
@@ -459,12 +480,6 @@ public class AutoLib {
 
     public void autonArmDown() {
         robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_DOWN_ARM);
-        while (true) {
-            if (robot.getServoPosition(SERVO_AUTONOMOUS_ARM) == SERVO_AUTONOMOUS_DOWN_ARM) {
-                break;
-            }
-
-        }
     }
 
     public void autonArmUp() {
@@ -595,6 +610,15 @@ public class AutoLib {
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
     }
 
+    private void initOpenCv(){
+        int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
+        cvCamera = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        cvCamera.openCameraDevice();
+        cvCamera.setPipeline(pipeline);
+        cvCamera.startStreaming(640, 480, OpenCvCameraRotation.SIDEWAYS_RIGHT);
+
+    }
+
     public Constants.Coordinates readCoordinates() {
         double xPosition = 0;
         double yPosition = 0;
@@ -668,6 +692,10 @@ public class AutoLib {
 
     public double getFoundationDistance() {
         return robot.getFoundationDistance();
+    }
+
+    public DetectionPipeline getPipeline() {
+        return pipeline;
     }
 
 }

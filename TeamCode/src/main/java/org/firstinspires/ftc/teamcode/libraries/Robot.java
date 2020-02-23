@@ -4,14 +4,13 @@ import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.SensorREVColorDistance;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
@@ -93,6 +92,11 @@ public class Robot {
         dcMotors[MOTOR_LEFT_INTAKE] = opMode.hardwareMap.get(DcMotor.class, "leftIntake");
         dcMotors[MOTOR_ARM] = opMode.hardwareMap.get(DcMotor.class, "motorArm");
         dcMotors[MOTOR_TAPE] = opMode.hardwareMap.get(DcMotor.class, "motorTape");
+
+        dcMotors[MOTOR_FRONT_LEFT_WHEEL].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        dcMotors[MOTOR_FRONT_RIGHT_WHEEL].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        dcMotors[MOTOR_BACK_LEFT_WHEEL].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        dcMotors[MOTOR_BACK_RIGHT_WHEEL].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         dcMotors[MOTOR_FRONT_RIGHT_WHEEL].setDirection(DcMotorSimple.Direction.REVERSE);
@@ -189,9 +193,9 @@ public class Robot {
 
 //        aOpMode.reset_timer_array(GENERIC_TIMER);
 
+        float position = dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition();
         while (baseMotorsAreBusy()) {
             opMode.telemetry.addLine("Begin Loop");
-            opMode.telemetry.update();
             //wait until motors havce completed movement or timed out.
             //report motor positions for debugging
 
@@ -206,15 +210,18 @@ public class Robot {
             //using fl_power as proxy for all wheel power, the sign is not relevant in this runmode.
             opMode.telemetry.addLine("Before Formula");
             opMode.telemetry.update();
-
-            float rampedPowerRaw = (float) (fl_Power * (1 - (4 * (Math.pow((0.5f -
-                    Math.abs((dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition() * 1.0f) / fl_Position)), 2.0f)))));
+            float d = dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition() - position;
+            opMode.telemetry.addData("d", d);
+            opMode.telemetry.addData("fl pos", fl_Position);
+            /*float rampedPowerRaw = (float) (fl_Power * (1 - (4 * (Math.pow((0.5f -
+                    Math.abs((dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition() * 1.0f) / fl_Position)), 2.0f)))));*/
+            float rampedPowerRaw = -4.0f / fl_Position / fl_Position * (Math.abs(d) * Math.abs(d) - (float)fl_Position * Math.abs(d));
+            opMode.telemetry.addData("power", rampedPowerRaw);
 
             //use another variable to check and adjust power limits, so we can display raw power values.
             if (isRampedPower) {
                 rampedPower = rampedPowerRaw;
                 opMode.telemetry.addLine("ramped power after formula");
-                opMode.telemetry.update();
             } else {
                 rampedPower = fl_Power; //as proxy for all power.
             }
@@ -235,12 +242,10 @@ public class Robot {
                 if (rampedPower > MOTOR_RAMP_FB_POWER_UPPER_LIMIT) {
                     rampedPower = MOTOR_RAMP_FB_POWER_UPPER_LIMIT;
                     opMode.telemetry.addLine("the upper limit");
-                    opMode.telemetry.update();
                 }
                 if (rampedPower < MOTOR_RAMP_FB_POWER_LOWER_LIMIT) {
                     rampedPower = MOTOR_RAMP_FB_POWER_LOWER_LIMIT;
                     opMode.telemetry.addLine("the lower limit");
-                    opMode.telemetry.update();
                 }
             }
 
@@ -250,7 +255,6 @@ public class Robot {
             //in this runmode, the power does not control direction but the sign of the target position does.
 
             opMode.telemetry.addLine("before ramped power");
-            opMode.telemetry.update();
 
             dcMotors[MOTOR_FRONT_LEFT_WHEEL].setPower(rampedPower * LEFT_MOTOR_TRIM_FACTOR);
             opMode.telemetry.addLine("Front Left Wheel");
@@ -260,7 +264,6 @@ public class Robot {
             opMode.telemetry.addLine("Back Left Wheel");
             dcMotors[MOTOR_BACK_RIGHT_WHEEL].setPower(rampedPower * RIGHT_MOTOR_TRIM_FACTOR);
             opMode.telemetry.addLine("Back Right Wheel");
-            opMode.telemetry.update();
 
             opMode.telemetry.addLine(Integer.toString(getDcMotorPosition(MOTOR_BACK_RIGHT_WHEEL)));
             opMode.telemetry.addLine(Integer.toString(getDcMotorPosition(MOTOR_BACK_LEFT_WHEEL)));

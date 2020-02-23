@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.libraries.AutoLib;
 import org.firstinspires.ftc.teamcode.libraries.Constants;
+import org.opencv.core.Point;
 
 /*
  * Title: CalcTurn Test
@@ -35,7 +36,9 @@ public class TestArm extends LinearOpMode {
 //        distance = autoLib.getDistanceCM();
 //        telemetry.addData("Distance 1", distance);
 //        telemetry.update();
-        autoLib.diagonalMove(150, 1f, Constants.Direction.FORWARD, true);
+
+//        autoLib.rampMove(250, 1f, Constants.Direction.FORWARD, true);
+        autoLib.diagonalMove(50,.1f, Constants.Direction.FORWARD,true);
 
 //        float armDistance = 10;
 //        distance = autoLib.getDistanceCM();
@@ -63,11 +66,12 @@ public class TestArm extends LinearOpMode {
         telemetry.addData("Status", "Initializing...");
         telemetry.update();
 
-        autoLib = new AutoLib(this);
-
-        telemetry.addData("Status", "Ready");
+        autoLib = new AutoLib(this, new Point[]{new Point(192, 404), new Point(264, 429), new Point(192, 232), new Point(264, 260)});
         telemetry.update();
-        waitForStart();
+        while (!isStarted()){
+            telemetry.addData("position", autoLib.getPipeline().getDetectedPosition());
+            telemetry.update();
+        }
 
         telemetry.addData("Status", "Running");
         telemetry.update();

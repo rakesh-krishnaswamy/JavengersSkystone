@@ -38,7 +38,7 @@ public class Constants {
 
 
     //********** Ramp *********************//
-    final static float MOTOR_RAMP_FB_POWER_LOWER_LIMIT = 0.45f;  //.3
+    final static float MOTOR_RAMP_FB_POWER_LOWER_LIMIT = 0.2f;  //.3
     final static float MOTOR_RAMP_FB_POWER_UPPER_LIMIT = 1f; //.78
     final static float MOTOR_RAMP_SIDEWAYS_POWER_LOWER_LIMIT = 0.1f;    //.6
     final static float MOTOR_RAMP_SIDEWAYS_POWER_UPPER_LIMIT = 1f;   //.78

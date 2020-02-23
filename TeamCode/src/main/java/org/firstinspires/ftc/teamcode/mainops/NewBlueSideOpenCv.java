@@ -16,15 +16,14 @@ import org.opencv.core.Point;
  * Type: Main
  */
 
-@Autonomous(name = "New Blue Side", group = "Concept")
-public class NewBlueSide extends LinearOpMode {
+@Autonomous(name = "NewBlueSideOpenCv", group = "Concept")
+public class NewBlueSideOpenCv extends LinearOpMode {
     private AutoLib autoLib;
     // Description: Starts on blue crater latcher
 
     @Override
     public void runOpMode() throws InterruptedException {
         initialize();
-
         float fullPower = 1f;
         float fastPower = 0.7f;
         float mediumPower = 0.6f;
@@ -39,26 +38,22 @@ public class NewBlueSide extends LinearOpMode {
         // Vuforia
         autoLib.autonArmDown();
         autoLib.calcMove(45, mediumPower, Constants.Direction.RIGHT);
-        Constants.Coordinates coordinates = autoLib.readCoordinates();
+//        Constants.Coordinates coordinates = autoLib.readCoordinates();
+//        autoLib.getPipeline().getDetectedPosition();
         distance = autoLib.getDistanceCM();
-        telemetry.addData("x", coordinates.xPosition);
-        telemetry.addData("y", coordinates.yPosition);
-        telemetry.addData("Distance at base initial", distance);
-        telemetry.update();
-        if (coordinates.yPosition < 0) {
+        if (autoLib.getPipeline().getDetectedPosition() == 1) {
             telemetry.addData("pos", "Left");
             telemetry.update();
-            autoLib.calcMove((float) (coordinates.yPosition / 10 + 35), slowPower, Constants.Direction.FORWARD); //when decreased- moves to the left
-            autoLib.calcMove((float) (-coordinates.xPosition / 10 - 12), slowPower, Constants.Direction.RIGHT);   //when decreased-moves back
-            Thread.sleep(400);
+
+            Thread.sleep(200);  //400
             autoLib.autonGrab();
-            Thread.sleep(500);
+            Thread.sleep(200);  //500
             autoLib.autonArmUp();
-            Thread.sleep(400);
+//            Thread.sleep(400);
 //            autoLib.calcTurn(3, slowPower);
             autoLib.calcMove(10, mediumPower, Constants.Direction.LEFT);    // move back little
 //            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
-            autoLib.calcMove(185, mediumPower, Constants.Direction.FORWARD);  // move forward towards foundation
+            autoLib.rampMove(185, fullPower, Constants.Direction.FORWARD, true);  // move forward towards foundation
 
             distance = autoLib.getDistanceCM();
             if (distance > defaultMaxDistance) {
@@ -105,27 +100,21 @@ public class NewBlueSide extends LinearOpMode {
             Thread.sleep(300);
             autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
 
-        } else if (coordinates.yPosition > 0) {
-            telemetry.addData("pos", "Center");
-            telemetry.addData("x", coordinates.xPosition);
-            telemetry.addData("y", coordinates.yPosition);
-            telemetry.addData("Distance at base initial", distance);
-            telemetry.update();
+        } else if (autoLib.getPipeline().getDetectedPosition() == 0) {
 
 
             //-------------------------1st--------------------------------
 //            autoLib.calcMove((float) (coordinates.yPosition / 10 - 3), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
-            autoLib.calcMove((float) (-coordinates.xPosition / 10 - 23), slowPower, Constants.Direction.RIGHT);   //when increased-moves back
-            Thread.sleep(400);
+            Thread.sleep(200);  //400
             autoLib.autonGrab();
-            Thread.sleep(500);
+            Thread.sleep(200);  //500
             autoLib.autonArmUp();
 //            Thread.sleep(400);
             autoLib.calcTurn(3, fullPower);
             autoLib.calcMove(5, fullPower, Constants.Direction.LEFT);    // move back little
 //            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
-            // autoLib.rampMove(205, fullPower, Constants.Direction.FORWARD, true);  // move forward towards foundation
-            autoLib.calcMove(205, fullPower, Constants.Direction.FORWARD);  // move forward towards foundation
+             autoLib.rampMove(205, fullPower, Constants.Direction.FORWARD, true);  // move forward towards foundation
+//            autoLib.calcMove(205, fullPower, Constants.Direction.FORWARD);  // move forward towards foundation
 
             distance = autoLib.getDistanceCM();
             if (distance > defaultMaxDistance) {
@@ -224,14 +213,7 @@ public class NewBlueSide extends LinearOpMode {
 //            Thread.sleep(300);
 //            autoLib.calcMove(80, fullPower, Constants.Direction.FORWARD);
 
-        } else {
-            telemetry.addData("pos", "Right");
-            telemetry.addData("x", coordinates.xPosition);
-            telemetry.addData("y", coordinates.yPosition);
-            telemetry.addData("Distance at base initial", distance);
-            telemetry.update();
-            autoLib.calcMove((float) (coordinates.yPosition / 10 - 12), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
-            autoLib.calcMove((float) 20, slowPower, Constants.Direction.RIGHT);   //x and y comes as (0,0); we need to move the distance forward
+        } else if (autoLib.getPipeline().getDetectedPosition() == 2) {
             Thread.sleep(400);
             autoLib.autonGrab();
             Thread.sleep(500);
@@ -295,7 +277,7 @@ public class NewBlueSide extends LinearOpMode {
         telemetry.addData("Status", "Initializing...");
         telemetry.update();
 
-        autoLib = new AutoLib(this, new Point[]{});
+        autoLib = new AutoLib(this, new Point[]{new Point(190, 156), new Point(272, 191), new Point(190, 326), new Point(272, 354)});
 
         autoLib.restServoFoundation();
 
