@@ -143,7 +143,8 @@ public class AutoLib {
     public void calcMove(float centimeters, float power, Constants.Direction direction) {
         // Calculates target encoder position
         if (direction == Constants.Direction.RIGHT || direction == Constants.Direction.LEFT) {
-            centimeters = (float) (centimeters *  Math.sqrt(2));
+//            centimeters = (float) (centimeters *  Math.sqrt(2));
+            centimeters = (centimeters + 10);
         } else if (direction == Constants.Direction.FORWARD || direction == Constants.Direction.BACKWARD) {
             centimeters = centimeters - BRAKE_POINT;
         }
@@ -283,8 +284,8 @@ public class AutoLib {
     private void setBaseMotorPowersDiagonal(float power) {
         robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, power);
         robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, power);
-        robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL,0);
-        robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL,0);
+        robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, 0);
+        robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, 0);
 
     }
 
@@ -610,7 +611,7 @@ public class AutoLib {
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
     }
 
-    private void initOpenCv(){
+    private void initOpenCv() {
         int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
         cvCamera = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         cvCamera.openCameraDevice();

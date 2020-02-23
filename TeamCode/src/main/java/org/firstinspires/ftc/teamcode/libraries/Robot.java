@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
@@ -130,7 +129,7 @@ public class Robot {
 
     public boolean baseMotorsAreBusy() {
         return (dcMotors[MOTOR_FRONT_LEFT_WHEEL].isBusy() || dcMotors[MOTOR_BACK_RIGHT_WHEEL].isBusy() ||
-                dcMotors[MOTOR_BACK_LEFT_WHEEL].isBusy() || dcMotors[MOTOR_BACK_RIGHT_WHEEL].isBusy());
+                dcMotors[MOTOR_BACK_LEFT_WHEEL].isBusy() || dcMotors[MOTOR_FRONT_RIGHT_WHEEL].isBusy());
     }
 
     public void setPower(int motorName, float power)
@@ -213,9 +212,10 @@ public class Robot {
             float d = dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition() - position;
             opMode.telemetry.addData("d", d);
             opMode.telemetry.addData("fl pos", fl_Position);
-            /*float rampedPowerRaw = (float) (fl_Power * (1 - (4 * (Math.pow((0.5f -
-                    Math.abs((dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition() * 1.0f) / fl_Position)), 2.0f)))));*/
-            float rampedPowerRaw = -4.0f / fl_Position / fl_Position * (Math.abs(d) * Math.abs(d) - (float)fl_Position * Math.abs(d));
+//            float rampedPowerRaw = (float) (fl_Power * (1 - (4 * (Math.pow((0.5f -
+//                    Math.abs((dcMotors[MOTOR_FRONT_LEFT_WHEEL].getCurrentPosition() * 1.0f) / fl_Position)), 2.0f)))));
+//            float rampedPowerRaw = -4.0f / fl_Position / fl_Position * (Math.abs(d) * Math.abs(d) - (float)fl_Position * Math.abs(d));
+            float rampedPowerRaw = -4.0f / Math.abs(fl_Position) / Math.abs(fl_Position) * (Math.abs(d) * Math.abs(d) - (float) Math.abs(fl_Position) * Math.abs(d));
             opMode.telemetry.addData("power", rampedPowerRaw);
 
             //use another variable to check and adjust power limits, so we can display raw power values.

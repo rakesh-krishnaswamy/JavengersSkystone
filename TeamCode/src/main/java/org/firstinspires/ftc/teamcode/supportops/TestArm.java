@@ -38,7 +38,10 @@ public class TestArm extends LinearOpMode {
 //        telemetry.update();
 
 //        autoLib.rampMove(250, 1f, Constants.Direction.FORWARD, true);
-        autoLib.diagonalMove(50,.1f, Constants.Direction.FORWARD,true);
+        autoLib.rampMove(100, 1f, Constants.Direction.BACKWARD, true);
+        autoLib.rampMove(100, 1f, Constants.Direction.FORWARD, true);
+        autoLib.rampMove(100, 1f, Constants.Direction.RIGHT, true);
+        autoLib.rampMove(100, 1f, Constants.Direction.LEFT, true);
 
 //        float armDistance = 10;
 //        distance = autoLib.getDistanceCM();
@@ -68,7 +71,7 @@ public class TestArm extends LinearOpMode {
 
         autoLib = new AutoLib(this, new Point[]{new Point(192, 404), new Point(264, 429), new Point(192, 232), new Point(264, 260)});
         telemetry.update();
-        while (!isStarted()){
+        while (!isStarted()) {
             telemetry.addData("position", autoLib.getPipeline().getDetectedPosition());
             telemetry.update();
         }
