@@ -41,6 +41,9 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.NEVEREST_40_REV
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_DOWN_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER_FRONT;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER_FRONT_GRAB;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER_FRONT_SCORE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER_GRAB;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER_SCORE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_UP_ARM;
@@ -50,6 +53,10 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATIO
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_GRAB2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_REST1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_REST2;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_REST;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_STOP;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.TRACK_DISTANCE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.VUFORIA_KEY;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.VUFORIA_READING_TIME;
@@ -390,9 +397,15 @@ public class AutoLib {
     }
 
     public void moveUntilSensorTouched(int index, float power) {
+        opMode.telemetry.addData("isTouchSensorPressed before", robot.isFoundationTouchSensorPressed());
+        opMode.telemetry.update();
         while (!robot.isTouchSensorPressed(index)) {
+            opMode.telemetry.addData("isTouchSensorPressed inside", robot.isFoundationTouchSensorPressed());
+            opMode.telemetry.update();
             moveBackward(power);
         }
+        opMode.telemetry.addData("isTouchSensorPressed after", robot.isFoundationTouchSensorPressed());
+        opMode.telemetry.update();
         setBaseMotorPowers(0);
     }
 
@@ -479,33 +492,46 @@ public class AutoLib {
         robot.setServoPosition(SERVO_FOUNDATION2, SERVO_FOUNDATION_REST2);
     }
 
-    public void autonArmDown() {
+    public void autonArmDown() throws InterruptedException {
+        robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_REST);
+        Thread.sleep(450);
         robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_DOWN_ARM);
     }
 
-    public void autonArmUp() {
+    public void autonArmUp() throws InterruptedException {
         robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
-//        while (true){
-//            if(robot.getServoPosition(SERVO_AUTONOMOUS_ARM) ==SERVO_AUTONOMOUS_UP_ARM) {
-//                break;
-//            }
-//
-//        }
+        Thread.sleep(450);
+        robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_STOP);
 
+
+    }
+
+    public void armUpLock() throws InterruptedException {
+        robot.setServoPosition(SERVO_SCORING_ARM, SERVO_AUTONOMOUS_UP_ARM);
+        Thread.sleep(400);
+        robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_STOP);
+    }
+
+    public void armDownUnlock() throws InterruptedException {
+        robot.setServoPosition(SERVO_SCORING_ARM, SERVO_AUTONOMOUS_DOWN_ARM);
+        Thread.sleep(400);
+        robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_REST);
     }
 
     public void autonGrab() {
         robot.setServoPosition(SERVO_AUTONOMOUS_GRABBER, SERVO_AUTONOMOUS_GRABBER_GRAB);
-//        while (true){
-//            if(robot.getServoPosition(SERVO_AUTONOMOUS_GRABBER) ==SERVO_AUTONOMOUS_GRABBER_GRAB) {
-//                break;
-//            }
-//
-//        }
     }
 
     public void autonScore() {
         robot.setServoPosition(SERVO_AUTONOMOUS_GRABBER, SERVO_AUTONOMOUS_GRABBER_SCORE);
+    }
+
+    public void autonGrabFront() {
+        robot.setServoPosition(SERVO_AUTONOMOUS_GRABBER_FRONT, SERVO_AUTONOMOUS_GRABBER_FRONT_GRAB);
+    }
+
+    public void autonScoreFront() {
+        robot.setServoPosition(SERVO_AUTONOMOUS_GRABBER_FRONT, SERVO_AUTONOMOUS_GRABBER_FRONT_SCORE);
     }
 
     //********** Vuforia Methods **********//

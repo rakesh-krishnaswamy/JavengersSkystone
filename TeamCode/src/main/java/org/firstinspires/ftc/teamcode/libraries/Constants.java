@@ -35,10 +35,11 @@ public class Constants {
     static final int SERVO_AUTONOMOUS_ARM = 6;
     static final int SERVO_INTAKE = 7;
     static final int SERVO_STOPPER = 8;
+    static final int SERVO_AUTONOMOUS_GRABBER_FRONT = 9;
 
 
     //********** Ramp *********************//
-    final static float MOTOR_RAMP_FB_POWER_LOWER_LIMIT = 0.3f;  //.3
+    final static float MOTOR_RAMP_FB_POWER_LOWER_LIMIT = 0.25f;  //.3
     final static float MOTOR_RAMP_FB_POWER_UPPER_LIMIT = 1f; //.78
     final static float MOTOR_RAMP_SIDEWAYS_POWER_LOWER_LIMIT = 0.1f;    //.6
     final static float MOTOR_RAMP_SIDEWAYS_POWER_UPPER_LIMIT = 1f;   //.78
@@ -65,6 +66,8 @@ public class Constants {
     static final float SERVO_FOUNDATION_REST2 = .49f;
     static final float SERVO_AUTONOMOUS_GRABBER_GRAB = .7f;
     static final float SERVO_AUTONOMOUS_GRABBER_SCORE = .28f;
+    static final float SERVO_AUTONOMOUS_GRABBER_FRONT_GRAB = .7f;
+    static final float SERVO_AUTONOMOUS_GRABBER_FRONT_SCORE = .7f;
     static final float SERVO_AUTONOMOUS_UP_ARM = .5f;   //.4
     static final float SERVO_AUTONOMOUS_DOWN_ARM = 1f;
     static final float SERVO_SCORING_EXTEND = 0.12f; // Change position

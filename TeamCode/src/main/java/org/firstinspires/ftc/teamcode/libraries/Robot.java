@@ -32,6 +32,7 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_TAPE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.RIGHT_MOTOR_TRIM_FACTOR;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER_FRONT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
@@ -61,11 +62,13 @@ public class Robot {
     private DcMotor[] dcMotors = new DcMotor[8];
 
     //Servos
-    private Servo[] servos = new Servo[9];
+    private Servo[] servos = new Servo[10];
 
     // Sensors
     private Rev2mDistanceSensor frontDistanceSensor;
     private Rev2mDistanceSensor foundationDistanceSensor;
+    private Rev2mDistanceSensor frontRightDistanceSensor;
+    private Rev2mDistanceSensor frontLeftDistanceSensor;
     private TouchSensor foundationTouchSensor;
 //    private SensorREVColorDistance foundationColorDistanceSensor;
 
@@ -107,19 +110,20 @@ public class Robot {
         servos[SERVO_FOUNDATION1] = opMode.hardwareMap.get(Servo.class, "servoFoundation1");
         servos[SERVO_FOUNDATION2] = opMode.hardwareMap.get(Servo.class, "servoFoundation2");
         servos[SERVO_AUTONOMOUS_ARM] = opMode.hardwareMap.get(Servo.class, "servoAutonomousArm");
+        servos[SERVO_AUTONOMOUS_GRABBER_FRONT] = opMode.hardwareMap.get(Servo.class, "servoAutonomousGrabberFront");
         servos[SERVO_AUTONOMOUS_GRABBER] = opMode.hardwareMap.get(Servo.class, "servoAutonomousGrabber");
         servos[SERVO_GRABBER] = opMode.hardwareMap.get(Servo.class, "servoGrabber");
         servos[SERVO_SCORING_ARM] = opMode.hardwareMap.get(Servo.class, "servoScoringArm");
         servos[SERVO_CAPSTONE] = opMode.hardwareMap.get(Servo.class, "servoCapstone");
         servos[SERVO_INTAKE] = opMode.hardwareMap.get(Servo.class, "servoIntake");
         servos[SERVO_STOPPER] = opMode.hardwareMap.get(Servo.class, "servoStopper");
-
-
     }
 
     private void initSensors() {
         frontDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "frontDistanceSensor");
         foundationDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "foundationDistanceSensor");
+        frontRightDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "frontRightDistanceSensor");
+        frontLeftDistanceSensor = opMode.hardwareMap.get(Rev2mDistanceSensor.class, "frontLeftDistanceSensor ");
         touchSensors[FOUNDATION_TOUCH_SENSOR] = opMode.hardwareMap.get(RevTouchSensor.class, "foundationTouchSensor");
 //        foundationColorDistanceSensor = opMode.hardwareMap.get(SensorREVColorDistance.class, "foundationColorDistanceSensor");
     }

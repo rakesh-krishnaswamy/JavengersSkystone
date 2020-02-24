@@ -16,8 +16,8 @@ import org.opencv.core.Point;
  * Type: Main
  */
 
-@Autonomous(name = "NewBlueSideOpenCv", group = "Concept")
-public class NewBlueSideOpenCv extends LinearOpMode {
+@Autonomous(name = "BlueSideOpenCv", group = "Concept")
+public class BlueSideOpenCv extends LinearOpMode {
     private AutoLib autoLib;
     // Description: Starts on blue crater latcher
 
@@ -28,24 +28,25 @@ public class NewBlueSideOpenCv extends LinearOpMode {
         float fastPower = 0.7f;
         float mediumPower = .8f; //.6f
         float slowPower = 0.3f;
-        float verySlowPower = 0.05f;
+        float verySlowPower = 0.1f;
         double distance = 0;
         float armDistance = 12f;
         float latchingDistance = 3f;
         float foundationDistance = 5f;  //2
         float defaultMaxDistance = 15f;
         int moveToStoneDistance = 60;
-        int backAndForthStoneDistance = 5; //10
+        int backAndForthStoneDistance = 1; //5
         int stoneLength = 20;
         int initialMoveDistance = 43;   //33
-        int stoneToFoundationDistance = 230;
+        int stoneToFoundationDistance = 160;    //230
         int secondStoneDistance = 50;
         int foundationAdjustedDistance = 5;
+        int diagonalDistance = 200;
 
         // Vuforia
-        autoLib.autonArmDown();
         telemetry.addData("pos", autoLib.getPipeline().getDetectedPosition());
         telemetry.update();
+        autoLib.autonArmDown();
 //        autoLib.calcMove(45, mediumPower, Constants.Direction.RIGHT);
 //        Constants.Coordinates coordinates = autoLib.readCoordinates();
 //        autoLib.getPipeline().getDetectedPosition();
@@ -55,8 +56,8 @@ public class NewBlueSideOpenCv extends LinearOpMode {
         if (autoLib.getPipeline().getDetectedPosition() == 0) {
             telemetry.addData("pos", "Left");
             telemetry.update();
-            autoLib.calcMove(initialMoveDistance, slowPower, Constants.Direction.BACKWARD);
             autoLib.calcMove(moveToStoneDistance, slowPower, Constants.Direction.RIGHT);
+            autoLib.calcMove(stoneLength, slowPower, Constants.Direction.FORWARD);
             Thread.sleep(300);  //400
             autoLib.autonGrab();
             Thread.sleep(500);  //500
@@ -64,10 +65,48 @@ public class NewBlueSideOpenCv extends LinearOpMode {
 //            Thread.sleep(400);
 //            autoLib.calcTurn(3, slowPower);
             autoLib.calcMove(backAndForthStoneDistance, slowPower, Constants.Direction.LEFT);    // move back little
-//            autoLib.calcTurn(5, slowPower);    // turn, so that the robot will go straight
-//            autoLib.rampMove(stoneToFoundationDistance, slowPower, Constants.Direction.FORWARD, true);  // move forward towards foundation
+            autoLib.rampMove(stoneToFoundationDistance, slowPower, Constants.Direction.FORWARD, true);  // move forward towards foundation
+            distance = autoLib.getDistanceCM();
+            if (distance > defaultMaxDistance) {
+                distance = defaultMaxDistance;
+            }
+            telemetry.addData("Distance at foundation before placing stone 1-a", distance);
+            telemetry.update();
+            if (distance > foundationDistance) {
+                autoLib.calcMove((float) (distance - foundationDistance), slowPower, Constants.Direction.RIGHT);
+            }
+            telemetry.addData("Distance at foundation before placing stone 1-b", autoLib.getDistanceCM());
+            telemetry.update();
+            Thread.sleep(200);
+            autoLib.autonArmDown();
+            Thread.sleep(200);
+            autoLib.autonScore();
+            autoLib.autonArmUp();
+            autoLib.autonGrab();
+            autoLib.calcTurn(74, fullPower);
+            distance = autoLib.getFoundationDistance();
+            if (distance > defaultMaxDistance) {
+                distance = defaultMaxDistance;
+            }
+            telemetry.addData("Distance at foundation before latching 1-a", distance);
+            telemetry.update();
+            autoLib.calcMove((float) (distance), verySlowPower, Constants.Direction.BACKWARD);
+            telemetry.addData("Distance at foundation before latching 1-b", autoLib.getFoundationDistance());
+            telemetry.update();
+            //Latch while moving 5 cm
+            autoLib.calcMove(8, verySlowPower, Constants.Direction.BACKWARD);
+            autoLib.latchServoFoundation();
+            Thread.sleep(300);
+            autoLib.calcMove(85, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
+            autoLib.calcTurn(190, 1f);
+//            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
+            Thread.sleep(300);
+            autoLib.restServoFoundation();
+            Thread.sleep(300);
+            autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
+
 //            autoLib.calcMove(stoneToFoundationDistance, mediumPower, Constants.Direction.FORWARD);  // move forward towards foundation
-            autoLib.rampMove(stoneToFoundationDistance, mediumPower, Constants.Direction.FORWARD, true);  // move forward towards foundation
+           /* autoLib.rampMove(stoneToFoundationDistance, mediumPower, Constants.Direction.FORWARD, true);  // move forward towards foundation
             autoLib.calcMove(backAndForthStoneDistance + foundationAdjustedDistance, slowPower, Constants.Direction.RIGHT);
             Thread.sleep(200);
             autoLib.autonArmDown();
@@ -159,8 +198,59 @@ public class NewBlueSideOpenCv extends LinearOpMode {
 //            Thread.sleep(300);
 //            autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
 
-        } else if (autoLib.getPipeline().getDetectedPosition() == 1) {
+            */
 
+        } else if (autoLib.getPipeline().getDetectedPosition() == 1) {
+            telemetry.addData("pos", "Center");
+            telemetry.update();
+
+            autoLib.calcMove(moveToStoneDistance, slowPower, Constants.Direction.RIGHT);
+            Thread.sleep(300);  //400
+            autoLib.autonGrab();
+            Thread.sleep(500);  //500
+            autoLib.autonArmUp();
+//            Thread.sleep(400);
+//            autoLib.calcTurn(3, slowPower);
+            autoLib.calcMove(backAndForthStoneDistance, slowPower, Constants.Direction.LEFT);    // move back little
+            autoLib.rampMove(stoneToFoundationDistance + stoneLength, fullPower, Constants.Direction.FORWARD, true);
+            distance = autoLib.getDistanceCM();
+            if (distance > defaultMaxDistance) {
+                distance = defaultMaxDistance;
+            }
+            telemetry.addData("Distance at foundation before placing stone 1-a", distance);
+            telemetry.update();
+            if (distance > foundationDistance) {
+                autoLib.calcMove((float) (distance - foundationDistance), slowPower, Constants.Direction.RIGHT);
+            }
+            telemetry.addData("Distance at foundation before placing stone 1-b", autoLib.getDistanceCM());
+            telemetry.update();
+            Thread.sleep(200);
+            autoLib.autonArmDown();
+            Thread.sleep(200);
+            autoLib.autonScore();
+            autoLib.autonArmUp();
+            autoLib.autonGrab();
+            autoLib.calcTurn(74, fullPower);
+            distance = autoLib.getFoundationDistance();
+            if (distance > defaultMaxDistance) {
+                distance = defaultMaxDistance;
+            }
+            telemetry.addData("Distance at foundation before latching 1-a", distance);
+            telemetry.update();
+            autoLib.calcMove((float) (distance), verySlowPower, Constants.Direction.BACKWARD);
+            telemetry.addData("Distance at foundation before latching 1-b", autoLib.getFoundationDistance());
+            telemetry.update();
+            //Latch while moving 5 cm
+            autoLib.calcMove(8, verySlowPower, Constants.Direction.BACKWARD);
+            autoLib.latchServoFoundation();
+            Thread.sleep(300);
+            autoLib.calcMove(85, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
+            autoLib.calcTurn(190, 1f);
+//            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
+            Thread.sleep(300);
+            autoLib.restServoFoundation();
+            Thread.sleep(300);
+            autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
 
             //-------------------------1st--------------------------------
 //            autoLib.calcMove((float) (coordinates.yPosition / 10 - 3), mediumPower, Constants.Direction.FORWARD); //when decreased- moves to the left
@@ -273,6 +363,59 @@ public class NewBlueSideOpenCv extends LinearOpMode {
 ////            autoLib.calcMove(80, fullPower, Constants.Direction.FORWARD);
 
         } else if (autoLib.getPipeline().getDetectedPosition() == 2) {
+            telemetry.addData("pos", "Right");
+            telemetry.update();
+            autoLib.calcMove(moveToStoneDistance, slowPower, Constants.Direction.RIGHT);
+            autoLib.calcMove(stoneLength, slowPower, Constants.Direction.BACKWARD);
+            Thread.sleep(300);  //400
+            autoLib.autonGrab();
+            Thread.sleep(500);  //500
+            autoLib.autonArmUp();
+//            Thread.sleep(400);
+//            autoLib.calcTurn(3, slowPower);
+            autoLib.calcMove(backAndForthStoneDistance, slowPower, Constants.Direction.LEFT);    // move back little
+            autoLib.rampMove(stoneToFoundationDistance + (stoneLength * 2), fullPower, Constants.Direction.FORWARD, true);
+//            autoLib.calcMove(backAndForthStoneDistance + foundationAdjustedDistance, slowPower, Constants.Direction.RIGHT);
+            distance = autoLib.getDistanceCM();
+            if (distance > defaultMaxDistance) {
+                distance = defaultMaxDistance;
+            }
+            telemetry.addData("Distance at foundation before placing stone 1-a", distance);
+            telemetry.update();
+            if (distance > foundationDistance) {
+                autoLib.calcMove((float) (distance - foundationDistance), slowPower, Constants.Direction.RIGHT);
+            }
+            telemetry.addData("Distance at foundation before placing stone 1-b", autoLib.getDistanceCM());
+            telemetry.update();
+            Thread.sleep(200);
+            autoLib.autonArmDown();
+            Thread.sleep(200);
+            autoLib.autonScore();
+            autoLib.autonArmUp();
+            autoLib.autonGrab();
+            autoLib.calcTurn(74, fullPower);
+            distance = autoLib.getFoundationDistance();
+            if (distance > defaultMaxDistance) {
+                distance = defaultMaxDistance;
+            }
+            telemetry.addData("Distance at foundation before latching 1-a", distance);
+            telemetry.update();
+            autoLib.calcMove((float) (distance), verySlowPower, Constants.Direction.BACKWARD);
+            telemetry.addData("Distance at foundation before latching 1-b", autoLib.getFoundationDistance());
+            telemetry.update();
+            //Latch while moving 5 cm
+            autoLib.calcMove(8, verySlowPower, Constants.Direction.BACKWARD);
+            autoLib.latchServoFoundation();
+            Thread.sleep(300);
+            autoLib.calcMove(85, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
+            autoLib.calcTurn(190, 1f);
+//            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
+            Thread.sleep(300);
+            autoLib.restServoFoundation();
+            Thread.sleep(300);
+            autoLib.calcMove(80, fastPower, Constants.Direction.FORWARD);
+
+
 //            Thread.sleep(400);
 //            autoLib.autonGrab();
 //            Thread.sleep(500);
@@ -336,7 +479,8 @@ public class NewBlueSideOpenCv extends LinearOpMode {
         telemetry.addData("Status", "Initializing...");
         telemetry.update();
 
-        autoLib = new AutoLib(this, new Point[]{new Point(190, 156), new Point(272, 191), new Point(190, 326), new Point(272, 354)});
+//        autoLib = new AutoLib(this, new Point[]{new Point(194, 184), new Point(275, 160), new Point(194, 353), new Point(275, 331)});
+        autoLib = new AutoLib(this, new Point[]{new Point(181, 211), new Point(264, 242), new Point(181, 376), new Point(264, 408)});
 
         autoLib.restServoFoundation();
 
