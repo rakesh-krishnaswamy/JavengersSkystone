@@ -38,7 +38,7 @@ public class RedSideOpenCv extends LinearOpMode {
         int backAndForthStoneDistance = 1; //5
         int stoneLength = 20;
         int initialMoveDistance = 43;   //33
-        int stoneToFoundationDistance = 160;    //230
+        int stoneToFoundationDistance = 170;    //160
         int secondStoneDistance = 50;
         int foundationAdjustedDistance = 5;
         int diagonalDistance = 200;
