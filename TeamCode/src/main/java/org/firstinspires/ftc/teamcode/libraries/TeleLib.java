@@ -53,6 +53,7 @@ public class TeleLib {
     private ElapsedTime scoringServoInputDelay;
     private ElapsedTime intakeAngleServoInputDelay;
     private ElapsedTime servoArmInputDelay;
+    private float speed;
 
     public TeleLib(LinearOpMode opMode) {
         robot = new Robot(opMode);
@@ -99,6 +100,25 @@ public class TeleLib {
 //            robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX));
 //            robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX));
 //        }
+    }
+
+    public void changeSpeed() {
+        double r = Math.hypot(opMode.gamepad1.left_stick_x, -opMode.gamepad1.left_stick_y);  //y ish changed to positive
+        double robotAngle = Math.atan2(-opMode.gamepad1.left_stick_y, opMode.gamepad1.left_stick_x) - Math.PI / 4;
+        double rightX = opMode.gamepad1.right_stick_x;
+        final double v4 = r * Math.cos(robotAngle) - rightX;
+
+        robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL,(float) ((r * Math.cos(robotAngle) + rightX) * speed));
+        robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX) * speed);
+        robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX) * speed);
+        robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX) * speed);
+        if (opMode.gamepad1.dpad_up) {
+            speed = 1;
+        } else if (opMode.gamepad1.dpad_left || opMode.gamepad1.dpad_right) {
+            speed = .5f;
+        } else if (opMode.gamepad1.dpad_down) {
+            speed = .25f;
+        }
     }
 
     public void processDropCapstone() {
@@ -189,11 +209,11 @@ public class TeleLib {
     public void processAutonomousArm() {
 
         if (opMode.gamepad2.dpad_down) {
-            robot.setServoPosition(SERVO_STOPPER,SERVO_STOPPER_REST);
+            robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_REST);
             robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_DOWN_ARM);
         } else if (opMode.gamepad2.dpad_up) {
             robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
-            robot.setServoPosition(SERVO_STOPPER,SERVO_STOPPER_STOP);
+            robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_STOP);
         } else if (opMode.gamepad2.dpad_left) {
             robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_GRABBER_REST);
         } else if (opMode.gamepad2.dpad_right) {

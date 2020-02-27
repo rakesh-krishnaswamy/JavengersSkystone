@@ -360,4 +360,7 @@ public class Robot {
     double getFoundationDistance() {
         return (foundationDistanceSensor.getDistance(DistanceUnit.CM));
     }
+
+//    public void setDcMotorPower(double v) {
+//    }
 }

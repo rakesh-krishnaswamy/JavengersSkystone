@@ -34,6 +34,7 @@ public class MainTeleOp extends LinearOpMode {
             teleLib.processFoundation();
             teleLib.processTapeMeasure();
             teleLib.processAutonomousArm();
+            teleLib.changeSpeed();
 
 
             // Gamepad 2
