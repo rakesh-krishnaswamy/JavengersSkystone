@@ -500,7 +500,7 @@ public class AutoLib {
 
     public void autonArmUp() throws InterruptedException {
         robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
-        Thread.sleep(450);
+        Thread.sleep(550);
         robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_STOP);
 
 
