@@ -68,7 +68,7 @@ public class Constants {
     static final float SERVO_AUTONOMOUS_GRABBER_SCORE = .28f;
     static final float SERVO_AUTONOMOUS_GRABBER_FRONT_GRAB = .7f;
     static final float SERVO_AUTONOMOUS_GRABBER_FRONT_SCORE = .7f;
-    static final float SERVO_AUTONOMOUS_UP_ARM = .5f;   //.4
+    static final float SERVO_AUTONOMOUS_UP_ARM = .55f;   //.4
     static final float SERVO_AUTONOMOUS_DOWN_ARM = 1f;
     static final float SERVO_SCORING_EXTEND = 0.12f; // Change position
     static final float SERVO_SCORING_RETRACT = 0.9f;// Change position
