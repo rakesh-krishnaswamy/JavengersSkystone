@@ -167,10 +167,10 @@ public class TeleLib {
     public void processTapeMeasure() {
         if (opMode.gamepad1.right_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
             // Extend
-            robot.setDcMotorPower(MOTOR_TAPE, -.75f);
+            robot.setDcMotorPower(MOTOR_TAPE, -1f);
         } else if (opMode.gamepad1.left_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
             // Retract
-            robot.setDcMotorPower(MOTOR_TAPE, .75f);
+            robot.setDcMotorPower(MOTOR_TAPE, 1f);
         } else {
             robot.setDcMotorPower(MOTOR_TAPE, 0);
         }
