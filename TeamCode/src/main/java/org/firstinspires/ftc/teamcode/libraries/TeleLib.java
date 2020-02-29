@@ -83,6 +83,8 @@ public class TeleLib {
         robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX) * speed);
         robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX) * speed);
 
+        speed = 1;
+
         if (opMode.gamepad1.dpad_left) {
             speed = 1;
         } else if (opMode.gamepad1.dpad_right) {
