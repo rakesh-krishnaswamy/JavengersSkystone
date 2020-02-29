@@ -33,8 +33,7 @@ public class MainTeleOp extends LinearOpMode {
             teleLib.processOutakeStone();
             teleLib.processFoundation();
             teleLib.processTapeMeasure();
-            teleLib.processAutonomousArm();
-            teleLib.changeSpeed();
+//            teleLib.processAutonomousArm();
 
 
             // Gamepad 2
@@ -54,9 +53,10 @@ public class MainTeleOp extends LinearOpMode {
 
         teleLib = new TeleLib(this);
 
-//        teleLib.autonomousArmUp();
-//        sleep(1000);
-//        teleLib.restServoStopper();
+        teleLib.autonomousArmUp();
+        teleLib.autonomousArmGrab();
+        sleep(2000);
+        teleLib.restServoStopper();
 
         telemetry.addData("Status", "Ready");
         telemetry.update();

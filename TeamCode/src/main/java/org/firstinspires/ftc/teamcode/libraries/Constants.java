@@ -39,7 +39,7 @@ public class Constants {
 
 
     //********** Ramp *********************//
-    final static float MOTOR_RAMP_FB_POWER_LOWER_LIMIT = 0.25f;  //.3
+    final static float MOTOR_RAMP_FB_POWER_LOWER_LIMIT = 0.35f;  //.3
     final static float MOTOR_RAMP_FB_POWER_UPPER_LIMIT = 1f; //.78
     final static float MOTOR_RAMP_SIDEWAYS_POWER_LOWER_LIMIT = 0.1f;    //.6
     final static float MOTOR_RAMP_SIDEWAYS_POWER_UPPER_LIMIT = 1f;   //.78
@@ -57,7 +57,7 @@ public class Constants {
     static final float SERVO_ARM_POS_RECIEVE = .97f;
     static final float SERVO_ARM_POS_SCORE = .27f;
     static final float SERVO_GRABBER_GRAB = 0.60f;
-    static final float SERVO_CAPSTONE_DROP = .15f;
+    static final float SERVO_CAPSTONE_DROP = .2f;
     static final float SERVO_CAPSTONE_HOLD = 0.46f;
     static final float SERVO_GRABBER_REST = .36f;
     static final float SERVO_FOUNDATION_GRAB1 = .37f;

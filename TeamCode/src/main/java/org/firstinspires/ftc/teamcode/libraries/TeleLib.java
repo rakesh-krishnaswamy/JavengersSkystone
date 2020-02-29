@@ -14,7 +14,8 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_LEFT_INTA
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_RIGHT_INTAKE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.MOTOR_TAPE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_ARM;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_DOWN_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER_GRAB;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_UP_ARM;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE_DROP;
@@ -33,7 +34,6 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_A
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_EXTEND;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_RETRACT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER;
-import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_REST;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_STOP;
 
 /*
@@ -78,11 +78,16 @@ public class TeleLib {
         double rightX = opMode.gamepad1.right_stick_x;
         final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX));
-        robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX));
-        robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX));
-        robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX));
+        robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.cos(robotAngle) + rightX) * speed);
+        robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX) * speed);
+        robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX) * speed);
+        robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX) * speed);
 
+        if (opMode.gamepad1.dpad_left) {
+            speed = 1;
+        } else if (opMode.gamepad1.dpad_right) {
+            speed = .5f;
+        }
 //        float powerFactor = 1;
 //        boolean isDPadPressed = true;
 //
@@ -102,32 +107,13 @@ public class TeleLib {
 //        }
     }
 
-    public void changeSpeed() {
-        double r = Math.hypot(opMode.gamepad1.left_stick_x, -opMode.gamepad1.left_stick_y);  //y ish changed to positive
-        double robotAngle = Math.atan2(-opMode.gamepad1.left_stick_y, opMode.gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = opMode.gamepad1.right_stick_x;
-        final double v4 = r * Math.cos(robotAngle) - rightX;
-
-        robot.setDcMotorPower(MOTOR_BACK_LEFT_WHEEL,(float) ((r * Math.cos(robotAngle) + rightX) * speed));
-        robot.setDcMotorPower(MOTOR_BACK_RIGHT_WHEEL, (float) (r * Math.sin(robotAngle) - rightX) * speed);
-        robot.setDcMotorPower(MOTOR_FRONT_LEFT_WHEEL, (float) (r * Math.sin(robotAngle) + rightX) * speed);
-        robot.setDcMotorPower(MOTOR_FRONT_RIGHT_WHEEL, (float) (r * Math.cos(robotAngle) - rightX) * speed);
-        if (opMode.gamepad1.dpad_up) {
-            speed = 1;
-        } else if (opMode.gamepad1.dpad_left || opMode.gamepad1.dpad_right) {
-            speed = .5f;
-        } else if (opMode.gamepad1.dpad_down) {
-            speed = .25f;
-        }
-    }
-
     public void processDropCapstone() {
         boolean isDPadPressed = true;
 
-        if (opMode.gamepad1.dpad_down && isDPadPressed) {
+        if (opMode.gamepad2.dpad_down && isDPadPressed) {
             robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_DROP);
         }
-        if (opMode.gamepad1.dpad_up && isDPadPressed) {
+        if (opMode.gamepad2.dpad_up && isDPadPressed) {
             robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_HOLD);
         }
     }
@@ -195,10 +181,10 @@ public class TeleLib {
     //gamepad 2
 
     public void processMoveArm() {
-        if (opMode.gamepad2.right_bumper) {
+        if (opMode.gamepad2.right_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
             // Extend
             robot.setDcMotorPower(MOTOR_ARM, 1f);
-        } else if (opMode.gamepad2.left_bumper) {
+        } else if (opMode.gamepad2.left_trigger > GAMEPAD_TRIGGER_TOLERANCE) {
             // Retract
             robot.setDcMotorPower(MOTOR_ARM, -1f);
         } else {
@@ -206,20 +192,20 @@ public class TeleLib {
         }
     }
 
-    public void processAutonomousArm() {
-
-        if (opMode.gamepad2.dpad_down) {
-            robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_REST);
-            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_DOWN_ARM);
-        } else if (opMode.gamepad2.dpad_up) {
-            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
-            robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_STOP);
-        } else if (opMode.gamepad2.dpad_left) {
-            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_GRABBER_REST);
-        } else if (opMode.gamepad2.dpad_right) {
-            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_GRABBER_GRAB);
-        }
-    }
+//    public void processAutonomousArm() {
+//
+//        if (opMode.gamepad2.dpad_down) {
+//            robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_REST);
+//            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_DOWN_ARM);
+//        } else if (opMode.gamepad2.dpad_up) {
+//            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
+//            robot.setServoPosition(SERVO_STOPPER, SERVO_STOPPER_STOP);
+//        } else if (opMode.gamepad2.dpad_left) {
+//            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_GRABBER_REST);
+//        } else if (opMode.gamepad2.dpad_right) {
+//            robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_GRABBER_GRAB);
+//        }
+//    }
 
     public void processExtendArm() {
         if (opMode.gamepad2.y) {
@@ -253,6 +239,10 @@ public class TeleLib {
 
     public void autonomousArmUp() {
         robot.setServoPosition(SERVO_AUTONOMOUS_ARM, SERVO_AUTONOMOUS_UP_ARM);
+    }
+
+    public void autonomousArmGrab() {
+        robot.setServoPosition(SERVO_AUTONOMOUS_GRABBER, SERVO_AUTONOMOUS_GRABBER_GRAB);
     }
 
 }
