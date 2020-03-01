@@ -93,7 +93,7 @@ public class BlueSideOpenCv extends LinearOpMode {
             autoLib.latchServoFoundation();
             Thread.sleep(300);
             autoLib.calcMove(85, fullPower, Constants.Direction.FORWARD);  // move closer to foundation
-            autoLib.calcTurn(165, fullPower);
+            autoLib.calcTurn(110, fullPower);
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(200);
             autoLib.restServoFoundation();
@@ -145,7 +145,7 @@ public class BlueSideOpenCv extends LinearOpMode {
             autoLib.latchServoFoundation();
             Thread.sleep(300);
             autoLib.calcMove(85, fullPower, Constants.Direction.FORWARD);  // move closer to foundation
-            autoLib.calcTurn(165, fullPower);
+            autoLib.calcTurn(110, fullPower);
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(200);
             autoLib.restServoFoundation();
@@ -198,7 +198,7 @@ public class BlueSideOpenCv extends LinearOpMode {
             autoLib.latchServoFoundation();
             Thread.sleep(300);
             autoLib.calcMove(85, fullPower, Constants.Direction.FORWARD);  // move closer to foundation
-            autoLib.calcTurn(165, fullPower);
+            autoLib.calcTurn(110, fullPower);
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(200);
             autoLib.restServoFoundation();

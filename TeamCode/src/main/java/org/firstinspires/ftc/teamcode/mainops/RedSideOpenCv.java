@@ -65,7 +65,7 @@ public class RedSideOpenCv extends LinearOpMode {
 //            Thread.sleep(400);
 //            autoLib.calcTurn(3, slowPower);
             autoLib.calcMove(backAndForthStoneDistance, slowPower, Constants.Direction.LEFT);    // move back little
-            autoLib.rampMove(stoneToFoundationDistance + (2 * stoneLength), slowPower, Constants.Direction.BACKWARD, true);  // move forward towards foundation
+            autoLib.rampMove(stoneToFoundationDistance + (2 * stoneLength) - 10, slowPower, Constants.Direction.BACKWARD, true);  // move forward towards foundation
             distance = autoLib.getDistanceCM();
             if (distance > defaultMaxDistance) {
                 distance = defaultMaxDistance;
@@ -103,7 +103,7 @@ public class RedSideOpenCv extends LinearOpMode {
             Thread.sleep(200);
             autoLib.restServoFoundation();
             Thread.sleep(100);
-            autoLib.calcMove(5, fullPower, Constants.Direction.RIGHT);
+//            autoLib.calcMove(5, fullPower, Constants.Direction.RIGHT);
             autoLib.calcMove(95, fastPower, Constants.Direction.FORWARD);
 
         } else if (autoLib.getPipeline().getDetectedPosition() == 1) {

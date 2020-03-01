@@ -355,6 +355,10 @@ public class AutoLib {
         }
     }
 
+    public float isServoArmBusy() {
+        return robot.getServoPosition(SERVO_AUTONOMOUS_GRABBER);
+    }
+
 
     //********** Motor Methods **********//
 
