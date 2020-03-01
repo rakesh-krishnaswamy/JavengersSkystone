@@ -56,6 +56,7 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATIO
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_REST1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_REST2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_SCORING_RETRACT;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_REST;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER_STOP;
@@ -538,6 +539,10 @@ public class AutoLib {
 
     public void grabCapstone() {
         robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_HOLD);
+    }
+
+    public void scoringSlideRest() {
+        robot.setServoPosition(SERVO_SCORING_ARM, SERVO_SCORING_RETRACT);
     }
 
     //********** Vuforia Methods **********//

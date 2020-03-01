@@ -216,6 +216,7 @@ public class BlueSideOpenCv extends LinearOpMode {
         autoLib.autonScore();
         autoLib.restServoFoundation();
         autoLib.grabCapstone();
+        autoLib.scoringSlideRest();
 
         telemetry.addData("Status", "Ready");
         telemetry.update();

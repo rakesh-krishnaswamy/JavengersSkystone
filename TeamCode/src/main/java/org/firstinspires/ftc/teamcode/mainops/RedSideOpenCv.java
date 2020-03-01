@@ -38,7 +38,7 @@ public class RedSideOpenCv extends LinearOpMode {
         int backAndForthStoneDistance = 7; //5
         int stoneLength = 20;
         int initialMoveDistance = 43;   //33
-        int stoneToFoundationDistance = 190;    //160
+        int stoneToFoundationDistance = 195;    //190
         int secondStoneDistance = 50;
         int foundationAdjustedDistance = 5;
         int diagonalDistance = 200;
@@ -97,12 +97,13 @@ public class RedSideOpenCv extends LinearOpMode {
             autoLib.calcMove(10, verySlowPower, Constants.Direction.BACKWARD);
             autoLib.latchServoFoundation();
             Thread.sleep(300);
-            autoLib.calcMove(90, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
-            autoLib.calcTurn(-90, fastPower);
+            autoLib.calcMove(75, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
+            autoLib.calcTurn(-140, fullPower);
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(200);
             autoLib.restServoFoundation();
             Thread.sleep(100);
+            autoLib.calcMove(5, fullPower, Constants.Direction.RIGHT);
             autoLib.calcMove(95, fastPower, Constants.Direction.FORWARD);
 
         } else if (autoLib.getPipeline().getDetectedPosition() == 1) {
@@ -151,12 +152,13 @@ public class RedSideOpenCv extends LinearOpMode {
             autoLib.calcMove(10, verySlowPower, Constants.Direction.BACKWARD);
             autoLib.latchServoFoundation();
             Thread.sleep(300);
-            autoLib.calcMove(90, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
-            autoLib.calcTurn(-90, fastPower);
+            autoLib.calcMove(75, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
+            autoLib.calcTurn(-140, fullPower);
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(200);
             autoLib.restServoFoundation();
             Thread.sleep(100);
+//            autoLib.calcMove(5, fullPower, Constants.Direction.RIGHT);
             autoLib.calcMove(95, fastPower, Constants.Direction.FORWARD);
 
         } else if (autoLib.getPipeline().getDetectedPosition() == 0) {
@@ -204,12 +206,13 @@ public class RedSideOpenCv extends LinearOpMode {
             autoLib.calcMove(10, verySlowPower, Constants.Direction.BACKWARD);
             autoLib.latchServoFoundation();
             Thread.sleep(300);
-            autoLib.calcMove(90, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
-            autoLib.calcTurn(-90, fastPower);
+            autoLib.calcMove(75, fastPower, Constants.Direction.FORWARD);  // move closer to foundation
+            autoLib.calcTurn(-140, fullPower);
 //            autoLib.calcMove(15, 1f, Constants.Direction.BACKWARD);
             Thread.sleep(200);
             autoLib.restServoFoundation();
             Thread.sleep(100);
+            autoLib.calcMove(5, fullPower, Constants.Direction.RIGHT);
             autoLib.calcMove(95, fastPower, Constants.Direction.FORWARD);
         }
         telemetry.update();
@@ -225,6 +228,7 @@ public class RedSideOpenCv extends LinearOpMode {
         autoLib.restServoFoundation();
         autoLib.autonScore();
         autoLib.grabCapstone();
+        autoLib.scoringSlideRest();
 
         telemetry.addData("Status", "Ready");
         telemetry.update();
