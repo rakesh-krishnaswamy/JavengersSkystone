@@ -224,6 +224,7 @@ public class RedSideOpenCv extends LinearOpMode {
 
         autoLib.restServoFoundation();
         autoLib.autonScore();
+        autoLib.grabCapstone();
 
         telemetry.addData("Status", "Ready");
         telemetry.update();

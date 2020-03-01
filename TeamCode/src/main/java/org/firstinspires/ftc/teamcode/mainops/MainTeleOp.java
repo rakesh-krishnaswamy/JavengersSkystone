@@ -57,6 +57,7 @@ public class MainTeleOp extends LinearOpMode {
         teleLib.autonomousArmGrab();
         sleep(2000);
         teleLib.restServoStopper();
+        teleLib.holdCapstone();
 
         telemetry.addData("Status", "Ready");
         telemetry.update();

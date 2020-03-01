@@ -215,6 +215,7 @@ public class BlueSideOpenCv extends LinearOpMode {
         autoLib = new AutoLib(this, new Point[]{new Point(181, 211), new Point(264, 242), new Point(181, 376), new Point(264, 408)});
         autoLib.autonScore();
         autoLib.restServoFoundation();
+        autoLib.grabCapstone();
 
         telemetry.addData("Status", "Ready");
         telemetry.update();

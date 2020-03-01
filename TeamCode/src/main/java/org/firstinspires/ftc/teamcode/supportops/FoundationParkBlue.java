@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.libraries.Constants;
  * Description: This will test if the robot can actually turn
  */
 
-@Autonomous(group = "Foundation Park Red Side")
-public class FoundationPark extends LinearOpMode {
+@Autonomous(group = "Foundation Park Blue Side")
+public class FoundationParkBlue extends LinearOpMode {
     private AutoLib autoLib;
 
 
@@ -34,7 +34,7 @@ public class FoundationPark extends LinearOpMode {
         autoLib.latchServoFoundation();
         Thread.sleep(1000);
         autoLib.calcMove(63, .4f, Constants.Direction.FORWARD);
-        autoLib.calcTurn(-100, 1f);
+        autoLib.calcTurn(100, 1f);
         Thread.sleep(400);
         autoLib.restServoFoundation();
         Thread.sleep(400);

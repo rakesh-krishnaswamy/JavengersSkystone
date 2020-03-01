@@ -47,6 +47,8 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOU
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER_GRAB;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_GRABBER_SCORE;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_AUTONOMOUS_UP_ARM;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE;
+import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_CAPSTONE_HOLD;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION1;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION2;
 import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_FOUNDATION_GRAB1;
@@ -532,6 +534,10 @@ public class AutoLib {
 
     public void autonScoreFront() {
         robot.setServoPosition(SERVO_AUTONOMOUS_GRABBER_FRONT, SERVO_AUTONOMOUS_GRABBER_FRONT_SCORE);
+    }
+
+    public void grabCapstone() {
+        robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_HOLD);
     }
 
     //********** Vuforia Methods **********//

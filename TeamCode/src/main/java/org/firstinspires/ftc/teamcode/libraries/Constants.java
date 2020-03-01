@@ -60,10 +60,10 @@ public class Constants {
     static final float SERVO_CAPSTONE_DROP = .2f;
     static final float SERVO_CAPSTONE_HOLD = 0.46f;
     static final float SERVO_GRABBER_REST = .36f;
-    static final float SERVO_FOUNDATION_GRAB1 = .37f;
-    static final float SERVO_FOUNDATION_REST1 = .66f;
-    static final float SERVO_FOUNDATION_GRAB2 = .8f;
-    static final float SERVO_FOUNDATION_REST2 = .49f;
+    static final float SERVO_FOUNDATION_GRAB1 = .56f;
+    static final float SERVO_FOUNDATION_REST1 = .78f;   //.67
+    static final float SERVO_FOUNDATION_GRAB2 = .73f;    //.8
+    static final float SERVO_FOUNDATION_REST2 = .46f;   //.59
     static final float SERVO_AUTONOMOUS_GRABBER_GRAB = .7f;
     static final float SERVO_AUTONOMOUS_GRABBER_SCORE = .28f;
     static final float SERVO_AUTONOMOUS_GRABBER_FRONT_GRAB = .7f;
