@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.libraries.AutoLib;
 import org.firstinspires.ftc.teamcode.libraries.Constants;
+import org.opencv.core.Point;
 
 /*
  * Title: CalcTurn Test
@@ -37,7 +38,9 @@ public class ParkBridgeSide extends LinearOpMode {
         telemetry.addData("Status", "Initializing...");
         telemetry.update();
 
-        autoLib = new AutoLib(this);
+        autoLib = new AutoLib(this, new Point[]{new Point(181, 211), new Point(264, 242), new Point(181, 376), new Point(264, 408)});
+        autoLib.grabCapstone();
+
 
         telemetry.addData("Status", "Ready");
         telemetry.update();

@@ -134,7 +134,7 @@ public class TeleLib {
 
     public void processFoundation() {
         if (opMode.gamepad1.a) {
-            robot.setServoPosition(SERVO_FOUNDATION1, -SERVO_FOUNDATION_GRAB1);
+            robot.setServoPosition(SERVO_FOUNDATION1, SERVO_FOUNDATION_GRAB1);
             robot.setServoPosition(SERVO_FOUNDATION2, SERVO_FOUNDATION_GRAB2);
 
         } else if (opMode.gamepad1.b) {
