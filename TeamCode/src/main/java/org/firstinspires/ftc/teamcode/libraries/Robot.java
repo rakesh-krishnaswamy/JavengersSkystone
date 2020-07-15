@@ -53,7 +53,6 @@ import static org.firstinspires.ftc.teamcode.libraries.Constants.SERVO_STOPPER;
 
 public class Robot {
 
-    OpMode aOpMode;
 
 
     private LinearOpMode opMode;
