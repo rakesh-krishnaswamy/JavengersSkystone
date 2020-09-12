@@ -110,12 +110,11 @@ public class TeleLib {
     }
 
     public void processDropCapstone() {
-        boolean isDPadPressed = true;
 
-        if (opMode.gamepad2.dpad_down && isDPadPressed) {
+        if (opMode.gamepad2.dpad_down) {
             robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_DROP);
         }
-        if (opMode.gamepad2.dpad_up && isDPadPressed) {
+        if (opMode.gamepad2.dpad_up) {
             robot.setServoPosition(SERVO_CAPSTONE, SERVO_CAPSTONE_HOLD);
         }
     }
